@@ -1,17 +1,20 @@
 package com.github.wonderbird.RenameProject;
 
 import java.io.IOException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.util.Arrays;
+import java.nio.file.*;
 import java.util.List;
 
 public class DirectoryWalkerImpl implements DirectoryWalker {
+    private FileNameMatchingVisitor visitor;
+
+    DirectoryWalkerImpl() {
+        this(null);
+    }
+
+    DirectoryWalkerImpl(FileNameMatchingVisitor aVisitor) {
+        visitor = aVisitor;
+    }
+
     /**
      * Find files and directories matching the pattern.
      *
@@ -21,19 +24,12 @@ public class DirectoryWalkerImpl implements DirectoryWalker {
      */
     @Override
     public List<Path> findByName(final String pattern) throws IOException {
-        Finder finder = new Finder(pattern);
-
-        Files.walkFileTree(Paths.get("."), finder);
-
-        Path[] result = {Paths.get("main", "src")};
-        return Arrays.asList(result);
-    }
-
-    private class Finder extends SimpleFileVisitor<Path> {
-        private final PathMatcher matcher;
-
-        Finder(final String aPattern) {
-            matcher = FileSystems.getDefault().getPathMatcher("glob:" + aPattern);
+        if (visitor == null) {
+            visitor = new FileNameMatchingVisitorImpl(pattern);
         }
+
+        Files.walkFileTree(Paths.get("."), visitor);
+
+        return visitor.getResult();
     }
 }

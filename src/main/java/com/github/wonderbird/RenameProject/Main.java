@@ -15,7 +15,8 @@ public class Main
       try
       {
          Configuration config = argumentParser.parse(args);
-         List<Path> affectedPaths = directoryWalker.findByName(config.getFromPattern());
+         String filePattern = "*" + config.getFromPattern() + "*";
+         List<Path> affectedPaths = directoryWalker.findByName(filePattern);
       }
       catch(WrongUsageException aException)
       {
