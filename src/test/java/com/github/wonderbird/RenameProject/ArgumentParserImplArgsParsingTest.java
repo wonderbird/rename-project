@@ -10,29 +10,36 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class ArgumentParserImplArgsParsingTest
-{
-   @Parameterized.Parameters(name="{index}: parse(\"--from {0}\")")
-   public static Collection<Object[]> data()
-   {
-      return Arrays.asList(new Object[][] {
-         {"frompattern", new String[]{"--from", "frompattern"}},
-         {"otherfrompattern", new String[]{"--from", "otherfrompattern"}},
-      });
-   }
+public class ArgumentParserImplArgsParsingTest {
+    /**
+     * Expected values and args array for the test cases.
+     *
+     * The format of the elements in this list can be derived from the sequence
+     * of @Parameterized.Parameter members defined below.
+     */
+    @Parameterized.Parameters(name = "{index}: parse(\"--from {0}\")")
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {"frompattern", "toargument", new String[]{"--from", "frompattern", "--to", "toargument"}},
+                {"otherfrompattern", "othertoargument", new String[]{"--to", "othertoargument", "--from", "otherfrompattern"}},
+        });
+    }
 
-   @Parameterized.Parameter
-   public String expectedFromPattern;
+    @Parameterized.Parameter
+    public String expectedFromPattern;
 
-   @Parameterized.Parameter(1)
-   public String[] args;
+    @Parameterized.Parameter(1)
+    public String expectedToArgument;
 
-   @Test
-   public void parse_FromArgumentGiven_ThenSetsFromPatternInConfig() throws WrongUsageException
-   {
-      ArgumentParser parser = new ArgumentParserImpl();
-      Configuration config = parser.parse(args);
+    @Parameterized.Parameter(2)
+    public String[] args;
 
-      assertEquals(expectedFromPattern, config.getFromPattern());
-   }
+    @Test
+    public void parse_GivenArguments_SetsExpectedConfigProperties() throws WrongUsageException {
+        ArgumentParser parser = new ArgumentParserImpl();
+        Configuration config = parser.parse(args);
+
+        assertEquals(expectedFromPattern, config.getFromPattern());
+        assertEquals(expectedToArgument, config.getToArgument());
+    }
 }

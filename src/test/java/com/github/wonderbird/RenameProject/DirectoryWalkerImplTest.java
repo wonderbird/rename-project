@@ -28,8 +28,8 @@ public class DirectoryWalkerImplTest {
 
         final List<Path> paths = walker.findByName(pattern);
 
-        Path expected = Paths.get("main", pattern);
-        assertTrue(String.format("The directory '%s' should be found", expected.toAbsolutePath().toString()), paths.contains(expected));
+        Path expected = Paths.get(pattern).normalize().toAbsolutePath();
+        assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.contains(expected));
         assertEquals("Too many directories returned", 1, paths.size());
     }
 

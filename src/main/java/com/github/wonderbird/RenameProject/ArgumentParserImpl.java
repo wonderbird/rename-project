@@ -16,38 +16,38 @@ import java.io.StringWriter;
  *
  * @see <a href="https://stackoverflow.com/questions/367706/how-to-parse-command-line-arguments-in-java">Related StackOverflow article</a>
  */
-public class ArgumentParserImpl implements ArgumentParser
-{
-   @Override
-   public Configuration parse(final String[] aArgs) throws WrongUsageException
-   {
-      Options options = new Options();
+public class ArgumentParserImpl implements ArgumentParser {
+    @Override
+    public Configuration parse(final String[] aArgs) throws WrongUsageException {
+        Options options = new Options();
 
-      Option from = new Option("f", "from", true,"project name to replace");
-      from.setRequired(true);
-      options.addOption(from);
+        Option from = new Option("f", "from", true, "project name to replace");
+        from.setRequired(true);
+        options.addOption(from);
 
-      CommandLineParser parser = new DefaultParser();
+        Option to = new Option("t", "to", true, "replacement project name");
+        to.setRequired(true);
+        options.addOption(to);
 
-      try
-      {
-         CommandLine cmd = parser.parse(options, aArgs);
+        CommandLineParser parser = new DefaultParser();
 
-         Configuration config = new Configuration();
-         config.setFromPattern(cmd.getOptionValue("from"));
+        try {
+            CommandLine cmd = parser.parse(options, aArgs);
 
-         return config;
-      }
-      catch(ParseException aException)
-      {
-         StringWriter stringWriter = new StringWriter();
-         PrintWriter helpWriter = new PrintWriter(stringWriter);
-         HelpFormatter helpFormatter = new HelpFormatter();
-         helpFormatter.printHelp(helpWriter, 80,"java RenameProject", null, options, 0, 3, null, true);
+            Configuration config = new Configuration();
+            config.setFromPattern(cmd.getOptionValue("from"));
+            config.setToArgument(cmd.getOptionValue("to"));
 
-         String message = String.format("%s\n\n%s", aException.getLocalizedMessage(), stringWriter.toString());
+            return config;
+        } catch (ParseException aException) {
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter helpWriter = new PrintWriter(stringWriter);
+            HelpFormatter helpFormatter = new HelpFormatter();
+            helpFormatter.printHelp(helpWriter, 80, "java RenameProject", null, options, 0, 3, null, true);
 
-         throw new WrongUsageException(message);
-      }
-   }
+            String message = String.format("%s\n\n%s", aException.getLocalizedMessage(), stringWriter.toString());
+
+            throw new WrongUsageException(message);
+        }
+    }
 }
