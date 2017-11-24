@@ -17,16 +17,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DirectoryWalkerImplTest {
+public class FileNamePatternFinderImplTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void findByName_PatternMatchesSingleDirInCurrentDir_ReturnsMatchedFile() throws IOException {
-        DirectoryWalker walker = new DirectoryWalkerImpl();
+    public void find_PatternMatchesSingleDirInCurrentDir_ReturnsMatchedFile() throws IOException {
+        FileNamePatternFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "src";
 
-        final List<Path> paths = walker.findByName(pattern);
+        final List<Path> paths = finder.find(pattern);
 
         Path expected = Paths.get(pattern).normalize().toAbsolutePath();
         assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.contains(expected));
@@ -34,11 +34,11 @@ public class DirectoryWalkerImplTest {
     }
 
     @Test
-    public void findByName_PatternMatchesTwoDirectoriesInCurrentDir_ReturnsMatchedDirectories() throws IOException {
-        DirectoryWalker walker = new DirectoryWalkerImpl();
+    public void find_PatternMatchesTwoDirectoriesInCurrentDir_ReturnsMatchedDirectories() throws IOException {
+        FileNamePatternFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "java";
 
-        final List<Path> paths = walker.findByName(pattern);
+        final List<Path> paths = finder.find(pattern);
 
         List<Path> expectedPaths = Arrays.asList(
                 Paths.get("src", "main", pattern).toAbsolutePath(),
@@ -51,16 +51,16 @@ public class DirectoryWalkerImplTest {
     }
 
     @Test
-    public void findByName_PatternMatchesThreeFilesInCurrentDir_ReturnsMatchedFiles() throws IOException {
-        DirectoryWalker walker = new DirectoryWalkerImpl();
-        final String pattern = "DirectoryWalker*.java";
+    public void find_PatternMatchesThreeFilesInCurrentDir_ReturnsMatchedFiles() throws IOException {
+        FileNamePatternFinder finder = new FileNamePatternFinderImpl();
+        final String pattern = "FileNamePatternFinder*.java";
 
-        final List<Path> paths = walker.findByName(pattern);
+        final List<Path> paths = finder.find(pattern);
 
         List<Path> expectedPaths = Arrays.asList(
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "DirectoryWalker.java").toAbsolutePath(),
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "DirectoryWalkerImpl.java").toAbsolutePath(),
-                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "DirectoryWalkerImplTest.java").toAbsolutePath());
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "FileNamePatternFinder.java").toAbsolutePath(),
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "FileNamePatternFinderImpl.java").toAbsolutePath(),
+                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileNamePatternFinderImplTest.java").toAbsolutePath());
 
         for (Path expected : expectedPaths) {
             assertTrue(String.format("The file '%s' should be found", expected.toString()), paths.stream().anyMatch(actual -> actual.compareTo(expected) == 0));
@@ -69,14 +69,14 @@ public class DirectoryWalkerImplTest {
     }
 
     @Test
-    public void findByName_FileVisitorThrowsIOException_throwsIOException() throws IOException {
+    public void find_FileVisitorThrowsIOException_throwsIOException() throws IOException {
         thrown.expect(IOException.class);
 
         FileNameMatchingVisitor visitor = mock(FileNameMatchingVisitor.class);
         when(visitor.preVisitDirectory(any(), any())).thenReturn(FileVisitResult.CONTINUE);
         when(visitor.visitFile(any(), any())).thenThrow(new IOException("Exception thrown by unit test"));
 
-        DirectoryWalker walker = new DirectoryWalkerImpl(visitor);
-        walker.findByName("java");
+        FileNamePatternFinder finder = new FileNamePatternFinderImpl(visitor);
+        finder.find("java");
     }
 }

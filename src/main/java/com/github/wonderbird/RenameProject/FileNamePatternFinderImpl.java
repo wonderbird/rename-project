@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
 
-public class DirectoryWalkerImpl implements DirectoryWalker {
+public class FileNamePatternFinderImpl implements FileNamePatternFinder {
     private FileNameMatchingVisitor visitor;
 
-    DirectoryWalkerImpl() {
+    FileNamePatternFinderImpl() {
         this(null);
     }
 
-    DirectoryWalkerImpl(FileNameMatchingVisitor aVisitor) {
+    FileNamePatternFinderImpl(FileNameMatchingVisitor aVisitor) {
         visitor = aVisitor;
     }
 
@@ -23,7 +23,7 @@ public class DirectoryWalkerImpl implements DirectoryWalker {
      * @see <a href="https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/essential/io/examples/Find.java">Example Code at Oracle</a>
      */
     @Override
-    public List<Path> findByName(final String pattern) throws IOException {
+    public List<Path> find(final String pattern) throws IOException {
         if (visitor == null) {
             visitor = new FileNameMatchingVisitorImpl(pattern);
         }

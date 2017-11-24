@@ -20,7 +20,9 @@ public class MainTest {
 
     private ArgumentParser parser;
 
-    private DirectoryWalker walker;
+    private FileNamePatternFinder fileNamePatternFinder;
+
+    private FileContentFinder fileContentFinder;
 
     private final String exceptionMessage = "Exception thrown by unit test";
 
@@ -38,8 +40,11 @@ public class MainTest {
         when(parser.parse(any(String[].class))).thenReturn(config);
         Main.setArgumentParser(parser);
 
-        walker = mock(DirectoryWalker.class);
-        Main.setDirectoryWalker(walker);
+        fileNamePatternFinder = mock(FileNamePatternFinder.class);
+        Main.setFileNamePatternFinder(fileNamePatternFinder);
+
+        fileContentFinder = mock(FileContentFinder.class);
+        Main.setFileContentFinder(fileContentFinder);
     }
 
     @Test
@@ -50,10 +55,17 @@ public class MainTest {
     }
 
     @Test
-    public void main_FromArgumentGiven_SearchesForFilenamesMatchingFrom() throws IOException {
+    public void main_ArgumentsGiven_SearchesForFilenamesMatchingFrom() throws IOException {
         Main.main(args);
 
-        verify(walker).findByName("*" + config.getFrom() + "*");
+        verify(fileNamePatternFinder).find("*" + config.getFrom() + "*");
+    }
+
+    @Test
+    public void main_ArgumentsGiven_SearchesForFilesContainingFrom() {
+        Main.main(args);
+
+        verify(fileContentFinder).find(config.getFrom());
     }
 
     @Test
@@ -65,23 +77,23 @@ public class MainTest {
     }
 
     @Test
-    public void main_DirectoryWalkerThrowsException_HandlesException() throws IOException {
-        walker = mock(DirectoryWalker.class);
-        when(walker.findByName(any())).thenThrow(new IOException(exceptionMessage));
+    public void main_DirectoryfinderThrowsException_HandlesException() throws IOException {
+        fileNamePatternFinder = mock(FileNamePatternFinder.class);
+        when(fileNamePatternFinder.find(any())).thenThrow(new IOException(exceptionMessage));
 
         Main.main(args);
     }
 
     @Test
-    public void main_DirectoryWalkerReturnsFiles_RenamesEachFileToToPattern() throws IOException {
-        walker = mock(DirectoryWalker.class);
+    public void main_DirectoryfinderReturnsFiles_RenamesEachFileToToPattern() throws IOException {
+        fileNamePatternFinder = mock(FileNamePatternFinder.class);
         List<Path> fromPaths = Arrays.asList(
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
                 Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java"),
                 Paths.get("target", "classes", "com", "github", "wonderbird", "RenameProject", "Main.class")
         );
-        when(walker.findByName(any())).thenReturn(fromPaths);
-        Main.setDirectoryWalker(walker);
+        when(fileNamePatternFinder.find(any())).thenReturn(fromPaths);
+        Main.setFileNamePatternFinder(fileNamePatternFinder);
 
         FileSystemMethods fileSystemMethods = mock(FileSystemMethods.class);
         Main.setFileSystemMethods(fileSystemMethods);
