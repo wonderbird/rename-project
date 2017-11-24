@@ -14,21 +14,27 @@ public class Main {
 
     private static FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
 
+    private static Configuration config;
+
     public static void main(String[] args) {
         try {
-            Configuration config = argumentParser.parse(args);
+            config = argumentParser.parse(args);
 
-            String filePattern = "*" + config.getFromPattern() + "*";
-            List<Path> affectedPaths = directoryWalker.findByName(filePattern);
-
-            for (Path sourcePath : affectedPaths) {
-                Path targetPath = Paths.get(sourcePath.toString().replace(config.getFromPattern(), config.getToArgument()));
-                fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
-            }
+            renameFilesAndDirectories();
         } catch (WrongUsageException aException) {
             System.out.println(aException.getLocalizedMessage());
         } catch (IOException aE) {
             aE.printStackTrace();
+        }
+    }
+
+    private static void renameFilesAndDirectories() throws IOException {
+        String filePattern = "*" + config.getFrom() + "*";
+        List<Path> affectedPaths = directoryWalker.findByName(filePattern);
+
+        for (Path sourcePath : affectedPaths) {
+            Path targetPath = Paths.get(sourcePath.toString().replace(config.getFrom(), config.getTo()));
+            fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
         }
     }
 

@@ -2,24 +2,24 @@ package com.github.wonderbird.RenameProject;
 
 class Configuration
 {
-   private String fromPattern;
-   private String toArgument;
+   private String from;
+   private String to;
 
-   String getFromPattern()
+   String getFrom()
    {
-      return fromPattern;
+      return from;
    }
 
-   String getToArgument() {
-      return toArgument;
+   String getTo() {
+      return to;
    }
 
-   void setFromPattern(final String aFromPattern)
+   void setFrom(final String aFromPattern)
    {
-      fromPattern = aFromPattern;
+      from = aFromPattern;
    }
 
-   void setToArgument(String toArgument) {
-      this.toArgument = toArgument;
+   void setTo(String to) {
+      this.to = to;
    }
 }

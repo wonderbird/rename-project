@@ -31,8 +31,8 @@ public class MainTest {
         args = new String[]{"--from", fromPattern, "--to", toArgument};
 
         config = new Configuration();
-        config.setFromPattern(fromPattern);
-        config.setToArgument(toArgument);
+        config.setFrom(fromPattern);
+        config.setTo(toArgument);
 
         parser = mock(ArgumentParser.class);
         when(parser.parse(any(String[].class))).thenReturn(config);
@@ -53,7 +53,7 @@ public class MainTest {
     public void main_FromArgumentGiven_SearchesForFilenamesMatchingFrom() throws IOException {
         Main.main(args);
 
-        verify(walker).findByName("*" + config.getFromPattern() + "*");
+        verify(walker).findByName("*" + config.getFrom() + "*");
     }
 
     @Test
@@ -89,7 +89,7 @@ public class MainTest {
         Main.main(args);
 
         for (Path fromPath : fromPaths) {
-            Path toPath = Paths.get(fromPath.toString().replace(config.getFromPattern(), config.getToArgument()));
+            Path toPath = Paths.get(fromPath.toString().replace(config.getFrom(), config.getTo()));
             verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
         }
         verify(fileSystemMethods, times(3)).move(any(), any(), any());

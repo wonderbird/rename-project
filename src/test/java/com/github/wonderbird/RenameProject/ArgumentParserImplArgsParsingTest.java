@@ -39,7 +39,7 @@ public class ArgumentParserImplArgsParsingTest {
         ArgumentParser parser = new ArgumentParserImpl();
         Configuration config = parser.parse(args);
 
-        assertEquals(expectedFromPattern, config.getFromPattern());
-        assertEquals(expectedToArgument, config.getToArgument());
+        assertEquals(expectedFromPattern, config.getFrom());
+        assertEquals(expectedToArgument, config.getTo());
     }
 }
