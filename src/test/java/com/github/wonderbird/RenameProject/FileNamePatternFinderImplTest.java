@@ -74,6 +74,8 @@ public class FileNamePatternFinderImplTest {
 
         FileNameMatchingVisitor visitor = mock(FileNameMatchingVisitor.class);
         when(visitor.preVisitDirectory(any(), any())).thenReturn(FileVisitResult.CONTINUE);
+        when(visitor.postVisitDirectory(any(), any())).thenReturn(FileVisitResult.CONTINUE);
+        when(visitor.visitFileFailed(any(), any())).thenReturn(FileVisitResult.CONTINUE);
         when(visitor.visitFile(any(), any())).thenThrow(new IOException("Exception thrown by unit test"));
 
         FileNamePatternFinder finder = new FileNamePatternFinderImpl(visitor);
