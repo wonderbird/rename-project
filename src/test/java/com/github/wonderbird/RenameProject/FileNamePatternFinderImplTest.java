@@ -30,7 +30,7 @@ public class FileNamePatternFinderImplTest {
 
         Path expected = Paths.get(pattern).normalize().toAbsolutePath();
         assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.contains(expected));
-        assertEquals("Too many directories returned", 1, paths.size());
+        assertEquals("Unexpected number of files and directories returned", 1, paths.size());
     }
 
     @Test

@@ -3,14 +3,14 @@ package com.github.wonderbird.RenameProject;
 import java.nio.file.Path;
 import java.util.List;
 
-public class FileContentFinderImpl {
+public class FileContentFinderImpl implements FileContentFinder {
     /**
      * Find all files containing the search string.
      *
      * @param searchString is the word which should be searched in all files.
      * @return List of all files beneath the current directory which contain searchString.
      */
-    public List<Path> findByContent(String searchString) {
+    public List<Path> find(String searchString) {
         return null;
     }
 }
