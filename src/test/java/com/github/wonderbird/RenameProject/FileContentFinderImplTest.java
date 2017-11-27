@@ -11,14 +11,16 @@ import static org.junit.Assert.*;
 public class FileContentFinderImplTest {
     @Test
     public void find_SearchStringMatchesSingleFileInCurrentDir_ReturnsMatchedFile() throws Exception {
-        String searchString = "FileContentFinderImpl";
+        String searchString = "UniqueSearchStringForTestPurpose";
 
         FileContentFinderImpl finder = new FileContentFinderImpl();
         List<Path> paths = finder.find(searchString);
 
-        Path expected = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", searchString + ".java").normalize().toAbsolutePath();
+        Path expected = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileContentFinderImplTest.java").normalize().toAbsolutePath();
         assertTrue(String.format("The file '%s' should be found", expected.toString()), paths.contains(expected));
-        assertEquals("Unexpected number of files returned", 1, paths.size());
+
+        // Usually the .class file is also returned. Thus we expect 2 matching file paths.
+        assertEquals("Unexpected number of files returned", 2, paths.size());
     }
 
 }

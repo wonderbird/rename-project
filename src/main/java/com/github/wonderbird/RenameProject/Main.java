@@ -8,14 +8,15 @@ import java.util.List;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Main {
-    private static FileNamePatternFinder fileNamePatternFinder = new FileNamePatternFinderImpl();
+    private static FilePathFinder fileContentFinder = new FileContentFinderImpl();
+
+    private static FilePathFinder fileNamePatternFinder = new FileNamePatternFinderImpl();
 
     private static ArgumentParser argumentParser = new ArgumentParserImpl();
 
     private static FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
 
     private static Configuration config;
-    private static FileContentFinder fileContentFinder;
 
     public static void main(String[] args) {
         try {
@@ -45,12 +46,12 @@ public class Main {
         argumentParser = aArgumentParser;
     }
 
-    static void setFileNamePatternFinder(final FileNamePatternFinder aFinder) {
+    static void setFileNamePatternFinder(final FilePathFinder aFinder) {
         fileNamePatternFinder = aFinder;
     }
 
-    static void setFileContentFinder(FileContentFinder aFinder) {
-        Main.fileContentFinder = aFinder;
+    static void setFileContentFinder(FilePathFinder aFinder) {
+        fileContentFinder = aFinder;
     }
 
     static void setFileSystemMethods(FileSystemMethods aFileSystemMethods) {

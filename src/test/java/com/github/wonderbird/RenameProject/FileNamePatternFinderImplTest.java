@@ -23,7 +23,7 @@ public class FileNamePatternFinderImplTest {
 
     @Test
     public void find_PatternMatchesSingleDirInCurrentDir_ReturnsMatchedFile() throws IOException {
-        FileNamePatternFinder finder = new FileNamePatternFinderImpl();
+        FilePathFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "src";
 
         final List<Path> paths = finder.find(pattern);
@@ -35,7 +35,7 @@ public class FileNamePatternFinderImplTest {
 
     @Test
     public void find_PatternMatchesTwoDirectoriesInCurrentDir_ReturnsMatchedDirectories() throws IOException {
-        FileNamePatternFinder finder = new FileNamePatternFinderImpl();
+        FilePathFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "java";
 
         final List<Path> paths = finder.find(pattern);
@@ -51,34 +51,35 @@ public class FileNamePatternFinderImplTest {
     }
 
     @Test
-    public void find_PatternMatchesThreeFilesInCurrentDir_ReturnsMatchedFiles() throws IOException {
-        FileNamePatternFinder finder = new FileNamePatternFinderImpl();
-        final String pattern = "FileNamePatternFinder*.java";
+    public void find_PatternMatchesFourFilesInCurrentDir_ReturnsMatchedFiles() throws IOException {
+        FilePathFinder finder = new FileNamePatternFinderImpl();
+        final String pattern = "ArgumentParser*.java";
 
         final List<Path> paths = finder.find(pattern);
 
         List<Path> expectedPaths = Arrays.asList(
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "FileNamePatternFinder.java").toAbsolutePath(),
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "FileNamePatternFinderImpl.java").toAbsolutePath(),
-                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileNamePatternFinderImplTest.java").toAbsolutePath());
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParser.java").toAbsolutePath(),
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParserImpl.java").toAbsolutePath(),
+                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParserImplArgsParsingTest.java").toAbsolutePath(),
+                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParserImplGeneralTest.java").toAbsolutePath());
 
         for (Path expected : expectedPaths) {
             assertTrue(String.format("The file '%s' should be found", expected.toString()), paths.stream().anyMatch(actual -> actual.compareTo(expected) == 0));
         }
-        assertEquals("Too many entries returned", 3, paths.size());
+        assertEquals("Too many entries returned", 4, paths.size());
     }
 
     @Test
     public void find_FileVisitorThrowsIOException_throwsIOException() throws IOException {
         thrown.expect(IOException.class);
 
-        FileNameMatchingVisitor visitor = mock(FileNameMatchingVisitor.class);
+        FilePathVisitorWithResult visitor = mock(FilePathVisitorWithResult.class);
         when(visitor.preVisitDirectory(any(), any())).thenReturn(FileVisitResult.CONTINUE);
         when(visitor.postVisitDirectory(any(), any())).thenReturn(FileVisitResult.CONTINUE);
         when(visitor.visitFileFailed(any(), any())).thenReturn(FileVisitResult.CONTINUE);
         when(visitor.visitFile(any(), any())).thenThrow(new IOException("Exception thrown by unit test"));
 
-        FileNamePatternFinder finder = new FileNamePatternFinderImpl(visitor);
+        FilePathFinder finder = new FileNamePatternFinderImpl(visitor);
         finder.find("java");
     }
 }

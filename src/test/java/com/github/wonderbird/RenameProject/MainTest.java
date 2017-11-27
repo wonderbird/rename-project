@@ -20,9 +20,9 @@ public class MainTest {
 
     private ArgumentParser parser;
 
-    private FileNamePatternFinder fileNamePatternFinder;
+    private FilePathFinder fileNamePatternFinder;
 
-    private FileContentFinder fileContentFinder;
+    private FilePathFinder fileContentFinder;
 
     private final String exceptionMessage = "Exception thrown by unit test";
 
@@ -40,10 +40,10 @@ public class MainTest {
         when(parser.parse(any(String[].class))).thenReturn(config);
         Main.setArgumentParser(parser);
 
-        fileNamePatternFinder = mock(FileNamePatternFinder.class);
+        fileNamePatternFinder = mock(FilePathFinder.class);
         Main.setFileNamePatternFinder(fileNamePatternFinder);
 
-        fileContentFinder = mock(FileContentFinder.class);
+        fileContentFinder = mock(FilePathFinder.class);
         Main.setFileContentFinder(fileContentFinder);
     }
 
@@ -62,7 +62,7 @@ public class MainTest {
     }
 
     @Test
-    public void main_ArgumentsGiven_SearchesForFilesContainingFrom() {
+    public void main_ArgumentsGiven_SearchesForFilesContainingFrom() throws IOException {
         Main.main(args);
 
         verify(fileContentFinder).find(config.getFrom());
@@ -78,7 +78,7 @@ public class MainTest {
 
     @Test
     public void main_DirectoryfinderThrowsException_HandlesException() throws IOException {
-        fileNamePatternFinder = mock(FileNamePatternFinder.class);
+        fileNamePatternFinder = mock(FilePathFinder.class);
         when(fileNamePatternFinder.find(any())).thenThrow(new IOException(exceptionMessage));
 
         Main.main(args);
@@ -86,7 +86,7 @@ public class MainTest {
 
     @Test
     public void main_DirectoryfinderReturnsFiles_RenamesEachFileToToPattern() throws IOException {
-        fileNamePatternFinder = mock(FileNamePatternFinder.class);
+        fileNamePatternFinder = mock(FilePathFinder.class);
         List<Path> fromPaths = Arrays.asList(
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
                 Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java"),

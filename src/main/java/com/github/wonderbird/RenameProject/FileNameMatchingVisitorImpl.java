@@ -6,7 +6,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FileNameMatchingVisitor {
+class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
     private final PathMatcher matcher;
     private List<Path> result= new ArrayList<>();
 

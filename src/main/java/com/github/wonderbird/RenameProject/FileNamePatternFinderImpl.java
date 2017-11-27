@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
 
-public class FileNamePatternFinderImpl implements FileNamePatternFinder {
-    private FileNameMatchingVisitor visitor;
+public class FileNamePatternFinderImpl implements FilePathFinder {
+    private FilePathVisitorWithResult visitor;
 
     FileNamePatternFinderImpl() {
         this(null);
     }
 
-    FileNamePatternFinderImpl(FileNameMatchingVisitor aVisitor) {
+    FileNamePatternFinderImpl(FilePathVisitorWithResult aVisitor) {
         visitor = aVisitor;
     }
 
