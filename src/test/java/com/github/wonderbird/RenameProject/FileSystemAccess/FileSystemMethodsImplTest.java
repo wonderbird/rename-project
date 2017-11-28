@@ -1,5 +1,6 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.FileSystemAccess;
 
+import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileSystemMethodsImpl;
 import org.junit.Test;
 
 import java.io.File;

@@ -1,5 +1,6 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.FileSystemAccess;
 
+import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileContentFinderImpl;
 import org.junit.Test;
 
 import java.nio.file.Path;
@@ -16,7 +17,7 @@ public class FileContentFinderImplTest {
         FileContentFinderImpl finder = new FileContentFinderImpl();
         List<Path> paths = finder.find(searchString);
 
-        Path expected = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileContentFinderImplTest.java").normalize().toAbsolutePath();
+        Path expected = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileSystemAccess", "FileContentFinderImplTest.java").normalize().toAbsolutePath();
         assertTrue(String.format("The file '%s' should be found", expected.toString()), paths.contains(expected));
 
         // Usually the .class file is also returned. Thus we expect 2 matching file paths.

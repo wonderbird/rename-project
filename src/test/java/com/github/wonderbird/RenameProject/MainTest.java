@@ -1,5 +1,7 @@
 package com.github.wonderbird.RenameProject;
 
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import org.junit.Before;
 import org.junit.Test;
 

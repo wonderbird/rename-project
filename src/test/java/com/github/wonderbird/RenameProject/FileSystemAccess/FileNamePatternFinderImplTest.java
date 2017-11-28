@@ -1,5 +1,8 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.FileSystemAccess;
 
+import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileNamePatternFinderImpl;
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathVisitorWithResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

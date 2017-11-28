@@ -1,4 +1,7 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.FileSystemAccess.Implementation;
+
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathVisitorWithResult;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -7,11 +10,11 @@ import java.util.List;
 public class FileNamePatternFinderImpl implements FilePathFinder {
     private FilePathVisitorWithResult visitor;
 
-    FileNamePatternFinderImpl() {
+    public FileNamePatternFinderImpl() {
         this(null);
     }
 
-    FileNamePatternFinderImpl(FilePathVisitorWithResult aVisitor) {
+    public FileNamePatternFinderImpl(FilePathVisitorWithResult aVisitor) {
         visitor = aVisitor;
     }
 

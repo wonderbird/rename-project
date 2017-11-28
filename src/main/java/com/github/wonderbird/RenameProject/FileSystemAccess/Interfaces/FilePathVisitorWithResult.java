@@ -1,4 +1,4 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces;
 
 import java.nio.file.FileVisitor;
 import java.nio.file.Path;

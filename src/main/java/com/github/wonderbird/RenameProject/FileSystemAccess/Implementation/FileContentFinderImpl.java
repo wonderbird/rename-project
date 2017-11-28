@@ -1,4 +1,6 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.FileSystemAccess.Implementation;
+
+import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 
 import java.io.IOException;
 import java.nio.file.Files;
