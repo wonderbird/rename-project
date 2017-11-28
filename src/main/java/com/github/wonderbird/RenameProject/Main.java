@@ -14,15 +14,15 @@ import java.util.List;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Main {
+    private static Configuration config;
+
+    private static ArgumentParser argumentParser = new ArgumentParserImpl();
+
     private static FilePathFinder fileContentFinder = new FileContentFinderImpl();
 
     private static FilePathFinder fileNamePatternFinder = new FileNamePatternFinderImpl();
 
-    private static ArgumentParser argumentParser = new ArgumentParserImpl();
-
     private static FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
-
-    private static Configuration config;
 
     public static void main(String[] args) {
         try {
@@ -30,7 +30,7 @@ public class Main {
 
             renameFilesAndDirectories();
 
-            fileContentFinder.find(config.getFrom());
+            replaceFileContents();
         } catch (WrongUsageException aException) {
             System.out.println(aException.getLocalizedMessage());
         } catch (IOException aE) {
@@ -48,6 +48,11 @@ public class Main {
         }
     }
 
+    private static void replaceFileContents() throws IOException {
+        List<Path> affectedPaths = fileContentFinder.find(config.getFrom());
+        affectedPaths.forEach(path -> fileSystemMethods.replaceInFile(path, config.getFrom(), config.getTo()));
+    }
+
     static void setArgumentParser(final ArgumentParser aArgumentParser) {
         argumentParser = aArgumentParser;
     }
@@ -61,6 +66,6 @@ public class Main {
     }
 
     static void setFileSystemMethods(FileSystemMethods aFileSystemMethods) {
-        Main.fileSystemMethods = aFileSystemMethods;
+        fileSystemMethods = aFileSystemMethods;
     }
 }

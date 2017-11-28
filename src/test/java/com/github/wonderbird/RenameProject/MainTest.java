@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -79,7 +80,7 @@ public class MainTest {
     }
 
     @Test
-    public void main_DirectoryfinderThrowsException_HandlesException() throws IOException {
+    public void main_DirectoryFinderThrowsException_HandlesException() throws IOException {
         fileNamePatternFinder = mock(FilePathFinder.class);
         when(fileNamePatternFinder.find(any())).thenThrow(new IOException(exceptionMessage));
 
@@ -87,7 +88,7 @@ public class MainTest {
     }
 
     @Test
-    public void main_DirectoryfinderReturnsFiles_RenamesEachFileToToPattern() throws IOException {
+    public void main_DirectoryFinderReturnsFiles_RenamesEachFileToToPattern() throws IOException {
         fileNamePatternFinder = mock(FilePathFinder.class);
         List<Path> fromPaths = Arrays.asList(
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
@@ -107,5 +108,26 @@ public class MainTest {
             verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
         }
         verify(fileSystemMethods, times(3)).move(any(), any(), any());
+    }
+
+    @Test
+    public void main_FileContentFinderReturnsFiles_ReplacesFromByToInEachFile() throws IOException {
+        fileContentFinder = mock(FilePathFinder.class);
+        List<Path> affectedFiles = Arrays.asList(
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
+                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java")
+        );
+        when(fileContentFinder.find(any())).thenReturn(affectedFiles);
+        Main.setFileContentFinder(fileContentFinder);
+
+        FileSystemMethods fileSystemMethods = mock(FileSystemMethods.class);
+        Main.setFileSystemMethods(fileSystemMethods);
+
+        Main.main(args);
+
+        for (Path affectedFile : affectedFiles) {
+            verify(fileSystemMethods).replaceInFile(affectedFile, config.getFrom(), config.getTo());
+        }
+        verify(fileSystemMethods, times(2)).replaceInFile(any(), any(), any());
     }
 }
