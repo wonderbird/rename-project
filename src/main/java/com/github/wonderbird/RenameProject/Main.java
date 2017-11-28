@@ -50,7 +50,10 @@ public class Main {
 
     private static void replaceFileContents() throws IOException {
         List<Path> affectedPaths = fileContentFinder.find(config.getFrom());
-        affectedPaths.forEach(path -> fileSystemMethods.replaceInFile(path, config.getFrom(), config.getTo()));
+
+        for (Path path : affectedPaths) {
+            fileSystemMethods.replaceInFile(path, config.getFrom(), config.getTo());
+        }
     }
 
     static void setArgumentParser(final ArgumentParser aArgumentParser) {
