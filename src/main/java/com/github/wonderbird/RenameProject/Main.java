@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -23,6 +25,8 @@ public class Main {
     private static FilePathFinder fileNamePatternFinder = new FileNamePatternFinderImpl();
 
     private static FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
+
+    private static Logger logger = LogManager.getLogManager().getLogger(Main.class.getPackage().toString());
 
     public static void main(String[] args) {
         try {
@@ -44,6 +48,9 @@ public class Main {
 
         for (Path sourcePath : affectedPaths) {
             Path targetPath = Paths.get(sourcePath.toString().replace(config.getFrom(), config.getTo()));
+
+            logger.info(String.format("%s -> %s", sourcePath.toString(), targetPath.toString()));
+
             fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
         }
     }
@@ -52,6 +59,8 @@ public class Main {
         List<Path> affectedPaths = fileContentFinder.find(config.getFrom());
 
         for (Path path : affectedPaths) {
+            logger.info(String.format("Replace contents: %s", path.toString()));
+
             fileSystemMethods.replaceInFile(path, config.getFrom(), config.getTo());
         }
     }

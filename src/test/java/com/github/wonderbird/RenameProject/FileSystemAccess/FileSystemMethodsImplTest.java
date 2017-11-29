@@ -42,10 +42,21 @@ public class FileSystemMethodsImplTest {
         FileSystemMethodsImpl fileSystemMethods = new FileSystemMethodsImpl();
         fileSystemMethods.replaceInFile(path, "FROM", "TO");
 
+        boolean fileContentMatchesTo;
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             String line = reader.readLine();
-            boolean fileContentMatchesTo = line.matches(".*TO.*");
-            assertTrue("'FROM' should be replaced by 'TO' in '" + path.toString() + "'", fileContentMatchesTo);
+            fileContentMatchesTo = line.matches(".*TO.*");
         }
+
+        fileSystemMethods.replaceInFile(path, "TO", "FROM");
+
+        boolean fileContentMatchesFrom;
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line = reader.readLine();
+            fileContentMatchesFrom = line.matches(".*FROM.*");
+        }
+        
+        assertTrue("'FROM' should be replaced by 'TO' in '" + path.toString() + "'", fileContentMatchesTo);
+        assertTrue("Changes should be reverted - 'TO' should be replaced by 'FROM' in '" + path.toString() + "'", fileContentMatchesFrom);
     }
 }
