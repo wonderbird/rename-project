@@ -38,7 +38,7 @@ public class MainTest {
         final String toArgument = "Renamed";
         args = new String[]{"--from", fromPattern, "--to", toArgument};
 
-        config = new Configuration();
+        config = Configuration.getConfiguration();
         config.setFrom(fromPattern);
         config.setTo(toArgument);
 

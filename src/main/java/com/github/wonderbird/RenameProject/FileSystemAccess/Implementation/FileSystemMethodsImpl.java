@@ -1,5 +1,6 @@
 package com.github.wonderbird.RenameProject.FileSystemAccess.Implementation;
 
+import com.github.wonderbird.RenameProject.Configuration;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 
 import java.io.BufferedWriter;
@@ -13,8 +14,7 @@ import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FileSystemMethodsImpl implements FileSystemMethods {
-    // TODO: Move all BUFFER_SIZE constants to configuration file.
-    private static final int BUFFER_SIZE = 1024 * 1024;
+    private Configuration config = Configuration.getConfiguration();
 
     @Override
     public void move(Path source, Path target, CopyOption copyOption) throws IOException {
@@ -23,6 +23,8 @@ public class FileSystemMethodsImpl implements FileSystemMethods {
 
     @Override
     public void replaceInFile(Path affectedFile, String aFrom, String aTo) throws IOException {
+        final int BUFFER_SIZE = config.getReadBufferSize();
+
         InputStream inputStream = Files.newInputStream(affectedFile);
         Path tempFile = Files.createTempFile("rename-project_", ".tmp");
 

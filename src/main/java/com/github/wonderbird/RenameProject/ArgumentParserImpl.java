@@ -34,7 +34,7 @@ public class ArgumentParserImpl implements ArgumentParser {
         try {
             CommandLine cmd = parser.parse(options, aArgs);
 
-            Configuration config = new Configuration();
+            Configuration config = Configuration.getConfiguration();
             config.setFrom(cmd.getOptionValue("from"));
             config.setTo(cmd.getOptionValue("to"));
 
