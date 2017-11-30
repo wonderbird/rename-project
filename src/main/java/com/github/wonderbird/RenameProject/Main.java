@@ -26,7 +26,7 @@ public class Main {
 
     private static FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
 
-    private static Logger logger = LogManager.getLogManager().getLogger(Main.class.getPackage().toString());
+    private static Logger logger = Logger.getLogger(Main.class.getPackage().toString());
 
     public static void main(String[] args) {
         try {
@@ -79,5 +79,9 @@ public class Main {
 
     static void setFileSystemMethods(FileSystemMethods aFileSystemMethods) {
         fileSystemMethods = aFileSystemMethods;
+    }
+
+    static void setLogger(Logger aLogger) {
+        logger = aLogger;
     }
 }

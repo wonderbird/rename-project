@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +27,8 @@ public class MainTest {
     private FilePathFinder fileNamePatternFinder;
 
     private FilePathFinder fileContentFinder;
+
+    private Logger logger;
 
     private final String exceptionMessage = "Exception thrown by unit test";
 
@@ -48,6 +51,9 @@ public class MainTest {
 
         fileContentFinder = mock(FilePathFinder.class);
         Main.setFileContentFinder(fileContentFinder);
+
+        logger = mock(Logger.class);
+        Main.setLogger(logger);
     }
 
     @Test
