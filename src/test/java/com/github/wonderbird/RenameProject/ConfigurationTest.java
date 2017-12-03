@@ -12,5 +12,4 @@ public class ConfigurationTest {
 
         assertSame("The Configuration instances should be the same.", first, second);
     }
-
 }

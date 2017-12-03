@@ -26,6 +26,4 @@ public class FileContentFinderImpl implements FilePathFinder {
 
         return visitor.getResult();
     }
-
-    // TODO: Test boundary conditions in FileContentFinder: File does not exist, File is size 0, Searched word is split at buffer boundary.
 }

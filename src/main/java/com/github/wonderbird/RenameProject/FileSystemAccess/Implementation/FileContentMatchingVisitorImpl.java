@@ -1,6 +1,7 @@
 package com.github.wonderbird.RenameProject.FileSystemAccess.Implementation;
 
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathVisitorWithResult;
+import com.github.wonderbird.RenameProject.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
-    private static final int BUFFER_SIZE = 1024 * 1024;
+    private static final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
 
     private final String searchString;
 

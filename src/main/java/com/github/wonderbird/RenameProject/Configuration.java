@@ -1,6 +1,7 @@
 package com.github.wonderbird.RenameProject;
 
 public class Configuration {
+    private static Configuration instance;
     private String from;
     private String to;
 
@@ -9,12 +10,15 @@ public class Configuration {
      */
     private int readBufferSize;
 
-    private Configuration() {
-        readBufferSize = 1024 * 1024;
+    protected Configuration() {
+        reset();
     }
 
     public static Configuration getConfiguration() {
-        return new Configuration();
+        if (instance == null) {
+            instance = new Configuration();
+        }
+        return instance;
     }
 
     String getFrom() {
@@ -27,6 +31,10 @@ public class Configuration {
 
     String getTo() {
         return to;
+    }
+
+    public void reset() {
+        readBufferSize = 1024 * 1024;
     }
 
     void setFrom(final String aFromPattern) {
