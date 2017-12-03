@@ -4,14 +4,13 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathF
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.mockito.ArgumentMatchers.any;

@@ -5,13 +5,13 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileN
 import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileSystemMethodsImpl;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -26,7 +26,7 @@ public class Main {
 
     private static FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
 
-    private static Logger logger = Logger.getLogger(Main.class.getPackage().toString());
+    private static Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         try {
@@ -49,7 +49,7 @@ public class Main {
         for (Path sourcePath : affectedPaths) {
             Path targetPath = Paths.get(sourcePath.toString().replace(config.getFrom(), config.getTo()));
 
-            logger.info(String.format("%s -> %s", sourcePath.toString(), targetPath.toString()));
+            logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
 
             fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
         }
@@ -59,7 +59,7 @@ public class Main {
         List<Path> affectedPaths = fileContentFinder.find(config.getFrom());
 
         for (Path path : affectedPaths) {
-            logger.info(String.format("Replace contents: %s", path.toString()));
+            logger.info("Replace contents: {}", path.toString());
 
             fileSystemMethods.replaceInFile(path, config.getFrom(), config.getTo());
         }
