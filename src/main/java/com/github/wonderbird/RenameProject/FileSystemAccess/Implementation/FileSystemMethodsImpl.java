@@ -14,8 +14,6 @@ import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FileSystemMethodsImpl implements FileSystemMethods {
-    private Configuration config = Configuration.getConfiguration();
-
     @Override
     public void move(Path source, Path target, CopyOption copyOption) throws IOException {
         Files.move(source, target, copyOption);
@@ -23,7 +21,7 @@ public class FileSystemMethodsImpl implements FileSystemMethods {
 
     @Override
     public void replaceInFile(Path affectedFile, String aFrom, String aTo) throws IOException {
-        final int BUFFER_SIZE = config.getReadBufferSize();
+        final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
 
         InputStream inputStream = Files.newInputStream(affectedFile);
         Path tempFile = Files.createTempFile("rename-project_", ".tmp");

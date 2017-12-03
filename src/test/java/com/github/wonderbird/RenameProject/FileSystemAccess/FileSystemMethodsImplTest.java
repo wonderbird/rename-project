@@ -1,6 +1,8 @@
 package com.github.wonderbird.RenameProject.FileSystemAccess;
 
+import com.github.wonderbird.RenameProject.Configuration;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileSystemMethodsImpl;
+import org.junit.After;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -14,6 +16,10 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.*;
 
 public class FileSystemMethodsImplTest {
+    @After
+    public void after() {
+        Configuration.getConfiguration().reset();
+    }
 
     @Test
     public void move_SourceArgumentIsFoundInResources_RenamesSourceToTarget() throws IOException {
@@ -37,6 +43,16 @@ public class FileSystemMethodsImplTest {
 
     @Test
     public void replaceInFile_FromArgumentIsFoundInFile_ReplacesFromByTo() throws IOException {
+        executeReplaceInFileTest();
+    }
+
+    @Test
+    public void replaceInFile_FromArgumentAtBufferBoundary_ReplacesFromByTo() throws IOException {
+        Configuration.getConfiguration().setReadBufferSize(8);
+        executeReplaceInFileTest();
+    }
+
+    private void executeReplaceInFileTest() throws IOException {
         Path path = Paths.get("target", "test-classes", "fileContentToBeReplaced.txt");
 
         FileSystemMethodsImpl fileSystemMethods = new FileSystemMethodsImpl();
@@ -55,7 +71,7 @@ public class FileSystemMethodsImplTest {
             String line = reader.readLine();
             fileContentMatchesFrom = line.matches(".*FROM.*");
         }
-        
+
         assertTrue("'FROM' should be replaced by 'TO' in '" + path.toString() + "'", fileContentMatchesTo);
         assertTrue("Changes should be reverted - 'TO' should be replaced by 'FROM' in '" + path.toString() + "'", fileContentMatchesFrom);
     }
