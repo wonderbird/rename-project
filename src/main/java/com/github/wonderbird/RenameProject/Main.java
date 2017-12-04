@@ -30,14 +30,20 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            config = argumentParser.parse(args);
+            try {
+                config = argumentParser.parse(args);
 
-            renameFilesAndDirectories();
+                renameFilesAndDirectories();
 
-            replaceFileContents();
-        } catch (WrongUsageException aException) {
-            System.out.println(aException.getLocalizedMessage());
-        } catch (IOException aE) {
+                replaceFileContents();
+            } catch (WrongUsageException aException) {
+                System.out.println(aException.getLocalizedMessage());
+
+                java.awt.EventQueue.invokeLater(() -> new RenameProjectGUI().setVisible(true));
+
+                logger.info("GUI window has been closed");
+            }
+        } catch (Exception aE) {
             aE.printStackTrace();
         }
     }
