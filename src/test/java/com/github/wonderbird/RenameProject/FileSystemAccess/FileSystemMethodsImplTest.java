@@ -48,7 +48,7 @@ public class FileSystemMethodsImplTest {
 
     @Test
     public void replaceInFile_FromArgumentAtBufferBoundary_ReplacesFromByTo() throws IOException {
-        Configuration.getConfiguration().setReadBufferSize(8);
+        Configuration.getConfiguration().setReadBufferSize(9);
         executeReplaceInFileTest();
     }
 

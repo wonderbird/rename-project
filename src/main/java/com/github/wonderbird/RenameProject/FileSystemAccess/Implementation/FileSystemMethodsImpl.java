@@ -21,6 +21,11 @@ public class FileSystemMethodsImpl implements FileSystemMethods {
 
     @Override
     public void replaceInFile(Path affectedFile, String aFrom, String aTo) throws IOException {
+        replaceInFileWithOffset(affectedFile, 0, aFrom, aTo);
+        replaceInFileWithOffset(affectedFile, aFrom.length(), aFrom, aTo);
+    }
+
+    private void replaceInFileWithOffset(Path affectedFile, int aSkipBytes, String aFrom, String aTo) throws IOException {
         final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
 
         InputStream inputStream = Files.newInputStream(affectedFile);
@@ -30,11 +35,19 @@ public class FileSystemMethodsImpl implements FileSystemMethods {
             try (InputStreamReader reader = new InputStreamReader(inputStream);
                  BufferedWriter writer = Files.newBufferedWriter(tempFile)) {
                 char[] buffer = new char[BUFFER_SIZE];
+                String bufferString;
                 int readBytes;
 
-                // TODO: Handle edge case where the FROM string starts in one buffer segment and is continued in the next buffer segment (buffer = " ... FRO", buffer = "M ...")
+                if (0 < aSkipBytes && aSkipBytes < BUFFER_SIZE) {
+                    readBytes = reader.read(buffer, 0, aSkipBytes);
+                    bufferString = new String(buffer, 0, readBytes);
+                    if (readBytes > 0) {
+                        writer.write(bufferString);
+                    }
+                }
+
                 while ((readBytes = reader.read(buffer, 0, BUFFER_SIZE)) > 0) {
-                    String bufferString = new String(buffer, 0, readBytes);
+                    bufferString = new String(buffer, 0, readBytes);
                     String bufferWithReplacement = bufferString.replace(aFrom, aTo);
                     writer.write(bufferWithReplacement);
                 }
