@@ -5,6 +5,14 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileN
 import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileSystemMethodsImpl;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
+import com.github.wonderbird.RenameProject.ViewModels.RenameProjectViewModel;
+import com.github.wonderbird.RenameProject.Views.RenameProjectView;
+import de.saxsys.mvvmfx.FluentViewLoader;
+import de.saxsys.mvvmfx.ViewTuple;
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +23,7 @@ import java.util.List;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class Main {
+public class Main extends Application {
     private static Configuration config;
 
     private static ArgumentParser argumentParser = new ArgumentParserImpl();
@@ -39,13 +47,22 @@ public class Main {
             } catch (WrongUsageException aException) {
                 System.out.println(aException.getLocalizedMessage());
 
-                java.awt.EventQueue.invokeLater(() -> new RenameProjectGUI().setVisible(true));
+                launch(args);
 
-                logger.info("GUI window has been closed");
+                logger.info("Application is shutting down.");
             }
         } catch (Exception aE) {
             aE.printStackTrace();
         }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        ViewTuple<RenameProjectView, RenameProjectViewModel> viewTuple = FluentViewLoader.fxmlView(RenameProjectView.class).load();
+        Parent root = viewTuple.getView();
+        primaryStage.setTitle("Rename Project");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 
     private static void renameFilesAndDirectories() throws IOException {
