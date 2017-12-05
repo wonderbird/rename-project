@@ -4,6 +4,7 @@ import de.saxsys.mvvmfx.ViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+
 public class RenameProjectViewModel implements ViewModel {
     public StringProperty from = new SimpleStringProperty("ProjectToBeRenamed");
 
