@@ -37,7 +37,7 @@ public class Configuration {
         readBufferSize = 1024 * 1024;
     }
 
-    void setFrom(final String aFromPattern) {
+    public void setFrom(final String aFromPattern) {
         from = aFromPattern;
     }
 
@@ -45,7 +45,7 @@ public class Configuration {
         this.readBufferSize = readBufferSize;
     }
 
-    void setTo(String to) {
+    public void setTo(String to) {
         this.to = to;
     }
 }

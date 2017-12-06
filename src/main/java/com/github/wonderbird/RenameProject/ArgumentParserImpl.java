@@ -18,7 +18,7 @@ import java.io.StringWriter;
  */
 public class ArgumentParserImpl implements ArgumentParser {
     @Override
-    public Configuration parse(final String[] aArgs) throws WrongUsageException {
+    public void parse(final String[] aArgs) throws WrongUsageException {
         Options options = new Options();
 
         Option from = new Option("f", "from", true, "project name to replace");
@@ -37,8 +37,6 @@ public class ArgumentParserImpl implements ArgumentParser {
             Configuration config = Configuration.getConfiguration();
             config.setFrom(cmd.getOptionValue("from"));
             config.setTo(cmd.getOptionValue("to"));
-
-            return config;
         } catch (ParseException aException) {
             StringWriter stringWriter = new StringWriter();
             PrintWriter helpWriter = new PrintWriter(stringWriter);

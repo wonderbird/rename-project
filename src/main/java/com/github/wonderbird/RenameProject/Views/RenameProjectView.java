@@ -5,6 +5,7 @@ import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -17,6 +18,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     @FXML
     private TextField toTextField;
 
+    @FXML
+    private Button cancelButton;
+
     @InjectViewModel
     private RenameProjectViewModel viewModel;
 
@@ -24,5 +28,15 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     public void initialize(URL location, ResourceBundle resources) {
         fromTextField.textProperty().bind(viewModel.fromProperty());
         toTextField.textProperty().bind(viewModel.toProperty());
+    }
+
+    @FXML
+    public void cancelAction() {
+        viewModel.getCancelCommand().execute();
+    }
+
+    @FXML
+    public void renameAction() {
+        viewModel.getRenameCommand().execute();
     }
 }

@@ -42,7 +42,6 @@ public class MainTest {
         config.setTo(toArgument);
 
         parser = mock(ArgumentParser.class);
-        when(parser.parse(any(String[].class))).thenReturn(config);
         Main.setArgumentParser(parser);
 
         fileNamePatternFinder = mock(FilePathFinder.class);
@@ -79,7 +78,7 @@ public class MainTest {
     @Test
     public void main_ArgumentParserThrowsUsageException_HandlesException() throws WrongUsageException {
         parser = mock(ArgumentParser.class);
-        when(parser.parse(any(String[].class))).thenThrow(new WrongUsageException("Exception thrown by unit test"));
+        doThrow(new WrongUsageException("Exception thrown by unit test")).when(parser).parse(any(String[].class));
 
         Main.main(args);
     }

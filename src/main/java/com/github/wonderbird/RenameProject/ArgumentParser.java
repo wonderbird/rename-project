@@ -2,5 +2,5 @@ package com.github.wonderbird.RenameProject;
 
 public interface ArgumentParser
 {
-   Configuration parse(String[] aArgs) throws WrongUsageException;
+   void parse(String[] aArgs) throws WrongUsageException;
 }

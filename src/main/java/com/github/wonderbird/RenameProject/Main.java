@@ -8,7 +8,9 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSyste
 import com.github.wonderbird.RenameProject.ViewModels.RenameProjectViewModel;
 import com.github.wonderbird.RenameProject.Views.RenameProjectView;
 import de.saxsys.mvvmfx.FluentViewLoader;
+import de.saxsys.mvvmfx.MvvmFX;
 import de.saxsys.mvvmfx.ViewTuple;
+import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +26,7 @@ import java.util.List;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class Main extends Application {
-    private static Configuration config;
+    private static Configuration config = Configuration.getConfiguration();
 
     private static ArgumentParser argumentParser = new ArgumentParserImpl();
 
@@ -38,21 +40,25 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         try {
-            try {
-                config = argumentParser.parse(args);
+            argumentParser.parse(args);
 
-                renameFilesAndDirectories();
+            renameProject();
+        } catch (WrongUsageException aException) {
+            System.out.println(aException.getLocalizedMessage());
 
-                replaceFileContents();
-            } catch (WrongUsageException aException) {
-                System.out.println(aException.getLocalizedMessage());
+            launch(args);
+        }
+    }
 
-                launch(args);
+    private static void renameProject() {
+        logger.info("Renaming from '{}' to '{}' ...", config.getFrom(), config.getTo());
+        try {
 
-                logger.info("Application is shutting down.");
-            }
-        } catch (Exception aE) {
-            aE.printStackTrace();
+            renameFilesAndDirectories();
+
+            replaceFileContents();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -62,6 +68,14 @@ public class Main extends Application {
         Parent root = viewTuple.getView();
         primaryStage.setTitle("Rename Project");
         primaryStage.setScene(new Scene(root));
+
+        NotificationCenter notificationCenter = MvvmFX.getNotificationCenter();
+        notificationCenter.subscribe(Notification.QUIT.toString(), (key, payload) -> primaryStage.close());
+        notificationCenter.subscribe(Notification.RENAME.toString(), (key, payload) -> {
+            renameProject();
+            primaryStage.close();
+        });
+
         primaryStage.show();
     }
 

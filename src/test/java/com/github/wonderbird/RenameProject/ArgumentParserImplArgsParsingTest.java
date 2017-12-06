@@ -3,6 +3,7 @@ package com.github.wonderbird.RenameProject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import sun.security.krb5.Config;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,8 +38,9 @@ public class ArgumentParserImplArgsParsingTest {
     @Test
     public void parse_GivenArguments_SetsExpectedConfigProperties() throws WrongUsageException {
         ArgumentParser parser = new ArgumentParserImpl();
-        Configuration config = parser.parse(args);
+        parser.parse(args);
 
+        Configuration config = Configuration.getConfiguration();
         assertEquals(expectedFromPattern, config.getFrom());
         assertEquals(expectedToArgument, config.getTo());
     }
