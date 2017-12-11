@@ -1,4 +1,4 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.Logic;
 
 public interface ArgumentParser
 {

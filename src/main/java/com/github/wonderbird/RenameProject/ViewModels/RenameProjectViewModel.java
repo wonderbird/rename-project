@@ -1,7 +1,7 @@
 package com.github.wonderbird.RenameProject.ViewModels;
 
-import com.github.wonderbird.RenameProject.Configuration;
-import com.github.wonderbird.RenameProject.Notification;
+import com.github.wonderbird.RenameProject.Models.Configuration;
+import com.github.wonderbird.RenameProject.Models.Notification;
 import de.saxsys.mvvmfx.MvvmFX;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;

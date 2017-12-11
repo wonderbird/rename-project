@@ -5,5 +5,5 @@ import java.nio.file.Path;
 import java.util.List;
 
 public interface FilePathFinder {
-    List<Path> find(String from) throws IOException;
+    List<Path> find(String aStartDirectory, String aPattern) throws IOException;
 }

@@ -29,7 +29,7 @@ public class FileNamePatternFinderImplTest {
         FilePathFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "src";
 
-        final List<Path> paths = finder.find(pattern);
+        final List<Path> paths = finder.find(".", pattern);
 
         Path expected = Paths.get(pattern).normalize().toAbsolutePath();
         assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.contains(expected));
@@ -41,7 +41,7 @@ public class FileNamePatternFinderImplTest {
         FilePathFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "java";
 
-        final List<Path> paths = finder.find(pattern);
+        final List<Path> paths = finder.find(".", pattern);
 
         List<Path> expectedPaths = Arrays.asList(
                 Paths.get("src", "main", pattern).toAbsolutePath(),
@@ -58,13 +58,13 @@ public class FileNamePatternFinderImplTest {
         FilePathFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "ArgumentParser*.java";
 
-        final List<Path> paths = finder.find(pattern);
+        final List<Path> paths = finder.find(".", pattern);
 
         List<Path> expectedPaths = Arrays.asList(
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParser.java").toAbsolutePath(),
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParserImpl.java").toAbsolutePath(),
-                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParserImplArgsParsingTest.java").toAbsolutePath(),
-                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "ArgumentParserImplGeneralTest.java").toAbsolutePath());
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "ArgumentParser.java").toAbsolutePath(),
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "ArgumentParserImpl.java").toAbsolutePath(),
+                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "ArgumentParserImplArgsParsingTest.java").toAbsolutePath(),
+                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "ArgumentParserImplGeneralTest.java").toAbsolutePath());
 
         for (Path expected : expectedPaths) {
             assertTrue(String.format("The file '%s' should be found", expected.toString()), paths.stream().anyMatch(actual -> actual.compareTo(expected) == 0));
@@ -83,6 +83,6 @@ public class FileNamePatternFinderImplTest {
         when(visitor.visitFile(any(), any())).thenThrow(new IOException("Exception thrown by unit test"));
 
         FilePathFinder finder = new FileNamePatternFinderImpl(visitor);
-        finder.find("java");
+        finder.find(".", "java");
     }
 }

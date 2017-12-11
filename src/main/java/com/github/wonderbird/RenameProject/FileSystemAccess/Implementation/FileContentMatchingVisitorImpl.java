@@ -1,7 +1,7 @@
 package com.github.wonderbird.RenameProject.FileSystemAccess.Implementation;
 
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathVisitorWithResult;
-import com.github.wonderbird.RenameProject.Configuration;
+import com.github.wonderbird.RenameProject.Models.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;

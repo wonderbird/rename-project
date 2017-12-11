@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.wonderbird.RenameProject.Views.RenameProjectView">
+<GridPane minWidth="280.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.wonderbird.RenameProject.Views.RenameProjectView">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -21,7 +21,7 @@
   </rowConstraints>
    <children>
       <Label text="From:" />
-      <TextField id="fromTextField" fx:id="fromTextField" GridPane.columnIndex="1" />
+      <TextField id="fromTextField" fx:id="fromTextField" prefWidth="300.0" GridPane.columnIndex="1" />
       <Label text="To:" GridPane.rowIndex="1" />
       <TextField id="toTextField" fx:id="toTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Button id="cancelButton" fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" text="Cancel" GridPane.halignment="CENTER" GridPane.rowIndex="3" />

@@ -1,6 +1,6 @@
 package com.github.wonderbird.RenameProject.FileSystemAccess.Implementation;
 
-import com.github.wonderbird.RenameProject.Configuration;
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 
 import java.io.BufferedWriter;

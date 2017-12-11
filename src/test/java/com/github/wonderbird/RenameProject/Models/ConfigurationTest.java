@@ -1,5 +1,6 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.Models;
 
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

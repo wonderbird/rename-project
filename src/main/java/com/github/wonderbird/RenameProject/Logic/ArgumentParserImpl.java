@@ -1,5 +1,6 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.Logic;
 
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;

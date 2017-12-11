@@ -1,5 +1,7 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.Logic;
 
+import com.github.wonderbird.RenameProject.Logic.ArgumentParserImpl;
+import com.github.wonderbird.RenameProject.Logic.WrongUsageException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

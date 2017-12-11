@@ -1,9 +1,12 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.Logic;
 
+import com.github.wonderbird.RenameProject.Logic.ArgumentParser;
+import com.github.wonderbird.RenameProject.Logic.ArgumentParserImpl;
+import com.github.wonderbird.RenameProject.Logic.WrongUsageException;
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import sun.security.krb5.Config;
 
 import java.util.Arrays;
 import java.util.Collection;

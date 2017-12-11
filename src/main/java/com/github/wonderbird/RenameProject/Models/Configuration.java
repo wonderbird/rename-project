@@ -1,4 +1,4 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProject.Models;
 
 public class Configuration {
     private static Configuration instance;
@@ -21,7 +21,7 @@ public class Configuration {
         return instance;
     }
 
-    String getFrom() {
+    public String getFrom() {
         return from;
     }
 
@@ -29,7 +29,7 @@ public class Configuration {
         return readBufferSize;
     }
 
-    String getTo() {
+    public String getTo() {
         return to;
     }
 

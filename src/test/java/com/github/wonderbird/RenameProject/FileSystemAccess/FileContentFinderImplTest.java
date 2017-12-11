@@ -1,6 +1,6 @@
 package com.github.wonderbird.RenameProject.FileSystemAccess;
 
-import com.github.wonderbird.RenameProject.Configuration;
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileContentFinderImpl;
 import org.junit.After;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class FileContentFinderImplTest {
         String searchString = "Unique \"SearchString\" For Test Purpose";
 
         FileContentFinderImpl finder = new FileContentFinderImpl();
-        List<Path> paths = finder.find(searchString);
+        List<Path> paths = finder.find(".", searchString);
 
         List<Path> expected = Arrays.asList(
                 Paths.get("src", "test", "resources", "fileWithUniqueSearchString.txt").normalize().toAbsolutePath(),
