@@ -9,6 +9,7 @@ public class Configuration {
      * Size of a block read at once from files (in bytes).
      */
     private int readBufferSize;
+    private String startDir;
 
     protected Configuration() {
         reset();
@@ -29,6 +30,10 @@ public class Configuration {
         return readBufferSize;
     }
 
+    public String getStartDir() {
+        return startDir;
+    }
+
     public String getTo() {
         return to;
     }
@@ -43,6 +48,10 @@ public class Configuration {
 
     public void setReadBufferSize(int readBufferSize) {
         this.readBufferSize = readBufferSize;
+    }
+
+    public void setStartDir(String aStartDir) {
+        startDir = aStartDir;
     }
 
     public void setTo(String to) {

@@ -73,6 +73,13 @@ public class RenameProjectManagerImplTest {
         verify(fileContentFinder).find(".", config.getFrom());
     }
 
+    @Test
+    public void renameProject_ConfigurationContainsStartDirectory_SearchesFilesBelowStartDirectory() throws IOException {
+        config.setStartDir("src");
+
+        verify(fileNamePatternFinder).find(config.getStartDir(), "*" + config.getFrom() + "*");
+    }
+
     @Test(expected = IOException.class)
     public void renameProject_FileNamePatternFinderThrowsException_RaisesException() throws IOException {
         fileNamePatternFinder = mock(FilePathFinder.class);

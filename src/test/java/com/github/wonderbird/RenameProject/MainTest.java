@@ -3,11 +3,13 @@ package com.github.wonderbird.RenameProject;
 import com.github.wonderbird.RenameProject.Logic.ArgumentParser;
 import com.github.wonderbird.RenameProject.Logic.RenameProjectManager;
 import com.github.wonderbird.RenameProject.Logic.WrongUsageException;
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +45,15 @@ public class MainTest {
         Main.main(args);
 
         verify(parser).parse(args);
+    }
+
+    @Test
+    public void main_StartDirInArguments_SetsStartDirInConfig() {
+        final String startDir = "./src";
+
+        Main.main(args);
+
+        assertEquals("StartDir should be read from arguments and stored in Configuration", startDir, Configuration.getConfiguration().getStartDir());
     }
 
     @Test
