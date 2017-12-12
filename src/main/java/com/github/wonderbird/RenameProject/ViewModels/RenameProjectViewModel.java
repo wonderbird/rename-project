@@ -17,41 +17,38 @@ import javax.swing.*;
 public class RenameProjectViewModel implements ViewModel {
     private NotificationCenter notificationCenter = MvvmFX.getNotificationCenter();
 
-    public StringProperty from = new SimpleStringProperty("OriginalName");
+    private StringProperty from = new SimpleStringProperty("OriginalName");
 
-    public StringProperty to = new SimpleStringProperty("TargetName");
+    private StringProperty to = new SimpleStringProperty("TargetName");
 
-    public StringProperty startDir = new SimpleStringProperty(".");
+    private StringProperty startDir = new SimpleStringProperty(".");
 
-    public Command browseCommand = new DelegateCommand(() -> new Action() {
+    private Command browseCommand = new DelegateCommand(() -> new Action() {
         @Override
-        protected void action() throws Exception {
-            browseStartDir();
+        protected void action() {
+            emitBrowseStartDirNotification();
         }
     });
 
     private Command cancelCommand = new DelegateCommand(() -> new Action() {
         @Override
-        protected void action() throws Exception {
+        protected void action()
+        {
             emitQuitNotification();
         }
     });
 
     private Command renameCommand = new DelegateCommand(() -> new Action() {
         @Override
-        protected void action() throws Exception {
+        protected void action()
+        {
             emitConfigurationForRenamingProject();
         }
     });
 
-    private void browseStartDir() throws Exception {
-        JFileChooser fileChooser = new JFileChooser();
-
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        // TOOD: Find a way to forward the current view as a parent to the OpenDialog ...
-        throw new Exception("Find a way to forward the current view as a parent to the OpenDialog ...");
-        //fileChooser.showOpenDialog(null);
+    private void emitBrowseStartDirNotification()
+    {
+        publish(Notification.BROWSESTARTDIR.toString(), getStartDir());
     }
 
     private void emitQuitNotification() {

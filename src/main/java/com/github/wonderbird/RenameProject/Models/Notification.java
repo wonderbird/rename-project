@@ -2,7 +2,8 @@ package com.github.wonderbird.RenameProject.Models;
 
 public enum Notification {
     QUIT("quit"),
-    RENAME("rename");
+    RENAME("rename"),
+    BROWSESTARTDIR("browseStartDir");
 
     private final String message;
 
