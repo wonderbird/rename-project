@@ -39,10 +39,12 @@ public class RenameProjectManagerImplTest {
     public void before() throws WrongUsageException {
         final String fromPattern = "Main";
         final String toArgument = "Renamed";
+        final String startDir = ".";
 
         config = Configuration.getConfiguration();
         config.setFrom(fromPattern);
         config.setTo(toArgument);
+        config.setStartDir(startDir);
 
         renameProjectManager = new RenameProjectManagerImpl();
 
@@ -76,6 +78,8 @@ public class RenameProjectManagerImplTest {
     @Test
     public void renameProject_ConfigurationContainsStartDirectory_SearchesFilesBelowStartDirectory() throws IOException {
         config.setStartDir("src");
+
+        renameProjectManager.renameProject();
 
         verify(fileNamePatternFinder).find(config.getStartDir(), "*" + config.getFrom() + "*");
     }

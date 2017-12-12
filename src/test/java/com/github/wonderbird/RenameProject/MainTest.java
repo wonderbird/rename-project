@@ -48,15 +48,6 @@ public class MainTest {
     }
 
     @Test
-    public void main_StartDirInArguments_SetsStartDirInConfig() {
-        final String startDir = "./src";
-
-        Main.main(args);
-
-        assertEquals("StartDir should be read from arguments and stored in Configuration", startDir, Configuration.getConfiguration().getStartDir());
-    }
-
-    @Test
     public void main_ArgumentParserThrowsUsageException_ShowsUi() throws WrongUsageException {
         parser = mock(ArgumentParser.class);
         doThrow(new WrongUsageException("USAGE: renameProject ... (" + exceptionMessage + ")")).when(parser).parse(any(String[].class));

@@ -33,7 +33,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
 
     private void renameFilesAndDirectories() throws IOException {
         String filePattern = "*" + config.getFrom() + "*";
-        List<Path> affectedPaths = fileNamePatternFinder.find(".", filePattern);
+        List<Path> affectedPaths = fileNamePatternFinder.find(config.getStartDir(), filePattern);
 
         for (Path sourcePath : affectedPaths) {
             Path targetPath = Paths.get(sourcePath.toString().replace(config.getFrom(), config.getTo()));
@@ -45,7 +45,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     }
 
     private void replaceFileContents() throws IOException {
-        List<Path> affectedPaths = fileContentFinder.find(".", config.getFrom());
+        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), config.getFrom());
 
         for (Path path : affectedPaths) {
             logger.info("Replace contents: {}", path.toString());

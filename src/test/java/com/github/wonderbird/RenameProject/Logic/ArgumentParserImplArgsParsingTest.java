@@ -24,8 +24,8 @@ public class ArgumentParserImplArgsParsingTest {
     @Parameterized.Parameters(name = "{index}: parse(\"--from {0}\")")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"frompattern", "toargument", new String[]{"--from", "frompattern", "--to", "toargument"}},
-                {"otherfrompattern", "othertoargument", new String[]{"--to", "othertoargument", "--from", "otherfrompattern"}},
+                {"frompattern", "toargument", "./src", new String[]{"--from", "frompattern", "--to", "toargument", "--dir", "./src"}},
+                {"otherfrompattern", "othertoargument", ".", new String[]{"--to", "othertoargument", "--from", "otherfrompattern"}},
         });
     }
 
@@ -36,6 +36,9 @@ public class ArgumentParserImplArgsParsingTest {
     public String expectedToArgument;
 
     @Parameterized.Parameter(2)
+    public String expectedStartDir;
+
+    @Parameterized.Parameter(3)
     public String[] args;
 
     @Test
@@ -46,5 +49,6 @@ public class ArgumentParserImplArgsParsingTest {
         Configuration config = Configuration.getConfiguration();
         assertEquals(expectedFromPattern, config.getFrom());
         assertEquals(expectedToArgument, config.getTo());
+        assertEquals(expectedStartDir, config.getStartDir());
     }
 }

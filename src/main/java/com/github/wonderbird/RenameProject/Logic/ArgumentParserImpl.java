@@ -30,6 +30,9 @@ public class ArgumentParserImpl implements ArgumentParser {
         to.setRequired(true);
         options.addOption(to);
 
+        Option dir = new Option("d", "dir", true, "directory benath which to replace the project name");
+        options.addOption(dir);
+
         CommandLineParser parser = new DefaultParser();
 
         try {
@@ -38,6 +41,12 @@ public class ArgumentParserImpl implements ArgumentParser {
             Configuration config = Configuration.getConfiguration();
             config.setFrom(cmd.getOptionValue("from"));
             config.setTo(cmd.getOptionValue("to"));
+
+            String startDir = cmd.getOptionValue("dir");
+            if (startDir == null) {
+                startDir = ".";
+            }
+            config.setStartDir(startDir);
         } catch (ParseException aException) {
             StringWriter stringWriter = new StringWriter();
             PrintWriter helpWriter = new PrintWriter(stringWriter);
