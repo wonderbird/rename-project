@@ -3,6 +3,7 @@ package com.github.wonderbird.RenameProject.Views;
 import com.github.wonderbird.RenameProject.ViewModels.RenameProjectViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -19,6 +20,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private TextField toTextField;
 
     @FXML
+    private TextField startDirTextField;
+
+    @FXML
     private Button cancelButton;
 
     @InjectViewModel
@@ -28,6 +32,12 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     public void initialize(URL location, ResourceBundle resources) {
         fromTextField.textProperty().bind(viewModel.fromProperty());
         toTextField.textProperty().bind(viewModel.toProperty());
+        startDirTextField.textProperty().bind(viewModel.startDirProperty());
+    }
+
+    @FXML
+    public void browseAction() {
+        viewModel.getBrowseCommand().execute();
     }
 
     @FXML
