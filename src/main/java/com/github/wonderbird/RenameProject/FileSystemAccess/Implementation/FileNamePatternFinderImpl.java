@@ -5,6 +5,7 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathV
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Collections;
 import java.util.List;
 
 public class FileNamePatternFinderImpl implements FilePathFinder {
@@ -34,6 +35,15 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
 
         Files.walkFileTree(Paths.get(aStartDirectory), visitor);
 
-        return visitor.getResult();
+        List<Path> result = visitor.getResult();
+
+        sortDepthFirst(result);
+
+        return result;
+    }
+
+    private void sortDepthFirst(List<Path> result) {
+        Collections.sort(result);
+        Collections.reverse(result);
     }
 }

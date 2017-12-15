@@ -85,4 +85,17 @@ public class FileNamePatternFinderImplTest {
         FilePathFinder finder = new FileNamePatternFinderImpl(visitor);
         finder.find(".", "java");
     }
+
+    @Test
+    public void find_PatternMatchesFilesAndDirectories_SortsResultDepthFirst() throws IOException {
+        FilePathFinder finder = new FileNamePatternFinderImpl();
+        final String pattern = "*resources*";
+
+        final List<Path> paths = finder.find(".", pattern);
+
+        int directoryIndex = paths.indexOf(Paths.get("src", "test", "resources").toAbsolutePath());
+        int fileIndex = paths.indexOf(Paths.get("src", "test", "resources", "fileNameContainsParentDirName_resources.txt").toAbsolutePath());
+
+        assertTrue("Sequence of find results is wrong: Deeper paths must be first", fileIndex < directoryIndex);
+    }
 }
