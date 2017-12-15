@@ -1,6 +1,7 @@
 package com.github.wonderbird.RenameProject;
 
 import com.github.wonderbird.RenameProject.Logic.RenameProjectManager;
+import com.github.wonderbird.RenameProject.Logic.RenameProjectManagerImpl;
 import com.github.wonderbird.RenameProject.Models.Notification;
 import com.github.wonderbird.RenameProject.ViewModels.RenameProjectViewModel;
 import com.github.wonderbird.RenameProject.Views.RenameProjectView;
@@ -18,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class UiManagerImpl extends Application implements UiManager {
-    private RenameProjectManager renameProjectManager;
+    private RenameProjectManager renameProjectManager = new RenameProjectManagerImpl();
 
     private Logger logger = LoggerFactory.getLogger(UiManagerImpl.class);
 

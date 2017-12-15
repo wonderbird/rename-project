@@ -28,9 +28,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        fromTextField.textProperty().bind(viewModel.fromProperty());
-        toTextField.textProperty().bind(viewModel.toProperty());
-        startDirTextField.textProperty().bind(viewModel.startDirProperty());
+        fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
+        toTextField.textProperty().bindBidirectional(viewModel.toProperty());
+        startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
 
         viewModel.subscribe(Notification.BROWSESTARTDIR.toString(), (key, payload) -> browseStartDir((String)payload[0]));
     }
