@@ -29,7 +29,7 @@ public class UiManagerImpl extends Application implements UiManager {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         ViewTuple<RenameProjectView, RenameProjectViewModel> viewTuple = FluentViewLoader.fxmlView(RenameProjectView.class).load();
         Parent root = viewTuple.getView();
         primaryStage.setTitle("Rename Project");
@@ -41,7 +41,7 @@ public class UiManagerImpl extends Application implements UiManager {
             try {
                 renameProjectManager.renameProject();
             } catch (IOException aException) {
-                logger.error(aException.toString());
+                logger.error("Error in I/O operation:", aException);
             } finally {
                 primaryStage.close();
             }

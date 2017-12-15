@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 public class Main {
 
@@ -23,7 +25,7 @@ public class Main {
 
             uiManager.runUi(args);
         } catch (IOException aException) {
-            logger.error(aException.toString());
+            logger.error("Error in I/O operation:", aException);
         }
     }
 
