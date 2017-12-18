@@ -95,22 +95,33 @@ public class RenameProjectManagerImplTest {
 
     @Test
     public void renameProject_FileNamePatternFinderReturnsFiles_RenamesEachFileToToPattern() throws IOException {
+        config.setFrom("RenameProject");
+        config.setTo("Renamed");
+
+
         fileNamePatternFinder = mock(FilePathFinder.class);
         List<Path> fromPaths = Arrays.asList(
-                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
-                Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java"),
-                Paths.get("target", "classes", "com", "github", "wonderbird", "RenameProject", "Main.class")
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManager.java"),
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject")
         );
         when(fileNamePatternFinder.find(eq("."), any())).thenReturn(fromPaths);
         renameProjectManager.setFileNamePatternFinder(fileNamePatternFinder);
 
         renameProjectManager.renameProject();
 
-        for (Path fromPath : fromPaths) {
-            Path toPath = Paths.get(fromPath.toString().replace(config.getFrom(), config.getTo()));
+        List<Path> toPaths = Arrays.asList(
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenamedManager.java"),
+                Paths.get("src", "main", "java", "com", "github", "wonderbird", "Renamed")
+        );
+
+
+        for (int i = 0; i < fromPaths.size(); ++i) {
+            Path fromPath = fromPaths.get(i);
+            Path toPath = toPaths.get(i);
+
             verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
         }
-        verify(fileSystemMethods, times(3)).move(any(), any(), any());
+        verify(fileSystemMethods, times(2)).move(any(), any(), any());
     }
 
     @Test

@@ -32,16 +32,32 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     }
 
     private void renameFilesAndDirectories() throws IOException {
-        String filePattern = "*" + config.getFrom() + "*";
+        String from = config.getFrom();
+        String filePattern = "*" + from + "*";
         List<Path> affectedPaths = fileNamePatternFinder.find(config.getStartDir(), filePattern);
 
         for (Path sourcePath : affectedPaths) {
-            Path targetPath = Paths.get(sourcePath.toString().replace(config.getFrom(), config.getTo()));
+            String sourcePathString = sourcePath.toString();
+            String targetPathString = replaceLast(from, sourcePathString);
+            Path targetPath = Paths.get(targetPathString);
 
             logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
 
             fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
         }
+    }
+
+    private String replaceLast(String aFrom, String aSourcePathString) {
+        String targetPathString = aSourcePathString;
+
+        int startOfReplacement = aSourcePathString.lastIndexOf(aFrom);
+        if (startOfReplacement >= 0) {
+            targetPathString = aSourcePathString.substring(0, startOfReplacement);
+            targetPathString += config.getTo();
+            targetPathString += aSourcePathString.substring(startOfReplacement + aFrom.length());
+        }
+
+        return targetPathString;
     }
 
     private void replaceFileContents() throws IOException {
