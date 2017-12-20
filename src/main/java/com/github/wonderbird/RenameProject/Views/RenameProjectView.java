@@ -18,6 +18,21 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private TextField fromTextField;
 
     @FXML
+    private TextField camelCaseFromTextField;
+
+    @FXML
+    private TextField lowerCaseFromTextField;
+
+    @FXML
+    private TextField upperCaseFromTextField;
+
+    @FXML
+    private TextField spaceSeparatedFromTextField;
+
+    @FXML
+    private TextField dashSeparatedFromTextField;
+
+    @FXML
     private TextField toTextField;
 
     @FXML
@@ -29,6 +44,11 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
+        camelCaseFromTextField.textProperty().bindBidirectional(viewModel.camelCaseFromProperty());
+        lowerCaseFromTextField.textProperty().bindBidirectional(viewModel.lowerCaseFromProperty());
+        upperCaseFromTextField.textProperty().bindBidirectional(viewModel.upperCaseFromProperty());
+        spaceSeparatedFromTextField.textProperty().bindBidirectional(viewModel.spaceSeparatedFromProperty());
+        dashSeparatedFromTextField.textProperty().bindBidirectional(viewModel.dashSeparatedFromProperty());
         toTextField.textProperty().bindBidirectional(viewModel.toProperty());
         startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
 

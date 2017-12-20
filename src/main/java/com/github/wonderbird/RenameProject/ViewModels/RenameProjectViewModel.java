@@ -21,6 +21,16 @@ public class RenameProjectViewModel implements ViewModel {
 
     private StringProperty to = new SimpleStringProperty("TargetName");
 
+    private StringProperty camelCaseFrom = new SimpleStringProperty("OriginalName");
+
+    private StringProperty lowerCaseFrom = new SimpleStringProperty("originalname");
+
+    private StringProperty upperCaseFrom = new SimpleStringProperty("ORIGINALNAME");
+
+    private StringProperty spaceSeparatedFrom = new SimpleStringProperty("Original Name");
+
+    private StringProperty dashSeparatedFrom = new SimpleStringProperty("original-name");
+
     private StringProperty startDir = new SimpleStringProperty(".");
 
     private Command browseCommand = new DelegateCommand(() -> new Action() {
@@ -86,6 +96,66 @@ public class RenameProjectViewModel implements ViewModel {
 
     public void setFrom(String aFrom) {
         from.set(aFrom);
+    }
+
+    public StringProperty camelCaseFromProperty() {
+        return camelCaseFrom;
+    }
+
+    public String getCamelCaseFrom() {
+        return camelCaseFrom.get();
+    }
+
+    public void setCamelCaseFrom(String aFrom) {
+        camelCaseFrom.set(aFrom);
+    }
+
+    public StringProperty lowerCaseFromProperty() {
+        return lowerCaseFrom;
+    }
+
+    public String getLowerCaseFrom() {
+        return lowerCaseFrom.get();
+    }
+
+    public void setLowerCaseFrom(String aFrom) {
+        lowerCaseFrom.set(aFrom);
+    }
+
+    public StringProperty upperCaseFromProperty() {
+        return upperCaseFrom;
+    }
+
+    public String getUpperCaseFrom() {
+        return upperCaseFrom.get();
+    }
+
+    public void setUpperCaseFrom(String aFrom) {
+        upperCaseFrom.set(aFrom);
+    }
+
+    public StringProperty spaceSeparatedFromProperty() {
+        return spaceSeparatedFrom;
+    }
+
+    public String getSpaceSeparatedFrom() {
+        return spaceSeparatedFrom.get();
+    }
+
+    public void setSpaceSeparatedFrom(String aFrom) {
+        spaceSeparatedFrom.set(aFrom);
+    }
+
+    public StringProperty dashSeparatedFromProperty() {
+        return dashSeparatedFrom;
+    }
+
+    public String getDashSeparatedFrom() {
+        return dashSeparatedFrom.get();
+    }
+
+    public void setDashSeparatedFrom(String aFrom) {
+        dashSeparatedFrom.set(aFrom);
     }
 
     public StringProperty toProperty() {
