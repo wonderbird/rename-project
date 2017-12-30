@@ -15,6 +15,9 @@ import java.util.ResourceBundle;
 
 public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Initializable {
     @FXML
+    private TextField startDirTextField;
+
+    @FXML
     private TextField fromTextField;
 
     @FXML
@@ -36,21 +39,40 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private TextField toTextField;
 
     @FXML
-    private TextField startDirTextField;
+    private TextField camelCaseToTextField;
+
+    @FXML
+    private TextField lowerCaseToTextField;
+
+    @FXML
+    private TextField upperCaseToTextField;
+
+    @FXML
+    private TextField spaceSeparatedToTextField;
+
+    @FXML
+    private TextField dashSeparatedToTextField;
 
     @InjectViewModel
     private RenameProjectViewModel viewModel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
+
         fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
         camelCaseFromTextField.textProperty().bindBidirectional(viewModel.camelCaseFromProperty());
         lowerCaseFromTextField.textProperty().bindBidirectional(viewModel.lowerCaseFromProperty());
         upperCaseFromTextField.textProperty().bindBidirectional(viewModel.upperCaseFromProperty());
         spaceSeparatedFromTextField.textProperty().bindBidirectional(viewModel.spaceSeparatedFromProperty());
         dashSeparatedFromTextField.textProperty().bindBidirectional(viewModel.dashSeparatedFromProperty());
+
         toTextField.textProperty().bindBidirectional(viewModel.toProperty());
-        startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
+        camelCaseToTextField.textProperty().bindBidirectional(viewModel.camelCaseToProperty());
+        lowerCaseToTextField.textProperty().bindBidirectional(viewModel.lowerCaseToProperty());
+        upperCaseToTextField.textProperty().bindBidirectional(viewModel.upperCaseToProperty());
+        spaceSeparatedToTextField.textProperty().bindBidirectional(viewModel.spaceSeparatedToProperty());
+        dashSeparatedToTextField.textProperty().bindBidirectional(viewModel.dashSeparatedToProperty());
 
         viewModel.subscribe(Notification.BROWSESTARTDIR.toString(), (key, payload) -> browseStartDir((String)payload[0]));
     }
