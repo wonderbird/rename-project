@@ -42,7 +42,7 @@
                             <children>
                                 <Label text="Directory:" />
                                 <TextField id="startDirTextField" fx:id="startDirTextField" GridPane.columnIndex="1" />
-                                <Button id="browseButton" fx:id="browseButton" mnemonicParsing="false" onAction="#browseAction" text="Browse" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+                                <Button mnemonicParsing="false" onAction="#browseAction" text="Browse" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
                                 <Label text="From:" GridPane.rowIndex="1" />
                                 <TextField id="fromTextField" fx:id="fromTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                 <Label text="To:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -78,26 +78,26 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <CheckBox disable="true" mnemonicParsing="false" text="From:" />
-                                <CheckBox disable="true" mnemonicParsing="false" text="From:" GridPane.rowIndex="1" />
-                                <CheckBox disable="true" mnemonicParsing="false" text="From:" GridPane.rowIndex="2" />
-                                <CheckBox disable="true" mnemonicParsing="false" text="From:" GridPane.rowIndex="3" />
-                                <CheckBox disable="true" mnemonicParsing="false" text="From:" GridPane.rowIndex="4" />
-                                <TextField id="camelCaseFromTextField" fx:id="camelCaseFromTextField" disable="true" GridPane.columnIndex="1" />
-                                <TextField id="lowerCaseFromTextField" fx:id="lowerCaseFromTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextField id="upperCaseFromTextField" fx:id="upperCaseFromTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextField id="spaceSeparatedFromTextField" fx:id="spaceSeparatedFromTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <TextField id="dashSeparatedFromTextField" fx:id="dashSeparatedFromTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <CheckBox id="enableCamelCaseReplacementCheckBox" fx:id="enableCamelCaseReplacementCheckBox" mnemonicParsing="false" text="From:" />
+                                <CheckBox id="enableLowerCaseReplacementCheckBox" fx:id="enableLowerCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="1" />
+                                <CheckBox id="enableUpperCaseReplacementCheckBox" fx:id="enableUpperCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="2" />
+                                <CheckBox id="enableSpaceSeparatedReplacementCheckBox" fx:id="enableSpaceSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="3" />
+                                <CheckBox id="enableDashSeparatedReplacementCheckBox" fx:id="enableDashSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="4" />
+                                <TextField id="camelCaseFromTextField" fx:id="camelCaseFromTextField" disable="true"  promptText="CamelCase" GridPane.columnIndex="1" />
+                                <TextField id="lowerCaseFromTextField" fx:id="lowerCaseFromTextField" disable="true" promptText="lowercase" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField id="upperCaseFromTextField" fx:id="upperCaseFromTextField" disable="true" promptText="UPPERCASE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <TextField id="spaceSeparatedFromTextField" fx:id="spaceSeparatedFromTextField" disable="true" promptText="Space Separated" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <TextField id="dashSeparatedFromTextField" fx:id="dashSeparatedFromTextField" disable="true" promptText="dash-separated" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                 <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                                 <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                 <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                                 <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                                 <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                                <TextField id="camelCaseToTextField" fx:id="camelCaseToTextField" disable="true" GridPane.columnIndex="3" />
-                                <TextField id="lowerCaseToTextField" fx:id="lowerCaseToTextField" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                <TextField id="upperCaseToTextField" fx:id="upperCaseToTextField" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                <TextField id="spaceSeparatedToTextField" fx:id="spaceSeparatedToTextField" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                <TextField id="dashSeparatedToTextField" fx:id="dashSeparatedToTextField" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                <TextField id="camelCaseToTextField" fx:id="camelCaseToTextField" disable="true" promptText="CamelCase" GridPane.columnIndex="3" />
+                                <TextField id="lowerCaseToTextField" fx:id="lowerCaseToTextField" disable="true" promptText="lowercase" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                <TextField id="upperCaseToTextField" fx:id="upperCaseToTextField" disable="true" promptText="UPPERCASE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                <TextField id="spaceSeparatedToTextField" fx:id="spaceSeparatedToTextField" disable="true" promptText="Space Separated" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                <TextField id="dashSeparatedToTextField" fx:id="dashSeparatedToTextField" disable="true" promptText="dash-separated" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                             </children>
                             <padding>
                                 <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -110,8 +110,8 @@
                 <Insets bottom="10.0" />
             </GridPane.margin>
         </TitledPane>
-        <Button id="cancelButton" fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelAction" text="Cancel" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <Button id="renameButton" fx:id="renameButton" mnemonicParsing="false" onAction="#renameAction" text="Rename" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button mnemonicParsing="false" onAction="#cancelAction" text="Cancel" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button mnemonicParsing="false" onAction="#renameAction" text="Rename" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
     </children>
     <padding>
         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />

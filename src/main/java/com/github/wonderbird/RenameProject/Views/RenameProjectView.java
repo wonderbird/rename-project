@@ -6,6 +6,7 @@ import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
@@ -53,6 +54,21 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     @FXML
     private TextField dashSeparatedToTextField;
 
+    @FXML
+    private CheckBox enableCamelCaseReplacementCheckBox;
+
+    @FXML
+    private CheckBox enableLowerCaseReplacementCheckBox;
+
+    @FXML
+    private CheckBox enableUpperCaseReplacementCheckBox;
+
+    @FXML
+    private CheckBox enableSpaceSeparatedReplacementCheckBox;
+
+    @FXML
+    private CheckBox enableDashSeparatedReplacementCheckBox;
+
     @InjectViewModel
     private RenameProjectViewModel viewModel;
 
@@ -73,6 +89,12 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         upperCaseToTextField.textProperty().bindBidirectional(viewModel.upperCaseToProperty());
         spaceSeparatedToTextField.textProperty().bindBidirectional(viewModel.spaceSeparatedToProperty());
         dashSeparatedToTextField.textProperty().bindBidirectional(viewModel.dashSeparatedToProperty());
+
+        enableCamelCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableCamelCaseReplacementProperty());
+        enableLowerCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableLowerCaseReplacementProperty());
+        enableUpperCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableUpperCaseReplacementProperty());
+        enableSpaceSeparatedReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableSpaceSeparatedReplacementProperty());
+        enableDashSeparatedReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableDashSeparatedReplacementProperty());
 
         viewModel.subscribe(Notification.BROWSESTARTDIR.toString(), (key, payload) -> browseStartDir((String)payload[0]));
     }

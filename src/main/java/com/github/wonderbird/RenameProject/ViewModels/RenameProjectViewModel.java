@@ -9,6 +9,8 @@ import de.saxsys.mvvmfx.utils.commands.Command;
 import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
 import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -43,6 +45,16 @@ public class RenameProjectViewModel implements ViewModel {
     private StringProperty spaceSeparatedTo = new SimpleStringProperty("Target Name");
 
     private StringProperty dashSeparatedTo = new SimpleStringProperty("target-name");
+
+    private BooleanProperty enableCamelCaseReplacement = new SimpleBooleanProperty(true);
+
+    private BooleanProperty enableLowerCaseReplacement = new SimpleBooleanProperty(true);
+
+    private BooleanProperty enableUpperCaseReplacement = new SimpleBooleanProperty(true);
+
+    private BooleanProperty enableSpaceSeparatedReplacement = new SimpleBooleanProperty(true);
+
+    private BooleanProperty enableDashSeparatedReplacement = new SimpleBooleanProperty(true);
 
     private StringProperty startDir = new SimpleStringProperty(".");
 
@@ -314,6 +326,66 @@ public class RenameProjectViewModel implements ViewModel {
 
     private void setDashSeparatedTo(String aValue) {
         dashSeparatedTo.set(aValue);
+    }
+
+    public BooleanProperty enableCamelCaseReplacementProperty() {
+        return enableCamelCaseReplacement;
+    }
+
+    boolean getEnableCamelCaseReplacement() {
+        return enableCamelCaseReplacement.get();
+    }
+
+    private void setEnableCamelCaseReplacement(boolean aValue) {
+        enableCamelCaseReplacement.set(aValue);
+    }
+
+    public BooleanProperty enableLowerCaseReplacementProperty() {
+        return enableLowerCaseReplacement;
+    }
+
+    boolean getEnableLowerCaseReplacement() {
+        return enableLowerCaseReplacement.get();
+    }
+
+    private void setEnableLowerCaseReplacement(boolean aValue) {
+        enableLowerCaseReplacement.set(aValue);
+    }
+
+    public BooleanProperty enableUpperCaseReplacementProperty() {
+        return enableUpperCaseReplacement;
+    }
+
+    boolean getEnableUpperCaseReplacement() {
+        return enableUpperCaseReplacement.get();
+    }
+
+    private void setEnableUpperCaseReplacement(boolean aValue) {
+        enableUpperCaseReplacement.set(aValue);
+    }
+
+    public BooleanProperty enableSpaceSeparatedReplacementProperty() {
+        return enableSpaceSeparatedReplacement;
+    }
+
+    boolean getEnableSpaceSeparatedReplacement() {
+        return enableSpaceSeparatedReplacement.get();
+    }
+
+    private void setEnableSpaceSeparatedReplacement(boolean aValue) {
+        enableSpaceSeparatedReplacement.set(aValue);
+    }
+
+    public BooleanProperty enableDashSeparatedReplacementProperty() {
+        return enableDashSeparatedReplacement;
+    }
+
+    boolean getEnableDashSeparatedReplacement() {
+        return enableDashSeparatedReplacement.get();
+    }
+
+    private void setEnableDashSeparatedReplacement(boolean aValue) {
+        enableDashSeparatedReplacement.set(aValue);
     }
 
     public StringProperty startDirProperty() {
