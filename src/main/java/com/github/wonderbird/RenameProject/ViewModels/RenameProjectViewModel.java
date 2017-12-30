@@ -69,7 +69,7 @@ public class RenameProjectViewModel implements ViewModel {
         }
     });
 
-    RenameProjectViewModel() {
+    public RenameProjectViewModel() {
         from.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseFrom));
         from.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseFrom));
         from.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedFrom));
@@ -81,26 +81,47 @@ public class RenameProjectViewModel implements ViewModel {
         to.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedTo));
     }
 
+    private void updateSpaceSeparatedProperty(Observable observable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) observable;
+        String value = property.get();
+
+        String spaceSeparatedValue = insertCharacterBetweenCamelCaseWords(" ", value);
+
+        aSetterMethod.accept(spaceSeparatedValue);
+    }
+
     private void updateDashSeparatedProperty(Observable observable, Consumer<String> aSetterMethod) {
         StringProperty property = (StringProperty) observable;
         String value = property.get();
 
-        Pattern pattern = Pattern.compile("([a-z])([A-Z])");
-        Matcher matcher = pattern.matcher(value);
-        String lowerCaseDashSeparatedValue = value.toLowerCase();
+        String dashSeparatedValue = insertCharacterBetweenCamelCaseWords("-", value);
+        String lowerCaseDashSeparatedValue = dashSeparatedValue.toLowerCase();
+
+        aSetterMethod.accept(lowerCaseDashSeparatedValue);
+    }
+
+    private String insertCharacterBetweenCamelCaseWords(final String aSeparator, final String aText) {
+        Pattern pattern = Pattern.compile("[a-z][A-Z]");
+        Matcher matcher = pattern.matcher(aText);
+
+        String result = aText;
+
         int numberOfInsertedCharacters = 0;
+        final int separatorLength = aSeparator.length();
+
         while (matcher.find()) {
             int start = matcher.start();
             int splitIndex = start + 1 + numberOfInsertedCharacters;
 
-            String left = lowerCaseDashSeparatedValue.substring(0, splitIndex);
-            String right = lowerCaseDashSeparatedValue.substring(splitIndex);
+            String left = result.substring(0, splitIndex);
+            String right = result.substring(splitIndex);
 
-            lowerCaseDashSeparatedValue = left + "-" + right;
+            result = left + aSeparator + right;
 
-            ++numberOfInsertedCharacters;
+            numberOfInsertedCharacters += separatorLength;
         }
-        aSetterMethod.accept(lowerCaseDashSeparatedValue);
+
+        return result;
     }
 
     private void updateLowerCaseProperty(Observable observable, Consumer<String> aSetterMethod) {
@@ -110,15 +131,6 @@ public class RenameProjectViewModel implements ViewModel {
         String lowerCaseValue = value.toLowerCase();
 
         aSetterMethod.accept(lowerCaseValue);
-    }
-
-    private void updateSpaceSeparatedProperty(Observable observable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) observable;
-        String value = property.get();
-
-        String spaceSeparatedValue = value.replaceAll("([a-z])([A-Z][a-z]+)", "$1 $2");
-
-        aSetterMethod.accept(spaceSeparatedValue);
     }
 
     private void updateUpperCaseProperty(Observable observable, Consumer<String> aSetterMethod) {
