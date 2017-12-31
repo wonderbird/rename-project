@@ -2,6 +2,7 @@ package com.github.wonderbird.RenameProject.ViewModels;
 
 import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.Models.Notification;
+import com.sun.deploy.util.StringUtils;
 import de.saxsys.mvvmfx.MvvmFX;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
@@ -14,9 +15,13 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class RenameProjectViewModel implements ViewModel {
@@ -82,19 +87,32 @@ public class RenameProjectViewModel implements ViewModel {
     });
 
     public RenameProjectViewModel() {
+        from.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseFrom));
         from.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseFrom));
         from.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseFrom));
         from.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedFrom));
         from.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedFrom));
 
+        to.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseTo));
         to.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseTo));
         to.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseTo));
         to.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedTo));
         to.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedTo));
     }
 
-    private void updateSpaceSeparatedProperty(Observable observable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) observable;
+    private void updateCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) aObservable;
+        String value = property.get();
+
+        List<String> words = Arrays.asList(value.split("[\\ -]"));
+        List<String> capitalizedWords = words.stream().filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.toList());
+        String camelCaseValue = StringUtils.join(capitalizedWords, "");
+
+        aSetterMethod.accept(camelCaseValue);
+    }
+
+    private void updateSpaceSeparatedProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
         String spaceSeparatedValue = insertCharacterBetweenCamelCaseWords(" ", value);
@@ -102,8 +120,8 @@ public class RenameProjectViewModel implements ViewModel {
         aSetterMethod.accept(spaceSeparatedValue);
     }
 
-    private void updateDashSeparatedProperty(Observable observable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) observable;
+    private void updateDashSeparatedProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
         String dashSeparatedValue = insertCharacterBetweenCamelCaseWords("-", value);
@@ -136,8 +154,8 @@ public class RenameProjectViewModel implements ViewModel {
         return result;
     }
 
-    private void updateLowerCaseProperty(Observable observable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) observable;
+    private void updateLowerCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
         String lowerCaseValue = value.toLowerCase();
@@ -145,8 +163,8 @@ public class RenameProjectViewModel implements ViewModel {
         aSetterMethod.accept(lowerCaseValue);
     }
 
-    private void updateUpperCaseProperty(Observable observable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) observable;
+    private void updateUpperCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
         String upperCaseValue = value.toUpperCase();
