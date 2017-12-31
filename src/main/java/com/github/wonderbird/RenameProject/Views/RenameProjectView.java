@@ -7,6 +7,7 @@ import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 
@@ -22,37 +23,37 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private TextField fromTextField;
 
     @FXML
-    private TextField camelCaseFromTextField;
+    private Label camelCaseFromLabel;
 
     @FXML
-    private TextField lowerCaseFromTextField;
+    private Label lowerCaseFromLabel;
 
     @FXML
-    private TextField upperCaseFromTextField;
+    private Label upperCaseFromLabel;
 
     @FXML
-    private TextField spaceSeparatedFromTextField;
+    private Label spaceSeparatedFromLabel;
 
     @FXML
-    private TextField dashSeparatedFromTextField;
+    private Label dashSeparatedFromLabel;
 
     @FXML
     private TextField toTextField;
 
     @FXML
-    private TextField camelCaseToTextField;
+    private Label camelCaseToLabel;
 
     @FXML
-    private TextField lowerCaseToTextField;
+    private Label lowerCaseToLabel;
 
     @FXML
-    private TextField upperCaseToTextField;
+    private Label upperCaseToLabel;
 
     @FXML
-    private TextField spaceSeparatedToTextField;
+    private Label spaceSeparatedToLabel;
 
     @FXML
-    private TextField dashSeparatedToTextField;
+    private Label dashSeparatedToLabel;
 
     @FXML
     private CheckBox enableCamelCaseReplacementCheckBox;
@@ -77,18 +78,18 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
 
         fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
-        camelCaseFromTextField.textProperty().bindBidirectional(viewModel.camelCaseFromProperty());
-        lowerCaseFromTextField.textProperty().bindBidirectional(viewModel.lowerCaseFromProperty());
-        upperCaseFromTextField.textProperty().bindBidirectional(viewModel.upperCaseFromProperty());
-        spaceSeparatedFromTextField.textProperty().bindBidirectional(viewModel.spaceSeparatedFromProperty());
-        dashSeparatedFromTextField.textProperty().bindBidirectional(viewModel.dashSeparatedFromProperty());
+        camelCaseFromLabel.textProperty().bindBidirectional(viewModel.camelCaseFromProperty());
+        lowerCaseFromLabel.textProperty().bindBidirectional(viewModel.lowerCaseFromProperty());
+        upperCaseFromLabel.textProperty().bindBidirectional(viewModel.upperCaseFromProperty());
+        spaceSeparatedFromLabel.textProperty().bindBidirectional(viewModel.spaceSeparatedFromProperty());
+        dashSeparatedFromLabel.textProperty().bindBidirectional(viewModel.dashSeparatedFromProperty());
 
         toTextField.textProperty().bindBidirectional(viewModel.toProperty());
-        camelCaseToTextField.textProperty().bindBidirectional(viewModel.camelCaseToProperty());
-        lowerCaseToTextField.textProperty().bindBidirectional(viewModel.lowerCaseToProperty());
-        upperCaseToTextField.textProperty().bindBidirectional(viewModel.upperCaseToProperty());
-        spaceSeparatedToTextField.textProperty().bindBidirectional(viewModel.spaceSeparatedToProperty());
-        dashSeparatedToTextField.textProperty().bindBidirectional(viewModel.dashSeparatedToProperty());
+        camelCaseToLabel.textProperty().bindBidirectional(viewModel.camelCaseToProperty());
+        lowerCaseToLabel.textProperty().bindBidirectional(viewModel.lowerCaseToProperty());
+        upperCaseToLabel.textProperty().bindBidirectional(viewModel.upperCaseToProperty());
+        spaceSeparatedToLabel.textProperty().bindBidirectional(viewModel.spaceSeparatedToProperty());
+        dashSeparatedToLabel.textProperty().bindBidirectional(viewModel.dashSeparatedToProperty());
 
         enableCamelCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableCamelCaseReplacementProperty());
         enableLowerCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableLowerCaseReplacementProperty());

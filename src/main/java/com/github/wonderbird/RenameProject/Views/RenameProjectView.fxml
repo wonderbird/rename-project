@@ -83,21 +83,21 @@
                                 <CheckBox id="enableUpperCaseReplacementCheckBox" fx:id="enableUpperCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="2" />
                                 <CheckBox id="enableSpaceSeparatedReplacementCheckBox" fx:id="enableSpaceSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="3" />
                                 <CheckBox id="enableDashSeparatedReplacementCheckBox" fx:id="enableDashSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="4" />
-                                <TextField id="camelCaseFromTextField" fx:id="camelCaseFromTextField" disable="true"  promptText="CamelCase" GridPane.columnIndex="1" />
-                                <TextField id="lowerCaseFromTextField" fx:id="lowerCaseFromTextField" disable="true" promptText="lowercase" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <TextField id="upperCaseFromTextField" fx:id="upperCaseFromTextField" disable="true" promptText="UPPERCASE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <TextField id="spaceSeparatedFromTextField" fx:id="spaceSeparatedFromTextField" disable="true" promptText="Space Separated" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <TextField id="dashSeparatedFromTextField" fx:id="dashSeparatedFromTextField" disable="true" promptText="dash-separated" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                                <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                                <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                                <Label disable="true" text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                                <TextField id="camelCaseToTextField" fx:id="camelCaseToTextField" disable="true" promptText="CamelCase" GridPane.columnIndex="3" />
-                                <TextField id="lowerCaseToTextField" fx:id="lowerCaseToTextField" disable="true" promptText="lowercase" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                <TextField id="upperCaseToTextField" fx:id="upperCaseToTextField" disable="true" promptText="UPPERCASE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                <TextField id="spaceSeparatedToTextField" fx:id="spaceSeparatedToTextField" disable="true" promptText="Space Separated" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                <TextField id="dashSeparatedToTextField" fx:id="dashSeparatedToTextField" disable="true" promptText="dash-separated" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                <Label id="camelCaseFromLabel" fx:id="camelCaseFromLabel" text="CamelCase" GridPane.columnIndex="1" />
+                                <Label id="lowerCaseFromLabel" fx:id="lowerCaseFromLabel" text="lowercase" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label id="upperCaseFromLabel" fx:id="upperCaseFromLabel" text="UPPERCASE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label id="spaceSeparatedFromLabel" fx:id="spaceSeparatedFromLabel" text="Space Separated" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label id="dashSeparatedFromLabel" fx:id="dashSeparatedFromLabel" text="Dash-Separated" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                <Label id="camelCaseToLabel" fx:id="camelCaseToLabel" text="CamleCase" GridPane.columnIndex="3" />
+                                <Label id="lowerCaseToLabel" fx:id="lowerCaseToLabel" text="lowercase" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                <Label id="upperCaseToLabel" fx:id="upperCaseToLabel" text="UPPERCASE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                <Label id="spaceSeparatedToLabel" fx:id="spaceSeparatedToLabel" text="Space Separated" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                <Label id="dashSeparatedToLabel" fx:id="dashSeparatedToLabel" text="Dash-Separated" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                             </children>
                             <padding>
                                 <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
