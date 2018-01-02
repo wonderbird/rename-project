@@ -104,7 +104,7 @@ public class RenameProjectViewModel implements ViewModel {
         StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
-        List<String> words = Arrays.asList(value.split("[\\ -]"));
+        List<String> words = Arrays.asList(value.split("[ -]"));
         List<String> capitalizedWords = words.stream().filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.toList());
         String camelCaseValue = StringUtils.join(capitalizedWords, "");
 
@@ -183,8 +183,7 @@ public class RenameProjectViewModel implements ViewModel {
 
     private void emitConfigurationForRenamingProject() {
         Configuration config = Configuration.getConfiguration();
-        config.setFrom(getTo());
-        config.setTo(getTo());
+        config.addFromToPair(getFrom(), getTo());
         config.setStartDir(getStartDir());
 
         notificationCenter.publish(Notification.RENAME.toString());
@@ -222,7 +221,7 @@ public class RenameProjectViewModel implements ViewModel {
         return camelCaseFrom.get();
     }
 
-    public void setCamelCaseFrom(String aValue) {
+    private void setCamelCaseFrom(String aValue) {
         camelCaseFrom.set(aValue);
     }
 
@@ -294,7 +293,7 @@ public class RenameProjectViewModel implements ViewModel {
         return camelCaseTo.get();
     }
 
-    public void setCamelCaseTo(String aValue) {
+    private void setCamelCaseTo(String aValue) {
         camelCaseTo.set(aValue);
     }
 

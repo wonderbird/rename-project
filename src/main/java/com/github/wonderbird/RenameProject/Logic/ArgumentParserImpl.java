@@ -39,8 +39,9 @@ public class ArgumentParserImpl implements ArgumentParser {
             CommandLine cmd = parser.parse(options, aArgs);
 
             Configuration config = Configuration.getConfiguration();
-            config.setFrom(cmd.getOptionValue("from"));
-            config.setTo(cmd.getOptionValue("to"));
+            String fromValue = cmd.getOptionValue("from");
+            String toValue = cmd.getOptionValue("to");
+            config.addFromToPair(fromValue, toValue);
 
             String startDir = cmd.getOptionValue("dir");
             if (startDir == null) {

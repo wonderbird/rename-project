@@ -1,14 +1,18 @@
 package com.github.wonderbird.RenameProject.Models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Configuration {
     private static Configuration instance;
-    private String from;
-    private String to;
+
+    private List<RenameFromToPair> fromToPairs = new ArrayList<>();
 
     /**
      * Size of a block read at once from files (in bytes).
      */
     private int readBufferSize;
+
     private String startDir;
 
     protected Configuration() {
@@ -22,8 +26,13 @@ public class Configuration {
         return instance;
     }
 
-    public String getFrom() {
-        return from;
+    public void addFromToPair(String aFrom, String aTo) {
+        RenameFromToPair pair = new RenameFromToPair(aFrom, aTo);
+        fromToPairs.add(pair);
+    }
+
+    public List<RenameFromToPair> getFromToPairs() {
+        return fromToPairs;
     }
 
     public int getReadBufferSize() {
@@ -34,16 +43,9 @@ public class Configuration {
         return startDir;
     }
 
-    public String getTo() {
-        return to;
-    }
-
     public void reset() {
         readBufferSize = 1024 * 1024;
-    }
-
-    public void setFrom(final String aFromPattern) {
-        from = aFromPattern;
+        fromToPairs = new ArrayList<>();
     }
 
     public void setReadBufferSize(int readBufferSize) {
@@ -54,7 +56,4 @@ public class Configuration {
         startDir = aStartDir;
     }
 
-    public void setTo(String to) {
-        this.to = to;
-    }
 }

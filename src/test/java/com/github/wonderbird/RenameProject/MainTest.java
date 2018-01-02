@@ -22,10 +22,10 @@ public class MainTest {
 
     private UiManager uiManager;
 
-    private final String exceptionMessage = "Exception thrown by unit test";
+    private final String exceptionMessage = "Exception thrown by unit test, expected to show up on console during test";
 
     @Before
-    public void before() throws WrongUsageException {
+    public void before() {
         final String fromPattern = "Main";
         final String toArgument = "Main";
         args = new String[]{"--from", fromPattern, "--to", toArgument};

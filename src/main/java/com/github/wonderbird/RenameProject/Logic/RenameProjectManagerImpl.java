@@ -6,6 +6,7 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileS
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import com.github.wonderbird.RenameProject.Models.Configuration;
+import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,21 +25,23 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     private Logger logger = LoggerFactory.getLogger(RenameProjectManagerImpl.class);
 
     public void renameProject() throws IOException {
-        logger.info("Renaming from '{}' to '{}' ...", config.getFrom(), config.getTo());
+        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
 
-        renameFilesAndDirectories();
+        logger.info("Renaming from '{}' to '{}' ...", fromToPair.getFrom(), fromToPair.getTo());
 
-        replaceFileContents();
+        renameFilesAndDirectories(fromToPair);
+
+        replaceFileContents(fromToPair);
     }
 
-    private void renameFilesAndDirectories() throws IOException {
-        String from = config.getFrom();
+    private void renameFilesAndDirectories(RenameFromToPair aFromToPair) throws IOException {
+        String from = aFromToPair.getFrom();
         String filePattern = "*" + from + "*";
         List<Path> affectedPaths = fileNamePatternFinder.find(config.getStartDir(), filePattern);
 
         for (Path sourcePath : affectedPaths) {
             String sourcePathString = sourcePath.toString();
-            String targetPathString = replaceLast(from, sourcePathString);
+            String targetPathString = replaceLast(sourcePathString, aFromToPair);
             Path targetPath = Paths.get(targetPathString);
 
             logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
@@ -47,26 +50,27 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
         }
     }
 
-    private String replaceLast(String aFrom, String aSourcePathString) {
+    private String replaceLast(String aSourcePathString, RenameFromToPair aFromToPair) {
         String targetPathString = aSourcePathString;
 
-        int startOfReplacement = aSourcePathString.lastIndexOf(aFrom);
+        String from = aFromToPair.getFrom();
+        int startOfReplacement = aSourcePathString.lastIndexOf(from);
         if (startOfReplacement >= 0) {
             targetPathString = aSourcePathString.substring(0, startOfReplacement);
-            targetPathString += config.getTo();
-            targetPathString += aSourcePathString.substring(startOfReplacement + aFrom.length());
+            targetPathString += aFromToPair.getTo();
+            targetPathString += aSourcePathString.substring(startOfReplacement + from.length());
         }
 
         return targetPathString;
     }
 
-    private void replaceFileContents() throws IOException {
-        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), config.getFrom());
+    private void replaceFileContents(RenameFromToPair aFromToPair) throws IOException {
+        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom());
 
         for (Path path : affectedPaths) {
             logger.info("Replace contents: {}", path.toString());
 
-            fileSystemMethods.replaceInFile(path, config.getFrom(), config.getTo());
+            fileSystemMethods.replaceInFile(path, aFromToPair.getFrom(), aFromToPair.getTo());
         }
     }
 

@@ -3,6 +3,7 @@ package com.github.wonderbird.RenameProject.Logic;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import com.github.wonderbird.RenameProject.Models.Configuration;
+import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -36,14 +37,14 @@ public class RenameProjectManagerImplTest {
     private RenameProjectManagerImpl renameProjectManager;
 
     @Before
-    public void before() throws WrongUsageException {
+    public void before() {
         final String fromPattern = "Main";
         final String toArgument = "Renamed";
         final String startDir = ".";
 
         config = Configuration.getConfiguration();
-        config.setFrom(fromPattern);
-        config.setTo(toArgument);
+        config.reset();
+        config.addFromToPair(fromPattern, toArgument);
         config.setStartDir(startDir);
 
         renameProjectManager = new RenameProjectManagerImpl();
@@ -65,14 +66,16 @@ public class RenameProjectManagerImplTest {
     public void renameProject_ConfigurationGiven_SearchesForFilenamesMatchingFrom() throws IOException {
         renameProjectManager.renameProject();
 
-        verify(fileNamePatternFinder).find(".", "*" + config.getFrom() + "*");
+        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        verify(fileNamePatternFinder).find(".", "*" + fromToPair.getFrom() + "*");
     }
 
     @Test
     public void renameProject_ConfigurationGiven_SearchesForFilesContainingFrom() throws IOException {
         renameProjectManager.renameProject();
 
-        verify(fileContentFinder).find(".", config.getFrom());
+        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        verify(fileContentFinder).find(".", fromToPair.getFrom());
     }
 
     @Test
@@ -81,7 +84,8 @@ public class RenameProjectManagerImplTest {
 
         renameProjectManager.renameProject();
 
-        verify(fileNamePatternFinder).find(config.getStartDir(), "*" + config.getFrom() + "*");
+        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        verify(fileNamePatternFinder).find(config.getStartDir(), "*" + fromToPair.getFrom() + "*");
     }
 
     @Test(expected = IOException.class)
@@ -95,9 +99,8 @@ public class RenameProjectManagerImplTest {
 
     @Test
     public void renameProject_FileNamePatternFinderReturnsFiles_RenamesEachFileToToPattern() throws IOException {
-        config.setFrom("RenameProject");
-        config.setTo("Renamed");
-
+        config.reset();
+        config.addFromToPair("RenameProject", "Renamed");
 
         fileNamePatternFinder = mock(FilePathFinder.class);
         List<Path> fromPaths = Arrays.asList(
@@ -137,8 +140,9 @@ public class RenameProjectManagerImplTest {
 
         renameProjectManager.renameProject();
 
+        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
         for (Path affectedFile : affectedFiles) {
-            verify(fileSystemMethods).replaceInFile(affectedFile, config.getFrom(), config.getTo());
+            verify(fileSystemMethods).replaceInFile(affectedFile, fromToPair.getFrom(), fromToPair.getTo());
         }
         verify(fileSystemMethods, times(2)).replaceInFile(any(), any(), any());
     }

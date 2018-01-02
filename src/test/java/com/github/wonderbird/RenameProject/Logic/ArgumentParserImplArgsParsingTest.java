@@ -1,17 +1,17 @@
 package com.github.wonderbird.RenameProject.Logic;
 
-import com.github.wonderbird.RenameProject.Logic.ArgumentParser;
-import com.github.wonderbird.RenameProject.Logic.ArgumentParserImpl;
-import com.github.wonderbird.RenameProject.Logic.WrongUsageException;
 import com.github.wonderbird.RenameProject.Models.Configuration;
+import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ArgumentParserImplArgsParsingTest {
@@ -41,14 +41,22 @@ public class ArgumentParserImplArgsParsingTest {
     @Parameterized.Parameter(3)
     public String[] args;
 
+    @Before
+    public void before() {
+        Configuration.getConfiguration().reset();
+    }
+
     @Test
     public void parse_GivenArguments_SetsExpectedConfigProperties() throws WrongUsageException {
         ArgumentParser parser = new ArgumentParserImpl();
         parser.parse(args);
 
         Configuration config = Configuration.getConfiguration();
-        assertEquals(expectedFromPattern, config.getFrom());
-        assertEquals(expectedToArgument, config.getTo());
-        assertEquals(expectedStartDir, config.getStartDir());
+        List<RenameFromToPair> fromToPairs = config.getFromToPairs();
+        assertEquals("Invalid number of from/to pairs", 1, fromToPairs.size());
+        RenameFromToPair pair = fromToPairs.get(0);
+        assertEquals("Invalid from", expectedFromPattern, pair.getFrom());
+        assertEquals("Invalid to", expectedToArgument, pair.getTo());
+        assertEquals("Invalid start directory", expectedStartDir, config.getStartDir());
     }
 }
