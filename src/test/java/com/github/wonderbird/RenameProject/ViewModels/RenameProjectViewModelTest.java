@@ -1,136 +1,178 @@
 package com.github.wonderbird.RenameProject.ViewModels;
 
+import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.Models.Notification;
+import de.saxsys.mvvmfx.MvvmFX;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class RenameProjectViewModelTest
-{
-   @Test
-   public void browseCommand__ShouldEmitBrowseStartDirNotification()
-   {
-      final String expectedStartDir = "expectedStartDir";
+public class RenameProjectViewModelTest {
+    @Before
+    public void before() {
+        Configuration.getConfiguration().reset();
+    }
 
-      final AtomicBoolean browseStartDirNotificationFired = new AtomicBoolean(false);
-      final AtomicReference<String> startDir = new AtomicReference<>("");
+    @Test
+    public void browseCommand__EmitsBrowseStartDirNotification() {
+        final String expectedStartDir = "expectedStartDir";
 
-      final RenameProjectViewModel viewModel = new RenameProjectViewModel();
-      viewModel.setStartDir(expectedStartDir);
+        final AtomicBoolean browseStartDirNotificationFired = new AtomicBoolean(false);
+        final AtomicReference<String> startDir = new AtomicReference<>("");
 
-      viewModel.subscribe(Notification.BROWSESTARTDIR.toString(), (key, payload) -> {
-         assertEquals("Too many parameters for BROWSESTARTDIR notification", 1, payload.length);
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        viewModel.setStartDir(expectedStartDir);
 
-         browseStartDirNotificationFired.set(true);
-         startDir.set((String)payload[0]);
-      });
+        viewModel.subscribe(Notification.BROWSESTARTDIR.toString(), (key, payload) -> {
+            assertEquals("Too many parameters for BROWSESTARTDIR notification", 1, payload.length);
 
-      viewModel.getBrowseCommand().execute();
+            browseStartDirNotificationFired.set(true);
+            startDir.set((String) payload[0]);
+        });
 
-      assertTrue("BROWSESTARTDIR notification should be emitted", browseStartDirNotificationFired.get());
-      assertEquals("Start directory has not been passed to BROWSESTARTDIR notification", expectedStartDir, startDir.get());
-   }
+        viewModel.getBrowseCommand().execute();
 
-   @Test
-   public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesLowerCaseFrom() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertTrue("BROWSESTARTDIR notification should be emitted", browseStartDirNotificationFired.get());
+        assertEquals("Start directory has not been passed to BROWSESTARTDIR notification", expectedStartDir, startDir.get());
+    }
 
-      viewModel.setFrom("CamelCaseTestPattern");
+    @Test
+    public void renameCommand_NoCheckBoxTicked_EmitsConfigurationWithOneFromToPair() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("lowerCaseFrom should be updated correctly", "camelcasetestpattern", viewModel.getLowerCaseFrom());
-   }
+        final AtomicBoolean renameNotificationFired = new AtomicBoolean(false);
+        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> {
+            renameNotificationFired.set(true);
+        });
 
-   @Test
-   public void setTo_NewToIsCamelCaseTestPattern_UpdatesLowerCaseTo() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        viewModel.getRenameCommand().execute();
 
-      viewModel.setTo("CamelCaseTestPattern");
+        assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
+        assertEquals("Invalid number of from/to pairs in emitted configuration", 1, Configuration.getConfiguration().getFromToPairs().size());
+    }
 
-      assertEquals("lowerCaseTo should be updated correctly", "camelcasetestpattern", viewModel.getLowerCaseTo());
-   }
+    @Test
+    public void renameCommand_SomeCheckBoxesTicked_EmitsConfigurationWithCorrectFromToPairs() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-   @Test
-   public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesUpperCaseFrom() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        viewModel.setFrom("UnitTestFrom");
+        viewModel.setEnableLowerCaseReplacement(true);
+        viewModel.setEnableSpaceSeparatedReplacement(true);
 
-      viewModel.setFrom("CamelCaseTestPattern");
+        final AtomicBoolean renameNotificationFired = new AtomicBoolean(false);
+        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> {
+            renameNotificationFired.set(true);
+        });
 
-      assertEquals("upperCaseFrom should be updated correctly", "CAMELCASETESTPATTERN", viewModel.getUpperCaseFrom());
-   }
+        viewModel.getRenameCommand().execute();
 
-   @Test
-   public void setTo_NewToIsCamelCaseTestPattern_UpdatesUpperCaseTo() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
+        assertEquals("Invalid number of from/to pairs in emitted configuration", 1, Configuration.getConfiguration().getFromToPairs().size());
+    }
 
-      viewModel.setTo("CamelCaseTestPattern");
+    @Test
+    public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesLowerCaseFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("upperCaseTo should be updated correctly", "CAMELCASETESTPATTERN", viewModel.getUpperCaseTo());
-   }
+        viewModel.setFrom("CamelCaseTestPattern");
 
-   @Test
-   public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesSpaceSeparatedFrom() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("lowerCaseFrom should be updated correctly", "camelcasetestpattern", viewModel.getLowerCaseFrom());
+    }
 
-      viewModel.setFrom("CamelCaseTestPatternExAm");
+    @Test
+    public void setTo_NewToIsCamelCaseTestPattern_UpdatesLowerCaseTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("spaceSeparatedFrom should be updated correctly", "Camel Case Test Pattern Ex Am", viewModel.getSpaceSeparatedFrom());
-   }
+        viewModel.setTo("CamelCaseTestPattern");
 
-   @Test
-   public void setTo_NewToIsCamelCaseTestPattern_UpdatesSpaceSeparatedTo() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("lowerCaseTo should be updated correctly", "camelcasetestpattern", viewModel.getLowerCaseTo());
+    }
 
-      viewModel.setTo("CamelCaseTestPatternExAm");
+    @Test
+    public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesUpperCaseFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("spaceSeparatedTo should be updated correctly", "Camel Case Test Pattern Ex Am", viewModel.getSpaceSeparatedTo());
-   }
+        viewModel.setFrom("CamelCaseTestPattern");
 
-   @Test
-   public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesDashSeparatedFrom() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("upperCaseFrom should be updated correctly", "CAMELCASETESTPATTERN", viewModel.getUpperCaseFrom());
+    }
 
-      viewModel.setFrom("CamelCaseTestPatternExAm");
+    @Test
+    public void setTo_NewToIsCamelCaseTestPattern_UpdatesUpperCaseTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("dashSeparatedFrom should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedFrom());
-   }
+        viewModel.setTo("CamelCaseTestPattern");
 
-   @Test
-   public void setTo_NewToIsCamelCaseTestPattern_UpdatesDashSeparatedTo() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("upperCaseTo should be updated correctly", "CAMELCASETESTPATTERN", viewModel.getUpperCaseTo());
+    }
 
-      viewModel.setTo("CamelCaseTestPatternExAm");
+    @Test
+    public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesSpaceSeparatedFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("dashSeparatedTo should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedTo());
-   }
+        viewModel.setFrom("CamelCaseTestPatternExAm");
 
-   @Test
-   public void setFrom_NewFromIsSpaceSeparatedTestPattern_UpdatesCamelCaseFrom() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("spaceSeparatedFrom should be updated correctly", "Camel Case Test Pattern Ex Am", viewModel.getSpaceSeparatedFrom());
+    }
 
-      viewModel.setFrom("Space Separated Test Pattern Ex Am");
+    @Test
+    public void setTo_NewToIsCamelCaseTestPattern_UpdatesSpaceSeparatedTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("camleCaseFrom should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
-   }
+        viewModel.setTo("CamelCaseTestPatternExAm");
 
-   @Test
-   public void setFrom_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesCamelCaseFrom() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("spaceSeparatedTo should be updated correctly", "Camel Case Test Pattern Ex Am", viewModel.getSpaceSeparatedTo());
+    }
 
-      viewModel.setFrom("Space Separated test-pattern Ex--Am");
+    @Test
+    public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesDashSeparatedFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("camleCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
-   }
+        viewModel.setFrom("CamelCaseTestPatternExAm");
 
-   @Test
-   public void setTo_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesCamelCaseTo() {
-      RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        assertEquals("dashSeparatedFrom should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedFrom());
+    }
 
-      viewModel.setTo("Space Separated test-pattern Ex--Am");
+    @Test
+    public void setTo_NewToIsCamelCaseTestPattern_UpdatesDashSeparatedTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-      assertEquals("camleCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseTo());
-   }
+        viewModel.setTo("CamelCaseTestPatternExAm");
+
+        assertEquals("dashSeparatedTo should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedTo());
+    }
+
+    @Test
+    public void setFrom_NewFromIsSpaceSeparatedTestPattern_UpdatesCamelCaseFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        viewModel.setFrom("Space Separated Test Pattern Ex Am");
+
+        assertEquals("camleCaseFrom should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
+    }
+
+    @Test
+    public void setFrom_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesCamelCaseFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        viewModel.setFrom("Space Separated test-pattern Ex--Am");
+
+        assertEquals("camleCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
+    }
+
+    @Test
+    public void setTo_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesCamelCaseTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        viewModel.setTo("Space Separated test-pattern Ex--Am");
+
+        assertEquals("camleCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseTo());
+    }
 }

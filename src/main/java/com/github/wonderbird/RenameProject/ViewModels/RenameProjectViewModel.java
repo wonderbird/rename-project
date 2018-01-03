@@ -365,7 +365,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableLowerCaseReplacement.get();
     }
 
-    private void setEnableLowerCaseReplacement(boolean aValue) {
+    public void setEnableLowerCaseReplacement(boolean aValue) {
         enableLowerCaseReplacement.set(aValue);
     }
 
@@ -389,7 +389,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableSpaceSeparatedReplacement.get();
     }
 
-    private void setEnableSpaceSeparatedReplacement(boolean aValue) {
+    public void setEnableSpaceSeparatedReplacement(boolean aValue) {
         enableSpaceSeparatedReplacement.set(aValue);
     }
 
