@@ -63,13 +63,18 @@ public class RenameProjectManagerImplTest {
     }
 
     @Test
-    public void renameProject_ConfigurationGiven_SearchesForFilenamesMatchingFrom() throws IOException {
+    public void renameProject_MultipleFromToPairsConfigured_SearchesForAllFilenamesMatchingFrom() throws IOException {
+        config.reset();
+        config.addFromToPair("From1", "To1");
+        config.addFromToPair("From2", "To2");
+        config.addFromToPair("From3", "To3");
+
         renameProjectManager.renameProject();
 
-        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
-        verify(fileNamePatternFinder).find(".", "*" + fromToPair.getFrom() + "*");
+        for (RenameFromToPair pair : config.getFromToPairs()) {
+            verify(fileNamePatternFinder).find(config.getStartDir(), "*" + pair.getFrom() + "*");
+        }
     }
-
     @Test
     public void renameProject_ConfigurationGiven_SearchesForFilesContainingFrom() throws IOException {
         renameProjectManager.renameProject();

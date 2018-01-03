@@ -25,13 +25,13 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     private Logger logger = LoggerFactory.getLogger(RenameProjectManagerImpl.class);
 
     public void renameProject() throws IOException {
-        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        for (RenameFromToPair fromToPair : config.getFromToPairs()) {
+            logger.info("Renaming from '{}' to '{}' ...", fromToPair.getFrom(), fromToPair.getTo());
 
-        logger.info("Renaming from '{}' to '{}' ...", fromToPair.getFrom(), fromToPair.getTo());
+            renameFilesAndDirectories(fromToPair);
 
-        renameFilesAndDirectories(fromToPair);
-
-        replaceFileContents(fromToPair);
+            replaceFileContents(fromToPair);
+        }
     }
 
     private void renameFilesAndDirectories(RenameFromToPair aFromToPair) throws IOException {
