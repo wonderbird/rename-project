@@ -2,7 +2,6 @@ package com.github.wonderbird.RenameProject.ViewModels;
 
 import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.Models.Notification;
-import com.sun.deploy.util.StringUtils;
 import de.saxsys.mvvmfx.MvvmFX;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
@@ -14,6 +13,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class RenameProjectViewModel implements ViewModel {
