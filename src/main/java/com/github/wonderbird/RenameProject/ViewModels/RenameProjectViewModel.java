@@ -183,8 +183,25 @@ public class RenameProjectViewModel implements ViewModel {
 
     private void emitConfigurationForRenamingProject() {
         Configuration config = Configuration.getConfiguration();
-        config.addFromToPair(getFrom(), getTo());
         config.setStartDir(getStartDir());
+
+        config.addFromToPair(getFrom(), getTo());
+
+        if (getEnableCamelCaseReplacement()) {
+            config.addFromToPair(getCamelCaseFrom(), getCamelCaseTo());
+        }
+        if (getEnableLowerCaseReplacement()) {
+            config.addFromToPair(getLowerCaseFrom(), getLowerCaseTo());
+        }
+        if (getEnableUpperCaseReplacement()) {
+            config.addFromToPair(getUpperCaseFrom(), getUpperCaseTo());
+        }
+        if (getEnableDashSeparatedReplacement()) {
+            config.addFromToPair(getDashSeparatedFrom(), getDashSeparatedTo());
+        }
+        if (getEnableSpaceSeparatedReplacement()) {
+            config.addFromToPair(getSpaceSeparatedFrom(), getSpaceSeparatedTo());
+        }
 
         notificationCenter.publish(Notification.RENAME.toString());
     }
@@ -353,7 +370,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableCamelCaseReplacement.get();
     }
 
-    private void setEnableCamelCaseReplacement(boolean aValue) {
+    void setEnableCamelCaseReplacement(boolean aValue) {
         enableCamelCaseReplacement.set(aValue);
     }
 
@@ -377,7 +394,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableUpperCaseReplacement.get();
     }
 
-    private void setEnableUpperCaseReplacement(boolean aValue) {
+    void setEnableUpperCaseReplacement(boolean aValue) {
         enableUpperCaseReplacement.set(aValue);
     }
 
@@ -401,7 +418,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableDashSeparatedReplacement.get();
     }
 
-    private void setEnableDashSeparatedReplacement(boolean aValue) {
+    void setEnableDashSeparatedReplacement(boolean aValue) {
         enableDashSeparatedReplacement.set(aValue);
     }
 

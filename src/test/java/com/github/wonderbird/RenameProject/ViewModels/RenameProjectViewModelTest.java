@@ -2,17 +2,18 @@ package com.github.wonderbird.RenameProject.ViewModels;
 
 import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.Models.Notification;
+import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
 import de.saxsys.mvvmfx.MvvmFX;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class RenameProjectViewModelTest {
     @Before
@@ -47,10 +48,14 @@ public class RenameProjectViewModelTest {
     public void renameCommand_NoCheckBoxTicked_EmitsConfigurationWithOneFromToPair() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
+        viewModel.setEnableCamelCaseReplacement(false);
+        viewModel.setEnableLowerCaseReplacement(false);
+        viewModel.setEnableUpperCaseReplacement(false);
+        viewModel.setEnableSpaceSeparatedReplacement(false);
+        viewModel.setEnableDashSeparatedReplacement(false);
+
         final AtomicBoolean renameNotificationFired = new AtomicBoolean(false);
-        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> {
-            renameNotificationFired.set(true);
-        });
+        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> renameNotificationFired.set(true));
 
         viewModel.getRenameCommand().execute();
 
@@ -59,22 +64,30 @@ public class RenameProjectViewModelTest {
     }
 
     @Test
-    public void renameCommand_SomeCheckBoxesTicked_EmitsConfigurationWithCorrectFromToPairs() {
+    public void renameCommand_AllCheckBoxesTicked_EmitsConfigurationWithCorrectFromToPairs() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("UnitTestFrom");
+        viewModel.setEnableCamelCaseReplacement(true);
         viewModel.setEnableLowerCaseReplacement(true);
+        viewModel.setEnableUpperCaseReplacement(true);
         viewModel.setEnableSpaceSeparatedReplacement(true);
+        viewModel.setEnableDashSeparatedReplacement(true);
 
         final AtomicBoolean renameNotificationFired = new AtomicBoolean(false);
-        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> {
-            renameNotificationFired.set(true);
-        });
+        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> renameNotificationFired.set(true));
 
         viewModel.getRenameCommand().execute();
 
+        List<RenameFromToPair> fromToPairs = Configuration.getConfiguration().getFromToPairs();
         assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
-        assertEquals("Invalid number of from/to pairs in emitted configuration", 1, Configuration.getConfiguration().getFromToPairs().size());
+        assertEquals("Invalid number of from/to pairs in emitted configuration", 6, fromToPairs.size());
+        for (RenameFromToPair pair : fromToPairs) {
+            assertNotNull("'from' value is null in emitted configuration", pair.getFrom());
+            assertFalse("'from' value is empty in emitted configuration", pair.getFrom().isEmpty());
+            assertNotNull("'to' value is null in emitted configuration", pair.getTo());
+            assertFalse("'to' value is empty in emitted configuration", pair.getTo().isEmpty());
+        }
     }
 
     @Test
