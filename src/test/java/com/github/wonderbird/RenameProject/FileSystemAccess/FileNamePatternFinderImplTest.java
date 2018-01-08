@@ -39,14 +39,15 @@ public class FileNamePatternFinderImplTest {
     @Test
     public void find_PatternMatchesThreeDirectoriesInCurrentDir_ReturnsMatchedDirectories() throws IOException {
         FilePathFinder finder = new FileNamePatternFinderImpl();
-        final String pattern = "java";
+        final String pattern = "ViewModels";
 
         final List<Path> paths = finder.find(".", pattern);
 
         List<Path> expectedPaths = Arrays.asList(
-                Paths.get("src", "main", pattern).toAbsolutePath(),
-                Paths.get("src", "test", pattern).toAbsolutePath(),
-                Paths.get("target", "rename-project-1.0-SNAPSHOT", "RenameProject.app", "Contents", "PlugIns", "JRE", "Contents", "Home", "jre", "bin", "java").toAbsolutePath());
+            Paths.get( "target", "test-classes", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath(),
+            Paths.get( "target", "classes", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath(),
+            Paths.get( "src", "test", "java", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath(),
+            Paths.get( "src", "main", "java", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath());
 
         for (Path expected : expectedPaths) {
             assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.stream().anyMatch(actual -> actual.compareTo(expected) == 0));
