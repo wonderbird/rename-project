@@ -111,6 +111,8 @@
                     <mainClass>com.github.wonderbird.RenameProject.Main</mainClass>
                     <jrePath>/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk</jrePath>
                     <generateDiskImageFile>true</generateDiskImageFile>
+                    <includeApplicationsSymlink>true</includeApplicationsSymlink>
+                    <iconFile>src/main/resources/application.icns</iconFile>
                 </configuration>
                 <executions>
                     <execution>

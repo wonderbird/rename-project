@@ -133,6 +133,22 @@ public class RenameProjectManagerImplTest {
     }
 
     @Test
+    public void renameProject_FileNamePatternFinderReturnsFileWithTwoFromPatternInstances_ReplacesAllFromPatternsWithToPattern() throws IOException {
+        config.reset();
+        config.addFromToPair("RenameProject", "Renamed");
+
+        fileNamePatternFinder = mock(FilePathFinder.class);
+        Path fromPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManagerRenameProject.java");
+        when(fileNamePatternFinder.find(eq("."), any())).thenReturn(Arrays.asList(fromPath));
+        renameProjectManager.setFileNamePatternFinder(fileNamePatternFinder);
+
+        renameProjectManager.renameProject();
+
+        Path toPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenamedManagerRenamed.java");
+        verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
+    }
+
+    @Test
     public void renameProject_FileContentFinderReturnsFiles_ReplacesFromByToInEachFile() throws IOException {
         fileContentFinder = mock(FilePathFinder.class);
         List<Path> affectedFiles = Arrays.asList(

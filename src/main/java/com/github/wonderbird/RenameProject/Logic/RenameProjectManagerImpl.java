@@ -41,7 +41,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
 
         for (Path sourcePath : affectedPaths) {
             String sourcePathString = sourcePath.toString();
-            String targetPathString = replaceLast(sourcePathString, aFromToPair);
+            String targetPathString = replaceLastPathSibling(sourcePath, sourcePathString, aFromToPair);
             Path targetPath = Paths.get(targetPathString);
 
             logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
@@ -50,18 +50,12 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
         }
     }
 
-    private String replaceLast(String aSourcePathString, RenameFromToPair aFromToPair) {
-        String targetPathString = aSourcePathString;
+    private String replaceLastPathSibling(Path aSourcePath, String aSourcePathString, RenameFromToPair aFromToPair) {
+        String lastSibling = aSourcePath.getFileName().toString();
+        String lastSiblingWithReplacement = lastSibling.replaceAll(aFromToPair.getFrom(), aFromToPair.getTo());
+        Path result = aSourcePath.getParent().resolve(lastSiblingWithReplacement);
 
-        String from = aFromToPair.getFrom();
-        int startOfReplacement = aSourcePathString.lastIndexOf(from);
-        if (startOfReplacement >= 0) {
-            targetPathString = aSourcePathString.substring(0, startOfReplacement);
-            targetPathString += aFromToPair.getTo();
-            targetPathString += aSourcePathString.substring(startOfReplacement + from.length());
-        }
-
-        return targetPathString;
+        return result.toString();
     }
 
     private void replaceFileContents(RenameFromToPair aFromToPair) throws IOException {

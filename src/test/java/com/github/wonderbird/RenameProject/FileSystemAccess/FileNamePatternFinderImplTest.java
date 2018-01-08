@@ -37,7 +37,7 @@ public class FileNamePatternFinderImplTest {
     }
 
     @Test
-    public void find_PatternMatchesTwoDirectoriesInCurrentDir_ReturnsMatchedDirectories() throws IOException {
+    public void find_PatternMatchesThreeDirectoriesInCurrentDir_ReturnsMatchedDirectories() throws IOException {
         FilePathFinder finder = new FileNamePatternFinderImpl();
         final String pattern = "java";
 
@@ -45,12 +45,13 @@ public class FileNamePatternFinderImplTest {
 
         List<Path> expectedPaths = Arrays.asList(
                 Paths.get("src", "main", pattern).toAbsolutePath(),
-                Paths.get("src", "test", pattern).toAbsolutePath());
+                Paths.get("src", "test", pattern).toAbsolutePath(),
+                Paths.get("target", "rename-project-1.0-SNAPSHOT", "RenameProject.app", "Contents", "PlugIns", "JRE", "Contents", "Home", "jre", "bin", "java").toAbsolutePath());
 
         for (Path expected : expectedPaths) {
             assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.stream().anyMatch(actual -> actual.compareTo(expected) == 0));
         }
-        assertEquals("Too many entries returned", 2, paths.size());
+        assertEquals("Too many entries returned", expectedPaths.size(), paths.size());
     }
 
     @Test
