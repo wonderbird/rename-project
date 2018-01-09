@@ -40,8 +40,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
         List<Path> affectedPaths = fileNamePatternFinder.find(config.getStartDir(), filePattern);
 
         for (Path sourcePath : affectedPaths) {
-            String sourcePathString = sourcePath.toString();
-            String targetPathString = replaceLastPathSibling(sourcePath, sourcePathString, aFromToPair);
+            String targetPathString = replaceLastPathSibling(sourcePath, aFromToPair);
             Path targetPath = Paths.get(targetPathString);
 
             logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
@@ -50,7 +49,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
         }
     }
 
-    private String replaceLastPathSibling(Path aSourcePath, String aSourcePathString, RenameFromToPair aFromToPair) {
+    private String replaceLastPathSibling(Path aSourcePath, RenameFromToPair aFromToPair) {
         String lastSibling = aSourcePath.getFileName().toString();
         String lastSiblingWithReplacement = lastSibling.replaceAll(aFromToPair.getFrom(), aFromToPair.getTo());
         Path result = aSourcePath.getParent().resolve(lastSiblingWithReplacement);
