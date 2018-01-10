@@ -1,5 +1,6 @@
 package com.github.wonderbird.RenameProject.Logic;
 
+import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileNamePatternFinderImpl;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import com.github.wonderbird.RenameProject.Models.Configuration;
@@ -146,6 +147,31 @@ public class RenameProjectManagerImplTest {
 
         Path toPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenamedManagerRenamed.java");
         verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
+    }
+
+    /**
+     * Bug-fix: renameProject applies the first from/to pair multiple times.
+     *
+     * If several from/to pairs are configured, then renameProject applies the FileSystemMethods.move operation
+     * for the results of the first from/to pattern for each configured pair.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
+    @Test
+    public void renameProject_TwoDifferentFromPatternsConfigured_RenamesFirstAndSecondFromPattern() throws IOException {
+        config.reset();
+        config.addFromToPair("RenameProjectManagerImplTest", "RenameProjectManagerImplTest");
+        config.addFromToPair("ArgumentParserImplArgsParsingTest", "ArgumentParserImplArgsParsingTest");
+
+        renameProjectManager.setFileNamePatternFinder(new FileNamePatternFinderImpl());
+        renameProjectManager.renameProject();
+
+        Path expectedFromPath = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManagerImplTest.java").toAbsolutePath();
+        verify(fileSystemMethods, atLeastOnce()).move(expectedFromPath, expectedFromPath, REPLACE_EXISTING);
+
+        // Check bug-fix
+        expectedFromPath = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "ArgumentParserImplArgsParsingTest.java").toAbsolutePath();
+        verify(fileSystemMethods, atLeastOnce()).move(expectedFromPath, expectedFromPath, REPLACE_EXISTING);
     }
 
     @Test

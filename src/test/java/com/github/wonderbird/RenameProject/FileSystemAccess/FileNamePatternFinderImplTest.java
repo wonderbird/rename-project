@@ -100,4 +100,9 @@ public class FileNamePatternFinderImplTest {
 
         assertTrue("Sequence of find results is wrong: Deeper paths must be first", fileIndex < directoryIndex);
     }
+
+    @Test
+    public void find_CalledTwiceWithDifferentPatterns_AppliesTheSecondPatternForTheSecondCall() {
+        assertTrue("Implement this test", false);
+    }
 }

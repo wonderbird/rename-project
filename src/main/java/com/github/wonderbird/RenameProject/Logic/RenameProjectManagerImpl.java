@@ -50,6 +50,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     }
 
     private String replaceLastPathSibling(Path aSourcePath, RenameFromToPair aFromToPair) {
+        // TODO: Strip the selected working directory from the path before replacing
         String lastSibling = aSourcePath.getFileName().toString();
         String lastSiblingWithReplacement = lastSibling.replaceAll(aFromToPair.getFrom(), aFromToPair.getTo());
         Path result = aSourcePath.getParent().resolve(lastSiblingWithReplacement);
