@@ -28,18 +28,23 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
         for (RenameFromToPair fromToPair : config.getFromToPairs()) {
             logger.info("Renaming from '{}' to '{}' ...", fromToPair.getFrom(), fromToPair.getTo());
 
-            renameFilesAndDirectories(fromToPair);
+            List<Path> affectedPaths = findPathsToRename(fromToPair);
+
+            renameFilesAndDirectories(affectedPaths, fromToPair);
 
             replaceFileContents(fromToPair);
         }
     }
 
-    private void renameFilesAndDirectories(RenameFromToPair aFromToPair) throws IOException {
+    private List<Path> findPathsToRename(RenameFromToPair aFromToPair) throws IOException {
         String from = aFromToPair.getFrom();
         String filePattern = "*" + from + "*";
-        List<Path> affectedPaths = fileNamePatternFinder.find(config.getStartDir(), filePattern);
+        return fileNamePatternFinder.find(config.getStartDir(), filePattern);
+    }
 
-        for (Path sourcePath : affectedPaths) {
+    private void renameFilesAndDirectories(List<Path> aAffectedPaths, RenameFromToPair aFromToPair) throws IOException {
+
+        for (Path sourcePath : aAffectedPaths) {
             String targetPathString = replaceLastPathSibling(sourcePath, aFromToPair);
             Path targetPath = Paths.get(targetPathString);
 

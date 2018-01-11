@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
@@ -172,6 +173,24 @@ public class RenameProjectManagerImplTest {
         // Check bug-fix
         expectedFromPath = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "ArgumentParserImplArgsParsingTest.java").toAbsolutePath();
         verify(fileSystemMethods, atLeastOnce()).move(expectedFromPath, expectedFromPath, REPLACE_EXISTING);
+    }
+
+    /**
+     * Bug-fix: If the start directory matches the from pattern, then the start dir is renamed.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
+    @Test
+    public void renameProject_StartDirMatchesFromPattern_DoesNotRenameStartDir() throws IOException {
+        config.reset();
+        config.setStartDir("src");
+        config.addFromToPair("src", "src-must-not-be-renamed");
+
+        renameProjectManager.setFileNamePatternFinder(new FileNamePatternFinderImpl());
+        renameProjectManager.renameProject();
+
+        // Check bug-fix
+        verify(fileSystemMethods, never()).move(Paths.get("src").toAbsolutePath(), Paths.get("src-must-not-be-renamed").toAbsolutePath(), REPLACE_EXISTING);
     }
 
     @Test

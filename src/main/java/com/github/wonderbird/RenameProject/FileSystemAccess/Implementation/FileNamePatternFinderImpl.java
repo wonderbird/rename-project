@@ -46,6 +46,7 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
         List<Path> result = visitor.getResult();
 
         sortDepthFirst(result);
+        removeStartDirFromPaths(result, aStartDirectory);
 
         return result;
     }
@@ -53,5 +54,10 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
     private void sortDepthFirst(List<Path> result) {
         Collections.sort(result);
         Collections.reverse(result);
+    }
+
+    private void removeStartDirFromPaths(List<Path> aPaths, String aStartDirectory) {
+        Path startDirPath = Paths.get(aStartDirectory).toAbsolutePath();
+        aPaths.remove(startDirPath);
     }
 }

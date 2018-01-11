@@ -120,4 +120,19 @@ public class FileNamePatternFinderImplTest {
         Path expectedPath = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileSystemAccess", "FileNamePatternFinderImplTest.java").toAbsolutePath();
         assertTrue("Expected path is not contained in find results", paths.contains(expectedPath));
     }
+
+    /**
+     * Bug-fix: Find must not return the start directory.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
+    @Test
+    public void find_PatternMatchesStartDir_RemovesStartDirFromResults() throws IOException {
+        FilePathFinder finder = new FileNamePatternFinderImpl();
+
+        List<Path> paths = finder.find("src", "src");
+
+        Path unwantedPath = Paths.get("src").toAbsolutePath();
+        assertFalse("Start directory should be removed from find results", paths.contains(unwantedPath));
+    }
 }
