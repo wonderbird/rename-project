@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -101,8 +102,22 @@ public class FileNamePatternFinderImplTest {
         assertTrue("Sequence of find results is wrong: Deeper paths must be first", fileIndex < directoryIndex);
     }
 
+    /**
+     * Bug-fix: If find is called twice, the pattern of the first call is also used in the second call.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
     @Test
-    public void find_CalledTwiceWithDifferentPatterns_AppliesTheSecondPatternForTheSecondCall() {
-        assertTrue("Implement this test", false);
+    public void find_CalledTwiceWithDifferentPatterns_AppliesTheSecondPatternForTheSecondCall() throws IOException {
+        FilePathFinder finder = new FileNamePatternFinderImpl();
+
+        finder.find(".", "*resources*");
+        final List<Path> paths = finder.find(".", "FileNamePatternFinderImplTest\\.java");
+
+        Path unwantedPath = Paths.get("src", "main", "resources").toAbsolutePath();
+        assertFalse("Unwanted path is contained in find results", paths.contains(unwantedPath));
+
+        Path expectedPath = Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "FileSystemAccess", "FileNamePatternFinderImplTest.java").toAbsolutePath();
+        assertTrue("Expected path is not contained in find results", paths.contains(expectedPath));
     }
 }

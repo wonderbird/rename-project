@@ -9,14 +9,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileNamePatternFinderImpl implements FilePathFinder {
-    private FilePathVisitorWithResult visitor;
+    private FilePathVisitorWithResult visitorMock;
 
     public FileNamePatternFinderImpl() {
         this(null);
     }
 
-    public FileNamePatternFinderImpl(FilePathVisitorWithResult aVisitor) {
-        visitor = aVisitor;
+    /**
+     * Constructor for unit tests allowing to set a visitor mock.
+     *
+     * @param aVisitorMock Mock for the FilePathVisitorWithResult used in the {@link #find(String, String)} method.
+     */
+    public FileNamePatternFinderImpl(FilePathVisitorWithResult aVisitorMock) {
+        visitorMock = aVisitorMock;
     }
 
     /**
@@ -29,8 +34,11 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
      */
     @Override
     public List<Path> find(String aStartDirectory, final String aPattern) throws IOException {
-        if (visitor == null) {
+        FilePathVisitorWithResult visitor;
+        if (visitorMock == null) {
             visitor = new FileNameMatchingVisitorImpl(aPattern);
+        } else {
+            visitor = visitorMock;
         }
 
         Files.walkFileTree(Paths.get(aStartDirectory), visitor);
