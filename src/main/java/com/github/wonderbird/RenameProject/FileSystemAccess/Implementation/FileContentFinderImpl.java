@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class FileContentFinderImpl implements FilePathFinder {
-    private FileContentMatchingVisitorImpl visitor;
 
     /**
      * Find all files containing the search string.
@@ -19,9 +18,7 @@ public class FileContentFinderImpl implements FilePathFinder {
      * @return List of all files beneath the current directory which contain searchString.
      */
     public List<Path> find(String aStartDirectory, String aPattern) throws IOException {
-        if (visitor == null) {
-            visitor = new FileContentMatchingVisitorImpl(aPattern);
-        }
+        FileContentMatchingVisitorImpl visitor = new FileContentMatchingVisitorImpl(aPattern);
 
         Files.walkFileTree(Paths.get(aStartDirectory), visitor);
 
