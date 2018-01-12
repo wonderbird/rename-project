@@ -30,6 +30,8 @@ public class RenameProjectViewModel implements ViewModel {
 
     private StringProperty camelCaseFrom = new SimpleStringProperty("OriginalName");
 
+    private StringProperty firstLowerThenCamelCaseFrom = new SimpleStringProperty("originalName");
+
     private StringProperty lowerCaseFrom = new SimpleStringProperty("originalname");
 
     private StringProperty upperCaseFrom = new SimpleStringProperty("ORIGINALNAME");
@@ -41,6 +43,8 @@ public class RenameProjectViewModel implements ViewModel {
     private StringProperty to = new SimpleStringProperty("TargetName");
 
     private StringProperty camelCaseTo = new SimpleStringProperty("TargetName");
+
+    private StringProperty firstLowerThenCamelCaseTo = new SimpleStringProperty("targetName");
 
     private StringProperty lowerCaseTo = new SimpleStringProperty("targetname");
 
@@ -87,6 +91,7 @@ public class RenameProjectViewModel implements ViewModel {
 
     public RenameProjectViewModel() {
         from.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseFrom));
+        from.addListener(property -> updateFirstLowerThenCamelCaseProperty(property, this::setCamelCaseFrom));
         from.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseFrom));
         from.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseFrom));
         from.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedFrom));
@@ -108,6 +113,17 @@ public class RenameProjectViewModel implements ViewModel {
         String camelCaseValue = StringUtils.join(capitalizedWords, "");
 
         aSetterMethod.accept(camelCaseValue);
+    }
+
+    private void updateFirstLowerThenCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        updateCamelCaseProperty(aObservable, aSetterMethod);
+
+        StringProperty property = (StringProperty) aObservable;
+        String value = property.get();
+
+        if (value.length() > 0) {
+            continue here ...
+        }
     }
 
     private void updateSpaceSeparatedProperty(Observable aObservable, Consumer<String> aSetterMethod) {
@@ -311,6 +327,30 @@ public class RenameProjectViewModel implements ViewModel {
 
     private void setCamelCaseTo(String aValue) {
         camelCaseTo.set(aValue);
+    }
+
+    public StringProperty firstLowerThenCamelCaseFromProperty() {
+        return firstLowerThenCamelCaseFrom;
+    }
+
+    public String getFirstLowerThenCamelCaseFrom() {
+        return firstLowerThenCamelCaseFrom.get();
+    }
+
+    public void setFirstLowerThenCamelCaseFrom(String aValue) {
+        firstLowerThenCamelCaseFrom.set(aValue);
+    }
+
+    public StringProperty firstLowerThenCamelCaseToProperty() {
+        return firstLowerThenCamelCaseTo;
+    }
+
+    public String getFirstLowerThenCamelCaseTo() {
+        return firstLowerThenCamelCaseTo.get();
+    }
+
+    public void setFirstLowerThenCamelCaseTo(String aValue) {
+        this.firstLowerThenCamelCaseTo.set(aValue);
     }
 
     public StringProperty lowerCaseToProperty() {

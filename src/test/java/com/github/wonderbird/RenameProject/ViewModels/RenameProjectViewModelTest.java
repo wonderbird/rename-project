@@ -168,7 +168,7 @@ public class RenameProjectViewModelTest {
 
         viewModel.setFrom("Space Separated Test Pattern Ex Am");
 
-        assertEquals("camleCaseFrom should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
+        assertEquals("camelCaseFrom should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
     }
 
     @Test
@@ -177,7 +177,7 @@ public class RenameProjectViewModelTest {
 
         viewModel.setFrom("Space Separated test-pattern Ex--Am");
 
-        assertEquals("camleCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
+        assertEquals("camelCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseFrom());
     }
 
     @Test
@@ -186,6 +186,24 @@ public class RenameProjectViewModelTest {
 
         viewModel.setTo("Space Separated test-pattern Ex--Am");
 
-        assertEquals("camleCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseTo());
+        assertEquals("camelCaseTo should be updated correctly", "SpaceSeparatedTestPatternExAm", viewModel.getCamelCaseTo());
+    }
+
+    @Test
+    public void setFrom_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesFirstLowerThenCamelCaseFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        viewModel.setFrom("Space Separated test-pattern Ex--Am");
+
+        assertEquals("camelCaseTo should be updated correctly", "spaceSeparatedTestPatternExAm", viewModel.getFirstLowerThenCamelCaseFrom());
+    }
+
+    @Test
+    public void setTo_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesFirstLowerThenCamelCaseTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        viewModel.setTo("Space Separated test-pattern Ex--Am");
+
+        assertEquals("camelCaseTo should be updated correctly", "spaceSeparatedTestPatternExAm", viewModel.getFirstLowerThenCamelCaseTo());
     }
 }
