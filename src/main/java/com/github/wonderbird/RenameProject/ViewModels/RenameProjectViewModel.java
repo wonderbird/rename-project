@@ -54,6 +54,8 @@ public class RenameProjectViewModel implements ViewModel {
 
     private StringProperty dashSeparatedTo = new SimpleStringProperty("target-name");
 
+    private BooleanProperty enableOriginalReplacement = new SimpleBooleanProperty(true);
+
     private BooleanProperty enableCamelCaseReplacement = new SimpleBooleanProperty(true);
 
     private BooleanProperty enableFirstLowerThenCamelCaseReplacement = new SimpleBooleanProperty(true);
@@ -127,10 +129,9 @@ public class RenameProjectViewModel implements ViewModel {
         String value = property.get();
 
         String camelCaseValue = toCamelCase(value);
-        String firstLowerThenCamelCaseValue = camelCaseValue;
 
-        if (firstLowerThenCamelCaseValue.length() > 0) {
-            firstLowerThenCamelCaseValue = firstLowerThenCamelCaseValue.substring(0, 1).toLowerCase() + firstLowerThenCamelCaseValue.substring(1);
+        if (camelCaseValue.length() > 0) {
+            String firstLowerThenCamelCaseValue = camelCaseValue.substring(0, 1).toLowerCase() + camelCaseValue.substring(1);
             aSetterMethod.accept(firstLowerThenCamelCaseValue);
         }
     }
@@ -210,8 +211,9 @@ public class RenameProjectViewModel implements ViewModel {
         Configuration config = Configuration.getConfiguration();
         config.setStartDir(getStartDir());
 
-        config.addFromToPair(getFrom(), getTo());
-
+        if (getEnableOriginalReplacement()) {
+            config.addFromToPair(getFrom(), getTo());
+        }
         if (getEnableCamelCaseReplacement()) {
             config.addFromToPair(getCamelCaseFrom(), getCamelCaseTo());
         }
@@ -412,6 +414,18 @@ public class RenameProjectViewModel implements ViewModel {
 
     private void setDashSeparatedTo(String aValue) {
         dashSeparatedTo.set(aValue);
+    }
+
+    public BooleanProperty enableOriginalReplacementProperty() {
+        return enableOriginalReplacement;
+    }
+
+    boolean getEnableOriginalReplacement() {
+        return enableOriginalReplacement.get();
+    }
+
+    void setEnableOriginalReplacement(boolean aValue) {
+        enableOriginalReplacement.set(aValue);
     }
 
     public BooleanProperty enableCamelCaseReplacementProperty() {

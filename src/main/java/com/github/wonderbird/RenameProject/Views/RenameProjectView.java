@@ -62,6 +62,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private Label dashSeparatedToLabel;
 
     @FXML
+    private CheckBox enableOriginalReplacementCheckBox;
+
+    @FXML
     private CheckBox enableCamelCaseReplacementCheckBox;
 
     @FXML
@@ -102,6 +105,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         spaceSeparatedToLabel.textProperty().bindBidirectional(viewModel.spaceSeparatedToProperty());
         dashSeparatedToLabel.textProperty().bindBidirectional(viewModel.dashSeparatedToProperty());
 
+        enableOriginalReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableOriginalReplacementProperty());
         enableCamelCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableCamelCaseReplacementProperty());
         enableFirstLowerThenCamelCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableFirstLowerThenCamelCaseReplacementProperty());
         enableLowerCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableLowerCaseReplacementProperty());

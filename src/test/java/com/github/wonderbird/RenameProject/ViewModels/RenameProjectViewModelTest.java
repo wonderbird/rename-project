@@ -48,6 +48,7 @@ public class RenameProjectViewModelTest {
     public void renameCommand_NoCheckBoxTicked_EmitsConfigurationWithOneFromToPair() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
+        viewModel.setEnableOriginalReplacement(false);
         viewModel.setEnableCamelCaseReplacement(false);
         viewModel.setEnableFirstLowerThenCamelCaseReplacement(false);
         viewModel.setEnableLowerCaseReplacement(false);
@@ -61,7 +62,7 @@ public class RenameProjectViewModelTest {
         viewModel.getRenameCommand().execute();
 
         assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
-        assertEquals("Invalid number of from/to pairs in emitted configuration", 1, Configuration.getConfiguration().getFromToPairs().size());
+        assertEquals("Invalid number of from/to pairs in emitted configuration", 0, Configuration.getConfiguration().getFromToPairs().size());
     }
 
     @Test
@@ -69,6 +70,7 @@ public class RenameProjectViewModelTest {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("UnitTestFrom");
+        viewModel.setEnableOriginalReplacement(true);
         viewModel.setEnableCamelCaseReplacement(true);
         viewModel.setEnableFirstLowerThenCamelCaseReplacement(true);
         viewModel.setEnableLowerCaseReplacement(true);
