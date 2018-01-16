@@ -148,7 +148,8 @@ public class RenameProjectViewModel implements ViewModel {
         StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
-        String dashSeparatedValue = insertCharacterBetweenCamelCaseWords("-", value);
+        String spacesReplacedByDashValue = value.replace(" ", "-");
+        String dashSeparatedValue = insertCharacterBetweenCamelCaseWords("-", spacesReplacedByDashValue);
         String lowerCaseDashSeparatedValue = dashSeparatedValue.toLowerCase();
 
         aSetterMethod.accept(lowerCaseDashSeparatedValue);

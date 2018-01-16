@@ -147,19 +147,19 @@ public class RenameProjectViewModelTest {
     }
 
     @Test
-    public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesDashSeparatedFrom() {
+    public void setFrom_NewFromIsCamelCaseTestPatternWithSpaces_UpdatesDashSeparatedFrom() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setFrom("CamelCaseTestPatternExAm");
+        viewModel.setFrom("CamelCase Test PatternExAm");
 
         assertEquals("dashSeparatedFrom should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedFrom());
     }
 
     @Test
-    public void setTo_NewToIsCamelCaseTestPattern_UpdatesDashSeparatedTo() {
+    public void setTo_NewToIsCamelCaseTestPatternWithSpaces_UpdatesDashSeparatedTo() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setTo("CamelCaseTestPatternExAm");
+        viewModel.setTo("CamelCase Test PatternExAm");
 
         assertEquals("dashSeparatedTo should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedTo());
     }
