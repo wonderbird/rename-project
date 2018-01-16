@@ -95,6 +95,26 @@ public class RenameProjectViewModelTest {
     }
 
     @Test
+    public void setFrom__UpdatesOriginalFrom() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        String expectedValue = "OrIgInAl  --  VaLuE";
+        viewModel.setFrom(expectedValue);
+
+        assertEquals("originalFrom should be updated correctly", expectedValue, viewModel.getOriginalFrom());
+    }
+
+    @Test
+    public void setTo__UpdatesOriginalTo() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        String expectedValue = "OrIgInAl  --  VaLuE";
+        viewModel.setTo(expectedValue);
+
+        assertEquals("originalTo should be updated correctly", expectedValue, viewModel.getOriginalTo());
+    }
+
+    @Test
     public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesLowerCaseFrom() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
