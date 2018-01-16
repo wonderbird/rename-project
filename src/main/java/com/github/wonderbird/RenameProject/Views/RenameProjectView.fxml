@@ -72,6 +72,7 @@
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -79,25 +80,29 @@
                             </rowConstraints>
                             <children>
                                 <CheckBox id="enableCamelCaseReplacementCheckBox" fx:id="enableCamelCaseReplacementCheckBox" mnemonicParsing="false" text="From:" />
-                                <CheckBox id="enableLowerCaseReplacementCheckBox" fx:id="enableLowerCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="1" />
-                                <CheckBox id="enableUpperCaseReplacementCheckBox" fx:id="enableUpperCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="2" />
-                                <CheckBox id="enableSpaceSeparatedReplacementCheckBox" fx:id="enableSpaceSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="3" />
-                                <CheckBox id="enableDashSeparatedReplacementCheckBox" fx:id="enableDashSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="4" />
+                                <CheckBox id="enableFirstLowerThenCamelCaseReplacementCheckBox" fx:id="enableFirstLowerThenCamelCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="1" />
+                                <CheckBox id="enableLowerCaseReplacementCheckBox" fx:id="enableLowerCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="2" />
+                                <CheckBox id="enableUpperCaseReplacementCheckBox" fx:id="enableUpperCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="3" />
+                                <CheckBox id="enableSpaceSeparatedReplacementCheckBox" fx:id="enableSpaceSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="4" />
+                                <CheckBox id="enableDashSeparatedReplacementCheckBox" fx:id="enableDashSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="5" />
                                 <Label id="camelCaseFromLabel" fx:id="camelCaseFromLabel" text="CamelCase" GridPane.columnIndex="1" />
-                                <Label id="lowerCaseFromLabel" fx:id="lowerCaseFromLabel" text="lowercase" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label id="upperCaseFromLabel" fx:id="upperCaseFromLabel" text="UPPERCASE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label id="spaceSeparatedFromLabel" fx:id="spaceSeparatedFromLabel" text="Space Separated" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <Label id="dashSeparatedFromLabel" fx:id="dashSeparatedFromLabel" text="Dash-Separated" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label id="firstLowerThenCamelCaseFromLabel" fx:id="firstLowerThenCamelCaseFromLabel" text="firstLowerThenCamelCase" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <Label id="lowerCaseFromLabel" fx:id="lowerCaseFromLabel" text="lowercase" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                <Label id="upperCaseFromLabel" fx:id="upperCaseFromLabel" text="UPPERCASE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                <Label id="spaceSeparatedFromLabel" fx:id="spaceSeparatedFromLabel" text="Space Separated" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                <Label id="dashSeparatedFromLabel" fx:id="dashSeparatedFromLabel" text="Dash-Separated" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                 <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                                 <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                 <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                                 <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                                 <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
                                 <Label id="camelCaseToLabel" fx:id="camelCaseToLabel" text="CamleCase" GridPane.columnIndex="3" />
-                                <Label id="lowerCaseToLabel" fx:id="lowerCaseToLabel" text="lowercase" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                <Label id="upperCaseToLabel" fx:id="upperCaseToLabel" text="UPPERCASE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                <Label id="spaceSeparatedToLabel" fx:id="spaceSeparatedToLabel" text="Space Separated" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                <Label id="dashSeparatedToLabel" fx:id="dashSeparatedToLabel" text="Dash-Separated" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                <Label id="firstLowerThenCamelCaseToLabel" fx:id="firstLowerThenCamelCaseToLabel" text="firstLowerThenCamelCase" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                <Label id="lowerCaseToLabel" fx:id="lowerCaseToLabel" text="lowercase" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                <Label id="upperCaseToLabel" fx:id="upperCaseToLabel" text="UPPERCASE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                <Label id="spaceSeparatedToLabel" fx:id="spaceSeparatedToLabel" text="Space Separated" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                <Label id="dashSeparatedToLabel" fx:id="dashSeparatedToLabel" text="Dash-Separated" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                             </children>
                             <padding>
                                 <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />

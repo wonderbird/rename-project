@@ -49,6 +49,7 @@ public class RenameProjectViewModelTest {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setEnableCamelCaseReplacement(false);
+        viewModel.setEnableFirstLowerThenCamelCaseReplacement(false);
         viewModel.setEnableLowerCaseReplacement(false);
         viewModel.setEnableUpperCaseReplacement(false);
         viewModel.setEnableSpaceSeparatedReplacement(false);
@@ -69,6 +70,7 @@ public class RenameProjectViewModelTest {
 
         viewModel.setFrom("UnitTestFrom");
         viewModel.setEnableCamelCaseReplacement(true);
+        viewModel.setEnableFirstLowerThenCamelCaseReplacement(true);
         viewModel.setEnableLowerCaseReplacement(true);
         viewModel.setEnableUpperCaseReplacement(true);
         viewModel.setEnableSpaceSeparatedReplacement(true);
@@ -81,7 +83,7 @@ public class RenameProjectViewModelTest {
 
         List<RenameFromToPair> fromToPairs = Configuration.getConfiguration().getFromToPairs();
         assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
-        assertEquals("Invalid number of from/to pairs in emitted configuration", 6, fromToPairs.size());
+        assertEquals("Invalid number of from/to pairs in emitted configuration", 7, fromToPairs.size());
         for (RenameFromToPair pair : fromToPairs) {
             assertNotNull("'from' value is null in emitted configuration", pair.getFrom());
             assertFalse("'from' value is empty in emitted configuration", pair.getFrom().isEmpty());
@@ -195,7 +197,7 @@ public class RenameProjectViewModelTest {
 
         viewModel.setFrom("Space Separated test-pattern Ex--Am");
 
-        assertEquals("camelCaseTo should be updated correctly", "spaceSeparatedTestPatternExAm", viewModel.getFirstLowerThenCamelCaseFrom());
+        assertEquals("firstLowerThenCamelCaseFrom should be updated correctly", "spaceSeparatedTestPatternExAm", viewModel.getFirstLowerThenCamelCaseFrom());
     }
 
     @Test
@@ -204,6 +206,6 @@ public class RenameProjectViewModelTest {
 
         viewModel.setTo("Space Separated test-pattern Ex--Am");
 
-        assertEquals("camelCaseTo should be updated correctly", "spaceSeparatedTestPatternExAm", viewModel.getFirstLowerThenCamelCaseTo());
+        assertEquals("firstLowerThenCamelCaseTo should be updated correctly", "spaceSeparatedTestPatternExAm", viewModel.getFirstLowerThenCamelCaseTo());
     }
 }

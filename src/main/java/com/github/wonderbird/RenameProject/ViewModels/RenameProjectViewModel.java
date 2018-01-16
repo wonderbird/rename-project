@@ -56,6 +56,8 @@ public class RenameProjectViewModel implements ViewModel {
 
     private BooleanProperty enableCamelCaseReplacement = new SimpleBooleanProperty(true);
 
+    private BooleanProperty enableFirstLowerThenCamelCaseReplacement = new SimpleBooleanProperty(true);
+
     private BooleanProperty enableLowerCaseReplacement = new SimpleBooleanProperty(true);
 
     private BooleanProperty enableUpperCaseReplacement = new SimpleBooleanProperty(true);
@@ -91,13 +93,14 @@ public class RenameProjectViewModel implements ViewModel {
 
     public RenameProjectViewModel() {
         from.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseFrom));
-        from.addListener(property -> updateFirstLowerThenCamelCaseProperty(property, this::setCamelCaseFrom));
+        from.addListener(property -> updateFirstLowerThenCamelCaseProperty(property, this::setFirstLowerThenCamelCaseFrom));
         from.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseFrom));
         from.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseFrom));
         from.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedFrom));
         from.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedFrom));
 
         to.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseTo));
+        to.addListener(property -> updateFirstLowerThenCamelCaseProperty(property, this::setFirstLowerThenCamelCaseTo));
         to.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseTo));
         to.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseTo));
         to.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedTo));
@@ -108,21 +111,27 @@ public class RenameProjectViewModel implements ViewModel {
         StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
-        List<String> words = Arrays.asList(value.split("[ -]"));
-        List<String> capitalizedWords = words.stream().filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.toList());
-        String camelCaseValue = StringUtils.join(capitalizedWords, "");
+        String camelCaseValue = toCamelCase(value);
 
         aSetterMethod.accept(camelCaseValue);
     }
 
-    private void updateFirstLowerThenCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        updateCamelCaseProperty(aObservable, aSetterMethod);
+    private String toCamelCase(String value) {
+        List<String> words = Arrays.asList(value.split("[ -]"));
+        List<String> capitalizedWords = words.stream().filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.toList());
+        return StringUtils.join(capitalizedWords, "");
+    }
 
+    private void updateFirstLowerThenCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
         StringProperty property = (StringProperty) aObservable;
         String value = property.get();
 
-        if (value.length() > 0) {
-            continue here ...
+        String camelCaseValue = toCamelCase(value);
+        String firstLowerThenCamelCaseValue = camelCaseValue;
+
+        if (firstLowerThenCamelCaseValue.length() > 0) {
+            firstLowerThenCamelCaseValue = firstLowerThenCamelCaseValue.substring(0, 1).toLowerCase() + firstLowerThenCamelCaseValue.substring(1);
+            aSetterMethod.accept(firstLowerThenCamelCaseValue);
         }
     }
 
@@ -204,6 +213,9 @@ public class RenameProjectViewModel implements ViewModel {
 
         if (getEnableCamelCaseReplacement()) {
             config.addFromToPair(getCamelCaseFrom(), getCamelCaseTo());
+        }
+        if (getEnableFirstLowerThenCamelCaseReplacement()) {
+            config.addFromToPair(getFirstLowerThenCamelCaseFrom(), getFirstLowerThenCamelCaseTo());
         }
         if (getEnableLowerCaseReplacement()) {
             config.addFromToPair(getLowerCaseFrom(), getLowerCaseTo());
@@ -411,6 +423,18 @@ public class RenameProjectViewModel implements ViewModel {
 
     void setEnableCamelCaseReplacement(boolean aValue) {
         enableCamelCaseReplacement.set(aValue);
+    }
+
+    public BooleanProperty enableFirstLowerThenCamelCaseReplacementProperty() {
+        return enableFirstLowerThenCamelCaseReplacement;
+    }
+
+    boolean getEnableFirstLowerThenCamelCaseReplacement() {
+        return enableFirstLowerThenCamelCaseReplacement.get();
+    }
+
+    void setEnableFirstLowerThenCamelCaseReplacement(boolean aValue) {
+        enableFirstLowerThenCamelCaseReplacement.set(aValue);
     }
 
     public BooleanProperty enableLowerCaseReplacementProperty() {

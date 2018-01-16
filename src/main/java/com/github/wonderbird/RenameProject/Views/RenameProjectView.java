@@ -26,6 +26,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private Label camelCaseFromLabel;
 
     @FXML
+    private Label firstLowerThenCamelCaseFromLabel;
+
+    @FXML
     private Label lowerCaseFromLabel;
 
     @FXML
@@ -44,6 +47,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private Label camelCaseToLabel;
 
     @FXML
+    private Label firstLowerThenCamelCaseToLabel;
+
+    @FXML
     private Label lowerCaseToLabel;
 
     @FXML
@@ -57,6 +63,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
 
     @FXML
     private CheckBox enableCamelCaseReplacementCheckBox;
+
+    @FXML
+    private CheckBox enableFirstLowerThenCamelCaseReplacementCheckBox;
 
     @FXML
     private CheckBox enableLowerCaseReplacementCheckBox;
@@ -78,6 +87,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
 
         fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
+        firstLowerThenCamelCaseFromLabel.textProperty().bindBidirectional(viewModel.firstLowerThenCamelCaseFromProperty());
         camelCaseFromLabel.textProperty().bindBidirectional(viewModel.camelCaseFromProperty());
         lowerCaseFromLabel.textProperty().bindBidirectional(viewModel.lowerCaseFromProperty());
         upperCaseFromLabel.textProperty().bindBidirectional(viewModel.upperCaseFromProperty());
@@ -85,6 +95,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         dashSeparatedFromLabel.textProperty().bindBidirectional(viewModel.dashSeparatedFromProperty());
 
         toTextField.textProperty().bindBidirectional(viewModel.toProperty());
+        firstLowerThenCamelCaseToLabel.textProperty().bindBidirectional(viewModel.firstLowerThenCamelCaseToProperty());
         camelCaseToLabel.textProperty().bindBidirectional(viewModel.camelCaseToProperty());
         lowerCaseToLabel.textProperty().bindBidirectional(viewModel.lowerCaseToProperty());
         upperCaseToLabel.textProperty().bindBidirectional(viewModel.upperCaseToProperty());
@@ -92,6 +103,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         dashSeparatedToLabel.textProperty().bindBidirectional(viewModel.dashSeparatedToProperty());
 
         enableCamelCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableCamelCaseReplacementProperty());
+        enableFirstLowerThenCamelCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableFirstLowerThenCamelCaseReplacementProperty());
         enableLowerCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableLowerCaseReplacementProperty());
         enableUpperCaseReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableUpperCaseReplacementProperty());
         enableSpaceSeparatedReplacementCheckBox.selectedProperty().bindBidirectional(viewModel.enableSpaceSeparatedReplacementProperty());
