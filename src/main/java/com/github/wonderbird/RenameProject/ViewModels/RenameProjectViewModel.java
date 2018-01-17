@@ -28,6 +28,8 @@ public class RenameProjectViewModel implements ViewModel {
 
     private StringProperty from = new SimpleStringProperty("OriginalName");
 
+    private StringProperty originalFrom = new SimpleStringProperty("OriginalName");
+
     private StringProperty camelCaseFrom = new SimpleStringProperty("OriginalName");
 
     private StringProperty firstLowerThenCamelCaseFrom = new SimpleStringProperty("originalName");
@@ -41,6 +43,8 @@ public class RenameProjectViewModel implements ViewModel {
     private StringProperty dashSeparatedFrom = new SimpleStringProperty("original-name");
 
     private StringProperty to = new SimpleStringProperty("TargetName");
+
+    private StringProperty originalTo = new SimpleStringProperty("TargetName");
 
     private StringProperty camelCaseTo = new SimpleStringProperty("TargetName");
 
@@ -94,6 +98,7 @@ public class RenameProjectViewModel implements ViewModel {
     });
 
     public RenameProjectViewModel() {
+        from.addListener(property -> copyProperty(property, this::setOriginalFrom));
         from.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseFrom));
         from.addListener(property -> updateFirstLowerThenCamelCaseProperty(property, this::setFirstLowerThenCamelCaseFrom));
         from.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseFrom));
@@ -101,12 +106,19 @@ public class RenameProjectViewModel implements ViewModel {
         from.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedFrom));
         from.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedFrom));
 
+        to.addListener(property -> copyProperty(property, this::setOriginalTo));
         to.addListener(property -> updateCamelCaseProperty(property, this::setCamelCaseTo));
         to.addListener(property -> updateFirstLowerThenCamelCaseProperty(property, this::setFirstLowerThenCamelCaseTo));
         to.addListener(property -> updateLowerCaseProperty(property, this::setLowerCaseTo));
         to.addListener(property -> updateUpperCaseProperty(property, this::setUpperCaseTo));
         to.addListener(property -> updateSpaceSeparatedProperty(property, this::setSpaceSeparatedTo));
         to.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedTo));
+    }
+
+    private void copyProperty(Observable aObservable, Consumer<String> aSetterMethod) {
+        StringProperty property = (StringProperty) aObservable;
+        String value = property.get();
+        aSetterMethod.accept(value);
     }
 
     private void updateCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
@@ -260,6 +272,18 @@ public class RenameProjectViewModel implements ViewModel {
         from.set(aFrom);
     }
 
+    public StringProperty originalFromProperty() {
+        return originalFrom;
+    }
+
+    public String getOriginalFrom() {
+        return originalFrom.get();
+    }
+
+    public void setOriginalFrom(String aValue) {
+        originalFrom.set(aValue);
+    }
+
     public StringProperty camelCaseFromProperty() {
         return camelCaseFrom;
     }
@@ -330,6 +354,18 @@ public class RenameProjectViewModel implements ViewModel {
 
     public void setTo(String aValue) {
         to.set(aValue);
+    }
+
+    public StringProperty originalToProperty() {
+        return originalTo;
+    }
+
+    public String getOriginalTo() {
+        return originalTo.get();
+    }
+
+    public void setOriginalTo(String aValue) {
+        originalTo.set(aValue);
     }
 
     public StringProperty camelCaseToProperty() {

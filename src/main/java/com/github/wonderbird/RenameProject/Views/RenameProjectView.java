@@ -23,6 +23,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private TextField fromTextField;
 
     @FXML
+    private Label originalFromLabel;
+
+    @FXML
     private Label camelCaseFromLabel;
 
     @FXML
@@ -42,6 +45,9 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
 
     @FXML
     private TextField toTextField;
+
+    @FXML
+    private Label originalToLabel;
 
     @FXML
     private Label camelCaseToLabel;
@@ -90,6 +96,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
 
         fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
+        originalFromLabel.textProperty().bindBidirectional(viewModel.originalFromProperty());
         firstLowerThenCamelCaseFromLabel.textProperty().bindBidirectional(viewModel.firstLowerThenCamelCaseFromProperty());
         camelCaseFromLabel.textProperty().bindBidirectional(viewModel.camelCaseFromProperty());
         lowerCaseFromLabel.textProperty().bindBidirectional(viewModel.lowerCaseFromProperty());
@@ -98,6 +105,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         dashSeparatedFromLabel.textProperty().bindBidirectional(viewModel.dashSeparatedFromProperty());
 
         toTextField.textProperty().bindBidirectional(viewModel.toProperty());
+        originalToLabel.textProperty().bindBidirectional(viewModel.originalToProperty());
         firstLowerThenCamelCaseToLabel.textProperty().bindBidirectional(viewModel.firstLowerThenCamelCaseToProperty());
         camelCaseToLabel.textProperty().bindBidirectional(viewModel.camelCaseToProperty());
         lowerCaseToLabel.textProperty().bindBidirectional(viewModel.lowerCaseToProperty());
