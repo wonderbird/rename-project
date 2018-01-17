@@ -151,19 +151,19 @@ public class RenameProjectViewModelTest {
     }
 
     @Test
-    public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesSpaceSeparatedFrom() {
+    public void setFrom_NewFromIsCamelCaseTestPatternWithDash_UpdatesSpaceSeparatedFrom() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setFrom("CamelCaseTestPatternExAm");
+        viewModel.setFrom("CamelCaseTest-Pattern---ExAm");
 
         assertEquals("spaceSeparatedFrom should be updated correctly", "Camel Case Test Pattern Ex Am", viewModel.getSpaceSeparatedFrom());
     }
 
     @Test
-    public void setTo_NewToIsCamelCaseTestPattern_UpdatesSpaceSeparatedTo() {
+    public void setTo_NewToIsCamelCaseTestPatternWithDash_UpdatesSpaceSeparatedTo() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setTo("CamelCaseTestPatternExAm");
+        viewModel.setTo("CamelCaseTest-Pattern---ExAm");
 
         assertEquals("spaceSeparatedTo should be updated correctly", "Camel Case Test Pattern Ex Am", viewModel.getSpaceSeparatedTo());
     }
@@ -172,7 +172,7 @@ public class RenameProjectViewModelTest {
     public void setFrom_NewFromIsCamelCaseTestPatternWithSpaces_UpdatesDashSeparatedFrom() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setFrom("CamelCase Test PatternExAm");
+        viewModel.setFrom("CamelCase   Test PatternExAm");
 
         assertEquals("dashSeparatedFrom should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedFrom());
     }
@@ -181,7 +181,7 @@ public class RenameProjectViewModelTest {
     public void setTo_NewToIsCamelCaseTestPatternWithSpaces_UpdatesDashSeparatedTo() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setTo("CamelCase Test PatternExAm");
+        viewModel.setTo("CamelCase   Test PatternExAm");
 
         assertEquals("dashSeparatedTo should be updated correctly", "camel-case-test-pattern-ex-am", viewModel.getDashSeparatedTo());
     }
