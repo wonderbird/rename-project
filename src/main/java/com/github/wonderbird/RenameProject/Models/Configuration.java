@@ -1,12 +1,14 @@
 package com.github.wonderbird.RenameProject.Models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Configuration {
     private static Configuration instance;
 
-    private List<RenameFromToPair> fromToPairs = new ArrayList<>();
+    private Set<RenameFromToPair> fromToPairs = new HashSet<>();
 
     /**
      * Size of a block read at once from files (in bytes).
@@ -32,7 +34,7 @@ public class Configuration {
     }
 
     public List<RenameFromToPair> getFromToPairs() {
-        return fromToPairs;
+        return new ArrayList<>(fromToPairs);
     }
 
     public int getReadBufferSize() {
@@ -45,7 +47,7 @@ public class Configuration {
 
     public void reset() {
         readBufferSize = 1024 * 1024;
-        fromToPairs = new ArrayList<>();
+        fromToPairs = new HashSet<>();
     }
 
     public void setReadBufferSize(int readBufferSize) {

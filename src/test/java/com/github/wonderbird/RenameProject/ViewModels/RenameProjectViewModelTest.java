@@ -45,6 +45,37 @@ public class RenameProjectViewModelTest {
     }
 
     @Test
+    public void renameCommand_TwoFromToPairsAreIdentical_StripsOneOfTheIdenticalPairsFromConfiguration() {
+        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+
+        final String expectedFrom = "CamelCaseFrom";
+        String expectedTo = "CamelCaseTo";
+
+        viewModel.setFrom(expectedFrom);
+        viewModel.setTo(expectedTo);
+        viewModel.setEnableOriginalReplacement(true);
+        viewModel.setEnableCamelCaseReplacement(true);
+
+        viewModel.setEnableFirstLowerThenCamelCaseReplacement(false);
+        viewModel.setEnableLowerCaseReplacement(false);
+        viewModel.setEnableUpperCaseReplacement(false);
+        viewModel.setEnableSpaceSeparatedReplacement(false);
+        viewModel.setEnableDashSeparatedReplacement(false);
+
+        final AtomicBoolean renameNotificationFired = new AtomicBoolean(false);
+        MvvmFX.getNotificationCenter().subscribe(Notification.RENAME.toString(), (key, payload) -> renameNotificationFired.set(true));
+
+        viewModel.getRenameCommand().execute();
+
+        assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
+        assertEquals("Invalid number of from/to pairs in emitted configuration", 1, Configuration.getConfiguration().getFromToPairs().size());
+
+        RenameFromToPair pair = Configuration.getConfiguration().getFromToPairs().get(0);
+        assertEquals("'from' value is wrong in emitted configuration", expectedFrom, pair.getFrom());
+        assertEquals("'to' value is wrong in emitted configuration", expectedTo, pair.getTo());
+    }
+
+    @Test
     public void renameCommand_NoCheckBoxTicked_EmitsConfigurationWithOneFromToPair() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
@@ -69,7 +100,7 @@ public class RenameProjectViewModelTest {
     public void renameCommand_AllCheckBoxesTicked_EmitsConfigurationWithCorrectFromToPairs() {
         RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        viewModel.setFrom("UnitTestFrom");
+        viewModel.setFrom("Ensure all From-Values are unique");
         viewModel.setEnableOriginalReplacement(true);
         viewModel.setEnableCamelCaseReplacement(true);
         viewModel.setEnableFirstLowerThenCamelCaseReplacement(true);
