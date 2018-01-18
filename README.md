@@ -18,7 +18,7 @@ from which you can easily create new Java Projects.
 These instructions assumes that you would like to change the name of
 your Java project from **Original Project** to **My New Project**.
 
-![Screenshot of the RenameProject Graphical User Interface](https://github.com/wonderbird/rename-project/blob/master/doc/screenshot.png =400x)
+<img alt="Screenshot of the RenameProject Graphical User Interface" src="https://github.com/wonderbird/rename-project/blob/master/doc/screenshot.png" width="400" />
 
 1. Open RenameProject and browse to the directory containing the
    **Original Project** files (e.g. /Users/*username*/projects/original-project).
