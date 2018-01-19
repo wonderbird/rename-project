@@ -1,5 +1,7 @@
 # Product Overview
 
+[![Build Status](https://travis-ci.org/wonderbird/rename-project.svg?branch=master)](https://travis-ci.org/wonderbird/rename-project)
+
 RenameProject gives you the power to create template projects in Java,
 from which you can easily create new Java Projects.
 
