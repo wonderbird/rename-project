@@ -11,6 +11,8 @@ echo =====
 mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " release:prepare
 
 # TODO: Publish the .dmg file to the GitHub release page
+# GraphQL 4 API: https://developer.github.com/v4/
+#                https://developer.github.com/v4/guides/using-the-explorer/
 # Read: https://developer.github.com/v3/repos/releases/#create-a-release
 
 # In order to test the release, run the following command
