@@ -23,10 +23,10 @@ echo =====
 
 # Use the Maven Release Plugin to create a release non-interactively
 # See also: http://maven.apache.org/maven-release/maven-release-plugin/usage.html
-mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " release:prepare -Dresume=false
+mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " --batch-mode release:prepare -Dresume=false
 RELEASE_PREPARE_SUCCESS=$?
 if [ $RELEASE_PREPARE_SUCCESS -ne 0 ]; then
-    mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " --batch-mode release:clean
+    mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " release:clean
 
     echo
     echo "ERROR: Failed to prepare the release '$RELEASE_TAG.'"
