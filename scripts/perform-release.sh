@@ -26,7 +26,7 @@ echo =====
 mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " release:prepare -Dresume=false
 RELEASE_PREPARE_SUCCESS=$?
 if [ $RELEASE_PREPARE_SUCCESS -ne 0 ]; then
-    mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " release:clean
+    mvn -DdryRun=true -DscmCommentPrefix="[skip ci] " --batch-mode release:clean
 
     echo
     echo "ERROR: Failed to prepare the release '$RELEASE_TAG.'"
