@@ -3,34 +3,10 @@
 # Create a release on GitHub
 
 DRY_RUN=true
-GITHUB_AUTH_TOKEN=
+SCRIPTNAME=$(basename "$0")
 
-echo
-echo =====
-echo Publishing Release on GitHub
-echo =====
-
-UPLOAD_URL="https://uploads.github.com/repos/wonderbird/rename-project/releases/9379309/assets{?name,label}"
-UPLOAD_URL=$(echo $UPLOAD_URL | sed 's/{?name,label}/?name=rename-project-1.0,label=Mac%20OS%20Disk%20Image/')
-echo Uploading DMG file to $UPLOAD_URL ...
-
-exit 1
-
-echo Creating draft on GitHub ...
-POST_CREATE_RELEASE_RESPONSE=$(curl --data '{"tag_name":"rename-project-1.0","target_commitish":"master","name":"Test Release","body":"I am using this release to test scripted release making","draft":true,"prerelease":true}' --header "authorization: bearer $GITHUB_AUTH_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
-POST_CREATE_RELEASE_SUCCESS=$?
-UPLOAD_URL=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.upload_url')
-
-if [ $POST_CREATE_RELEASE_SUCCESS -ne 0 -o "xUPLOAD_URL" == "x" ]; then
-    echo
-    echo "Response from GitHub:"
-    echo $POST_CREATE_RELEASE_RESPONSE | jq '.'
-    echo
-    echo "ERROR: Failed to draft the release on GitHub."
-    exit 1
-fi
-
-exit 1
+git config --global user.email "stefan.boos@gmx.de"
+git config --global user.name "Travis CI"
 
 echo =====
 echo Parsing Project Version
@@ -82,15 +58,65 @@ if [ $RELEASE_SUCCESS -ne 0 ]; then
     exit 1
 fi
 
-# TODO: Publish the .dmg file to the GitHub release page
-# GraphQL 4 API: https://developer.github.com/v4/
-#                https://developer.github.com/v4/guides/using-the-explorer/
-# Read: https://developer.github.com/v3/repos/releases/#create-a-release
+echo
+echo =====
+echo Publishing Release on GitHub
+echo =====
 
-# In order to test the release, run the following command
-#
-#mvn -DdryRun=$DRY_RUN release:prepare
-#
-# Then check the outputs and clean up
-#
-#mvn release:clean
+# Regarding the GitHub Access Token inside Travis see
+# https://gist.github.com/willprice/e07efd73fb7f13f917ea
+
+# Regarding the GitHub API see
+# https://developer.github.com/v3/repos/releases/#create-a-release
+
+echo "Creating draft on GitHub ..."
+POST_CREATE_RELEASE_RESPONSE=$(curl -s --data '{"tag_name":"$RELEASE_TAG","target_commitish":"master","name":"Test Release","body":"I am using this release to test scripted release making","draft":true,"prerelease":true}' --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
+POST_CREATE_RELEASE_SUCCESS=$?
+RELEASE_ID=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.id')
+UPLOAD_URL=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.upload_url' | sed 's/"//g')
+UPLOAD_URL=$(echo $UPLOAD_URL | sed 's/{?name,label}/?name=RELEASE_TAG.dmg\&label=Mac%20OS%20Disk%20Image/')
+
+POST_CREATE_RELEASE_IS_ERROR=0
+if [ $POST_CREATE_RELEASE_SUCCESS -ne 0 -o "$RELEASE_ID" == "null" -o "$UPLOAD_URL" == "null" ]; then
+    POST_CREATE_RELEASE_IS_ERROR=1
+    echo "Response from GitHub:"
+    echo $POST_CREATE_RELEASE_RESPONSE | jq '.'
+    echo
+    echo "ERROR: Failed to draft the release on GitHub."
+fi
+
+echo "Created release with id $RELEASE_ID"
+
+echo "Uploading release artifact to GitHub using $UPLOAD_URL ..."
+POST_UPLOAD_RESPONSE=$(curl -s --data-binary '@./target/$RELEASE_TAG.dmg' --header "content-type: application/octet-stream" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" $UPLOAD_URL)
+POST_UPLOAD_STATE=$(echo $POST_UPLOAD_RESPONSE | jq '.state' | sed 's/"//g')
+POST_UPLOAD_SUCCESS=$?
+
+POST_UPLOAD_IS_ERROR=0
+if [ $POST_UPLOAD_SUCCESS -ne 0 -o $POST_UPLOAD_STATE != "uploaded" ]; then
+    POST_UPLOAD_IS_ERROR=1
+    echo "Response from GitHub:"
+    echo $POST_UPLOAD_RESPONSE | jq '.'
+    echo
+    echo "ERROR: Uploading the release artifact failed."
+fi
+
+DELETE_RELEASE_IS_ERROR=0
+if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o "$DRY_RUN" == "true" ]; then
+    echo "There were errors or we are performing a dry run."
+    echo "Deleting draft from GitHub ..."
+    DELETE_RELEASE_STATUS=$(curl -s -i --header "authorization: bearer $GITHUB_ACCESS_TOKEN" -X DELETE https://api.github.com/repos/wonderbird/rename-project/releases/$RELEASE_ID | grep -E '^Status: ' | sed -E 's/[^0-9]+([0-9]+).*/\1/')
+    DELETE_RELEASE_SUCCESS=$?
+
+    if [ $DELETE_RELEASE_SUCCESS -ne 0 -o $DELETE_RELEASE_STATUS != "204" ]; then
+        DELETE_RELEASE_IS_ERROR=1
+        echo "Status code: $DELETE_RELEASE_STATUS"
+        echo
+        echo "ERROR: Failed to delete the release draft from GitHub."
+    fi
+fi
+
+if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o $DELETE_RELEASE_IS_ERROR -eq 1 ]; then
+    echo "Aborting release process because of error(s)."
+    exit 1
+fi
