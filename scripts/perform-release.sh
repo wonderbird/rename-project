@@ -26,7 +26,7 @@ echo =====
 
 # Use the Maven Release Plugin to create a release non-interactively
 # See also: http://maven.apache.org/maven-release/maven-release-plugin/usage.html
-mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " -Dpassword=$GITHUB_ACCESS_TOKEN --batch-mode release:prepare -Dresume=false appbundle:bundle
+mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " -Dpassword=$GITHUB_ACCESS_TOKEN --batch-mode release:prepare -Dresume=false -DskipTests
 RELEASE_PREPARE_SUCCESS=$?
 if [ $RELEASE_PREPARE_SUCCESS -ne 0 ]; then
     mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:clean
@@ -43,7 +43,7 @@ echo =====
 echo Performing Release
 echo =====
 
-mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:perform
+mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:perform -DskipTests
 RELEASE_SUCCESS=$?
 if [ $RELEASE_SUCCESS -ne 0 ]; then
     mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:clean
@@ -54,6 +54,14 @@ if [ $RELEASE_SUCCESS -ne 0 ]; then
 
     exit 1
 fi
+
+echo
+echo =====
+echo Building Release Disk Image
+echo =====
+
+git checkout tags/$RELEASE_TAG -b $TRAVIS_BRANCH
+mvn package appbundle:bundle -DskipTests
 
 echo
 echo =====
