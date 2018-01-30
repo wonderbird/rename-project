@@ -81,3 +81,10 @@ Jan 18, 2018 5:43:40 AM com.github.wonderbird.RenameProject.Logic.RenameProjectM
 INFORMATION: Replace contents: /Users/username/original-project/dependency-reduced-pom.xml
 ...
 ```
+
+## Graphical User Interface
+
+If RenameProject is started without command line arguments or by
+double clicking the application icon, the Graphical User Interface
+will be launched. Here you can enter the **project directory**, the
+**from** value and the **to** name. 
