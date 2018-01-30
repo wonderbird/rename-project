@@ -29,7 +29,7 @@ echo =====
 
 # Use the Maven Release Plugin to create a release non-interactively
 # See also: http://maven.apache.org/maven-release/maven-release-plugin/usage.html
-mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " --batch-mode release:prepare -Dresume=false
+mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " -Dpassword=$GITHUB_ACCESS_TOKEN --batch-mode release:prepare -Dresume=false appbundle:bundle
 RELEASE_PREPARE_SUCCESS=$?
 if [ $RELEASE_PREPARE_SUCCESS -ne 0 ]; then
     mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:clean
