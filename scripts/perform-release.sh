@@ -11,10 +11,10 @@ echo =====
 
 # Transform the current version to the release tag name by truncating the
 # "-SNAPSHOT" suffix and prepending the artifact id
-CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -Ev '(^\[|Download\w+:)')
+CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | egrep -v '(^\[|Download\w+:)')
 RELEASE_VERSION=$(echo $CURRENT_VERSION | sed s/-SNAPSHOT//)
 
-ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.artifactId | grep -Ev '(^\[|Download\w+:)')
+ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.artifactId | egrep -v '(^\[|Download\w+:)')
 RELEASE_TAG=$ARTIFACT_ID-$RELEASE_VERSION
 
 echo Release Tag in GitHub: $RELEASE_TAG
