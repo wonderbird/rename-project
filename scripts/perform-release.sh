@@ -2,7 +2,7 @@
 #
 # Create a release on GitHub
 
-DRY_RUN=true
+DRY_RUN=false
 SCRIPTNAME=$(basename "$0")
 
 git config --global user.email "stefan.boos@gmx.de"

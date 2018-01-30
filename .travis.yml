@@ -1,9 +1,14 @@
 language: java
 sudo: false
-script: mvn clean verify appbundle:bundle
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y genisoimage
 env:
   global:
     secure: h9Dd1LFhWtxrtK6jTMH0uFR/Q7K5PtUiRwkHPsNA7gGVRECHjmI6tz4Q1KLiEa9ienpLo7Gkl2wF21YOHL/+AGOpMLMignzkLJiZPDDRN1bsH1OMiwUUO2v00lAVkbTmBBr4QHiEpeSTYHUSi3S9QeUYJSeAZt9SEtC/WA5dWsybzAlTHnBx5oLIRhCpKXww9XkbFy5WhkDEV4hbKV0+8fKKl7ixG9s/Y11d5aKtkrkchLwPtMi7THxTHb2jx/q3SsMCZO/CKJi/Z9uN6Qn2N8noCDRXFQNCwEL3rGzamc6qzCzInOPGld6BvTuAZRBvhymmpoRDF0ymAgqJSDxheo9x67n9w3zntOf3G9y9NMWHSFrkBhknOLGsMO0m0R8NstWqWlzSSHGJ8GajJa46rXfu3egsksU4PvgNwCSsuoTDgUQsp05qJNQ3Rf31HTuOowdzGelV7VKUUiieIaJFXF1KPCvjRhXrAr4jInQu04oSC3gsCtNGlNQOjRE3Oedup0NxIn2YYKWXHhwi4Vmza0laRrS/5OZ1iHd6+3LzuwZYG38AKBNlG6C4ajTXb0dulOMb0MeNKAtJT0UnoxuEPJjsKlo/KXTZBolZdjpZj02UCFeWucqT5reYU8ZzBagqGaiss7RzfIbG0n+Mbvmg1Cni9W2BYCbKX1WOFwSkBbs=
+jobs:
+  include:
+  - stage: test
+    script: mvn clean verify
+  - stage: deploy
+    script: ./scripts/perform-release.sh
