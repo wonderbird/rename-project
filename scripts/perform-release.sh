@@ -5,9 +5,6 @@
 DRY_RUN=false
 SCRIPTNAME=$(basename "$0")
 
-git config --global user.email "stefan.boos@gmx.de"
-git config --global user.name "Travis CI"
-
 echo =====
 echo Parsing Project Version
 echo =====
