@@ -4,7 +4,7 @@
 
     <groupId>com.github.wonderbird</groupId>
     <artifactId>rename-project</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <version>1.6</version>
     <name>RenameProject</name>
     <description>Rename a project including filenames and all occurrences of the project name</description>
 
@@ -16,7 +16,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/wonderbird/rename-project.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>rename-project-1.6</tag>
     </scm>
 
     <dependencies>
