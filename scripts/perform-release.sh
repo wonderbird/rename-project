@@ -79,7 +79,7 @@ POST_CREATE_RELEASE_RESPONSE=$(curl -s --data '{"tag_name":"$RELEASE_TAG","targe
 POST_CREATE_RELEASE_SUCCESS=$?
 RELEASE_ID=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.id')
 UPLOAD_URL=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.upload_url' | sed 's/"//g')
-UPLOAD_URL=$(echo $UPLOAD_URL | sed 's/{?name,label}/?name=RELEASE_TAG.dmg\&label=Mac%20OS%20Disk%20Image/')
+UPLOAD_URL=$(echo $UPLOAD_URL | sed "s/{?name,label}/?name=${RELEASE_TAG}.dmg\&label=Mac%20OS%20Disk%20Image/")
 
 POST_CREATE_RELEASE_IS_ERROR=0
 if [ $POST_CREATE_RELEASE_SUCCESS -ne 0 -o "$RELEASE_ID" == "null" -o "$UPLOAD_URL" == "null" ]; then
