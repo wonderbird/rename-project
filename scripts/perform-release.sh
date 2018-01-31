@@ -77,12 +77,23 @@ echo =====
 echo "Creating draft on GitHub ..."
 POST_CREATE_RELEASE_RESPONSE=$(curl -s --data '{"tag_name":"$RELEASE_TAG","target_commitish":"master","name":"Test Release","body":"I am using this release to test scripted release making","draft":true,"prerelease":true}' --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
 POST_CREATE_RELEASE_SUCCESS=$?
+echo
+echo "*** Response from GitHub regarding the draft release"
+echo
+echo $POST_CREATE_RELEASE_RESPONSE | jq '.'
+echo
+echo "*** ls -l ./target/$RELEASE_TAG.dmg"
+echo
+ls -l ./target/$RELEASE_TAG.dmg
+echo
+echo "**********"
+echo
 RELEASE_ID=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.id')
 UPLOAD_URL=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.upload_url' | sed 's/"//g')
 UPLOAD_URL=$(echo $UPLOAD_URL | sed "s/{?name,label}/?name=${RELEASE_TAG}.dmg\&label=Mac%20OS%20Disk%20Image/")
 
 POST_CREATE_RELEASE_IS_ERROR=0
-if [ $POST_CREATE_RELEASE_SUCCESS -ne 0 -o "$RELEASE_ID" == "null" -o "$UPLOAD_URL" == "null" ]; then
+if [ $POST_CREATE_RELEASE_SUCCESS -ne 0 -o "x$RELEASE_ID" == "xnull" -o "x$UPLOAD_URL" == "xnull" ]; then
     POST_CREATE_RELEASE_IS_ERROR=1
     echo "Response from GitHub:"
     echo $POST_CREATE_RELEASE_RESPONSE | jq '.'
@@ -107,7 +118,7 @@ if [ $POST_UPLOAD_SUCCESS -ne 0 -o $POST_UPLOAD_STATE != "uploaded" ]; then
 fi
 
 DELETE_RELEASE_IS_ERROR=0
-if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o "$DRY_RUN" == "true" ]; then
+if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o "x$DRY_RUN" == "xtrue" ]; then
     echo "There were errors or we are performing a dry run."
     echo "Deleting draft from GitHub ..."
     DELETE_RELEASE_STATUS=$(curl -s -i --header "authorization: bearer $GITHUB_ACCESS_TOKEN" -X DELETE https://api.github.com/repos/wonderbird/rename-project/releases/$RELEASE_ID | grep -E '^Status: ' | sed -E 's/[^0-9]+([0-9]+).*/\1/')
