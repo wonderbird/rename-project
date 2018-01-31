@@ -60,7 +60,7 @@ echo =====
 echo Building Release Disk Image
 echo =====
 
-git checkout tags/$RELEASE_TAG -b $TRAVIS_BRANCH
+git checkout tags/$RELEASE_TAG
 mvn package appbundle:bundle -DskipTests
 
 echo
