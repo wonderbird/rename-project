@@ -16,8 +16,8 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/wonderbird/rename-project.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
@@ -132,6 +132,14 @@
                 <version>2.5.3</version>
                 <configuration>
                     <scmCommentPrefix>[skip ci]</scmCommentPrefix>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
