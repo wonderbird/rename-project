@@ -75,7 +75,7 @@ echo =====
 # https://developer.github.com/v3/repos/releases/#create-a-release
 
 echo "Creating draft on GitHub ..."
-POST_CREATE_RELEASE_RESPONSE=$(curl -s --data '{"tag_name":"$RELEASE_TAG","target_commitish":"master","name":"Test Release","body":"I am using this release to test scripted release making","draft":true,"prerelease":true}' --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
+POST_CREATE_RELEASE_RESPONSE=$(curl -s --data '{"tag_name":"$RELEASE_TAG","target_commitish":"master","name":"Automatic Release","body":"This release has bee created automatically by the build server [Travis CI](https://travis-ci.org/wonderbird/rename-project).","draft":true,"prerelease":true}' --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
 POST_CREATE_RELEASE_SUCCESS=$?
 RELEASE_ID=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.id')
 UPLOAD_URL=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.upload_url' | sed 's/"//g')
@@ -119,9 +119,24 @@ if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o "x$DR
         echo
         echo "ERROR: Failed to delete the release draft from GitHub."
     fi
+else
+
+    echo "Publishing release ..."
+    POST_EDIT_RELEASE_STATUS=$(curl -s -i --data '{"draft":false,"prerelease":false}' --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases/$RELEASE_ID | grep -E '^Status: ' | sed -E 's/[^0-9]+([0-9]+).*/\1/')
+    POST_EDIT_RELEASE_SUCCESS=$?
+
+    if [ $POST_EDIT_RELEASE_SUCCESS -ne 0 -o $POST_EDIT_RELEASE_STATUS != "200" ]; then
+        EDIT_RELEASE_IS_ERROR=1
+        echo "Status code: $EDIT_RELEASE_STATUS"
+        echo
+        echo "ERROR: Failed to remove the draft and pre-release flags from release $RELEASE_ID on GitHub."
+    fi
+
 fi
 
-if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o $DELETE_RELEASE_IS_ERROR -eq 1 ]; then
+if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o $DELETE_RELEASE_IS_ERROR -eq 1 -o $EDIT_RELEASE_IS_ERROR -eq 1 ]; then
     echo "Aborting release process because of error(s)."
     exit 1
+else
+    echo "SUCCESS: Release $RELEASE_ID has been published on GitHub."
 fi
