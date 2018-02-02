@@ -75,20 +75,7 @@ echo =====
 # https://developer.github.com/v3/repos/releases/#create-a-release
 
 echo "Creating draft on GitHub ..."
-POST_CREATE_RELEASE_PAYLOAD="{\"tag_name\":\"$RELEASE_TAG\",\"target_commitish\":\"master\",\"name\":\"Automatic Release\",\"body\":\"This release has bee created automatically by the build server [Travis CI](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID).\n\nCommit message: $TRAVIS_COMMIT_MESSAGE\",\"draft\":true,\"prerelease\":true}"
-echo
-echo *****
-echo
-echo 'echo $POST_CREATE_RELEASE_PAYLOAD'
-echo $POST_CREATE_RELEASE_PAYLOAD
-echo
-echo *****
-echo
-echo echo \$POST_CREATE_RELEASE_PAYLOAD \| jq \'.\'
-echo $POST_CREATE_RELEASE_PAYLOAD | jq '.'
-echo
-echo *****
-echo
+POST_CREATE_RELEASE_PAYLOAD="{\"tag_name\":\"$RELEASE_TAG\",\"target_commitish\":\"master\",\"name\":\"Automatic Release\",\"body\":\"This release has bee created automatically by the build server [Travis CI](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID). Commit message: $TRAVIS_COMMIT_MESSAGE\",\"draft\":true,\"prerelease\":true}"
 POST_CREATE_RELEASE_RESPONSE=$(curl -s --data "$POST_CREATE_RELEASE_PAYLOAD" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
 POST_CREATE_RELEASE_SUCCESS=$?
 RELEASE_ID=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.id')
