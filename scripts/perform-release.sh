@@ -130,6 +130,7 @@ else
         echo "Status code: $EDIT_RELEASE_STATUS"
         echo
         echo "ERROR: Failed to remove the draft and pre-release flags from release $RELEASE_ID on GitHub."
+        echo "       The draft release is still present on GitHub."
     fi
 
 fi

@@ -15,6 +15,15 @@ from which you can easily create new Java Projects.
   and others.
 * RenameProject has been tested with IntelliJ and Maven based projects.
 
+## Installation Instructions
+
+1. Install the latest [Java Runtime Environment](https://java.com/en/download/)
+   for your platform
+
+1. Download the latest disk image file from the [Releases](releases) section
+
+1. Mount the disk image and drag the application to your `Applications` folder
+
 ## Usage Instructions
 
 These instructions assumes that you would like to change the name of
@@ -81,10 +90,3 @@ Jan 18, 2018 5:43:40 AM com.github.wonderbird.RenameProject.Logic.RenameProjectM
 INFORMATION: Replace contents: /Users/username/original-project/dependency-reduced-pom.xml
 ...
 ```
-
-## Graphical User Interface
-
-If RenameProject is started without command line arguments or by
-double clicking the application icon, the Graphical User Interface
-will be launched. Here you can enter the **project directory**, the
-**from** value and the **to** name. 
