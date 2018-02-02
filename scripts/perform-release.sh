@@ -108,6 +108,7 @@ if [ $POST_UPLOAD_SUCCESS -ne 0 -o $POST_UPLOAD_STATE != "uploaded" ]; then
 fi
 
 DELETE_RELEASE_IS_ERROR=0
+EDIT_RELEASE_IS_ERROR=0
 if [ $POST_CREATE_RELEASE_IS_ERROR -eq 1 -o $POST_UPLOAD_IS_ERROR -eq 1 -o "x$DRY_RUN" = "xtrue" ]; then
     echo "There were errors or we are performing a dry run."
     echo "Deleting draft from GitHub ..."
