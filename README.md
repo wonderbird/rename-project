@@ -20,7 +20,7 @@ from which you can easily create new Java Projects.
 1. Install the latest [Java Runtime Environment](https://java.com/en/download/)
    for your platform
 
-1. Download the latest disk image file from the [Releases](releases) section
+1. Download the latest disk image file from the [Releases](../../releases) section
 
 1. Mount the disk image and drag the application to your `Applications` folder
 
