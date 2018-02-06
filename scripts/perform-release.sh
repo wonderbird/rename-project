@@ -76,6 +76,7 @@ echo =====
 
 echo "Creating draft on GitHub ..."
 POST_CREATE_RELEASE_PAYLOAD="{\"tag_name\":\"$RELEASE_TAG\",\"target_commitish\":\"master\",\"name\":\"Automatic Release\",\"body\":\"This release has bee created automatically by the build server [Travis CI](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID). Commit message: $TRAVIS_COMMIT_MESSAGE\",\"draft\":true,\"prerelease\":true}"
+echo Release payload: "$POST_CREATE_RELEASE_PAYLOAD"
 POST_CREATE_RELEASE_RESPONSE=$(curl -s --data "$POST_CREATE_RELEASE_PAYLOAD" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/wonderbird/rename-project/releases)
 POST_CREATE_RELEASE_SUCCESS=$?
 RELEASE_ID=$(echo $POST_CREATE_RELEASE_RESPONSE | jq '.id')
