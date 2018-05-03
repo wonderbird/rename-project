@@ -109,7 +109,7 @@
             <plugin>
                 <groupId>sh.tak.appbundler</groupId>
                 <artifactId>appbundle-maven-plugin</artifactId>
-                <version>1.1.0</version>
+                <version>1.2.0</version>
                 <configuration>
                     <mainClass>com.github.wonderbird.RenameProject.Main</mainClass>
                     <generateDiskImageFile>true</generateDiskImageFile>

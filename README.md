@@ -5,6 +5,10 @@
 RenameProject gives you the power to create template projects in Java,
 from which you can easily create new Java Projects.
 
+## Attention
+
+For building the MacOS disk image you need to use the Java 8 compiler.
+
 ## Key Functions
 
 * RenameProject facilitates changing the project name for a Java Code base.
