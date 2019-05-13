@@ -7,7 +7,7 @@ from which you can easily create new Java Projects.
 
 ## Attention
 
-For building the MacOS disk image you need to use the Java 8 compiler.
+For building the MacOS disk image you need to use the Oracle Java 8 compiler.
 
 ## Key Functions
 
@@ -21,7 +21,7 @@ For building the MacOS disk image you need to use the Java 8 compiler.
 
 ## Installation Instructions
 
-1. Install the latest [Java Runtime Environment](https://java.com/en/download/)
+1. Install the latest [Oracle Java Runtime Environment](https://java.com/en/download/)
    for your platform
 
 1. Download the latest disk image file from the [Releases](../../releases) section
