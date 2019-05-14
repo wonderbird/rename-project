@@ -94,3 +94,22 @@ Jan 18, 2018 5:43:40 AM com.github.wonderbird.RenameProject.Logic.RenameProjectM
 INFORMATION: Replace contents: /Users/username/original-project/dependency-reduced-pom.xml
 ...
 ```
+
+## Continuous "Deployment" Pipeline
+
+Every GitHub push triggers a build job on [Travis CI](https://travis-ci.org/wonderbird/rename-project).
+The build job automatically adds the built DMG file to the [GitHub Release](https://github.com/wonderbird/rename-project/releases)
+section once the tests have completed successfully.
+
+For the Travis - GitHub integration to work the GitHub access token has
+been added to [.travis-ci.yml](https://github.com/wonderbird/rename-project/blob/master/.travis.yml).
+If you want to update the GitHub access token, then use this command: 
+
+```
+travis encrypt GITHUB_ACCESS_TOKEN=<the_token_goes_here>
+```
+
+### Further Reading
+- [Will Price: Pushing to github from TravisCI](https://gist.github.com/willprice/e07efd73fb7f13f917ea)
+- [AppVeyor: Pushing to remote Git repository from a build](https://www.appveyor.com/docs/how-to/git-push/)
+- [Travis CI: Encryption keys](https://docs.travis-ci.com/user/encryption-keys/)
