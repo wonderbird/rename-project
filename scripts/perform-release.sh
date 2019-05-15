@@ -95,7 +95,7 @@ fi
 echo "Created release with id $RELEASE_ID"
 
 echo "Uploading release artifact to GitHub using $UPLOAD_URL ..."
-POST_UPLOAD_RESPONSE=$(curl -s --data-binary "@./target/${RELEASE_TAG}.dmg" --header "content-type: application/octet-stream" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" $UPLOAD_URL)
+POST_UPLOAD_RESPONSE=$(curl -s --data-binary "@./core/target/${RELEASE_TAG}.dmg" --header "content-type: application/octet-stream" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" $UPLOAD_URL)
 POST_UPLOAD_STATE=$(echo $POST_UPLOAD_RESPONSE | jq '.state' | sed 's/"//g')
 POST_UPLOAD_SUCCESS=$?
 
