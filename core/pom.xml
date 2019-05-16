@@ -106,7 +106,9 @@
                 <artifactId>appbundle-maven-plugin</artifactId>
                 <version>1.2.0</version>
                 <configuration>
+		    <bundleName>Rename Project</bundleName>
                     <mainClass>com.github.wonderbird.RenameProject.Main</mainClass>
+		    <jrePath>${env.JAVA_HOME}</jrePath>
                     <generateDiskImageFile>true</generateDiskImageFile>
                     <includeApplicationsSymlink>true</includeApplicationsSymlink>
                     <iconFile>src/main/resources/application.icns</iconFile>
