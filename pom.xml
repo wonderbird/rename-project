@@ -5,14 +5,21 @@
 
     <groupId>com.github.wonderbird</groupId>
     <artifactId>rename-project</artifactId>
-    <version>1.23-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>RenameProject</name>
     <description>Rename a project including filenames and all occurrences of the project name</description>
 
     <packaging>pom</packaging>
 
+    <properties>
+        <!-- https://blog.soebes.de/blog/2017/04/02/maven-pom-files-without-a-version-in-it/ -->
+        <revision>1.24-SNAPSHOT</revision>
+        <java.version>1.8</java.version>
+    </properties>
+
     <modules>
         <module>core</module>
+        <module>javafx-ui</module>
     </modules>
 
     <scm>
@@ -20,7 +27,81 @@
         <tag>HEAD</tag>
     </scm>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.12.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- TODO: Fix the warnings issued by the maven shade plugin -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.github.wonderbird.RenameProject.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <scmCommentPrefix>[skip ci]</scmCommentPrefix>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
