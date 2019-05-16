@@ -1,10 +1,10 @@
-package com.github.wonderbird.RenameProject;
+package com.github.wonderbird.RenameProjectUi;
 
 import com.github.wonderbird.RenameProject.Logic.RenameProjectManager;
 import com.github.wonderbird.RenameProject.Logic.RenameProjectManagerImpl;
 import com.github.wonderbird.RenameProject.Models.Notification;
-import com.github.wonderbird.RenameProject.ViewModels.RenameProjectViewModel;
-import com.github.wonderbird.RenameProject.Views.RenameProjectView;
+import com.github.wonderbird.RenameProjectUi.ViewModels.RenameProjectViewModel;
+import com.github.wonderbird.RenameProjectUi.Views.RenameProjectView;
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.MvvmFX;
 import de.saxsys.mvvmfx.ViewTuple;

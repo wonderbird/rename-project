@@ -1,7 +1,7 @@
-package com.github.wonderbird.RenameProject.Views;
+package com.github.wonderbird.RenameProjectUi.Views;
 
 import com.github.wonderbird.RenameProject.Models.Notification;
-import com.github.wonderbird.RenameProject.ViewModels.RenameProjectViewModel;
+import com.github.wonderbird.RenameProjectUi.ViewModels.RenameProjectViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package com.github.wonderbird.RenameProject.ViewModels;
+package com.github.wonderbird.RenameProjectUi.ViewModels;
 
 import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.Models.Notification;

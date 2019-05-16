@@ -45,10 +45,10 @@ public class FileNamePatternFinderImplTest {
         final List<Path> paths = finder.find(".", pattern);
 
         List<Path> expectedPaths = Arrays.asList(
-            Paths.get( "target", "test-classes", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath(),
-            Paths.get( "target", "classes", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath(),
-            Paths.get( "src", "test", "java", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath(),
-            Paths.get( "src", "main", "java", "com", "github", "wonderbird", "RenameProject", "ViewModels").toAbsolutePath());
+            Paths.get( "target", "test-classes", "com", "github", "wonderbird", "RenameProjectUi", "ViewModels").toAbsolutePath(),
+            Paths.get( "target", "classes", "com", "github", "wonderbird", "RenameProjectUi", "ViewModels").toAbsolutePath(),
+            Paths.get( "src", "test", "java", "com", "github", "wonderbird", "RenameProjectUi", "ViewModels").toAbsolutePath(),
+            Paths.get( "src", "main", "java", "com", "github", "wonderbird", "RenameProjectUi", "ViewModels").toAbsolutePath());
 
         for (Path expected : expectedPaths) {
             assertTrue(String.format("The directory '%s' should be found", expected.toString()), paths.stream().anyMatch(actual -> actual.compareTo(expected) == 0));

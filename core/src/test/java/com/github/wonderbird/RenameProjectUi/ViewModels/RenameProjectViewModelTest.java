@@ -1,14 +1,12 @@
-package com.github.wonderbird.RenameProject.ViewModels;
+package com.github.wonderbird.RenameProjectUi.ViewModels;
 
 import com.github.wonderbird.RenameProject.Models.Configuration;
 import com.github.wonderbird.RenameProject.Models.Notification;
 import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
 import de.saxsys.mvvmfx.MvvmFX;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;

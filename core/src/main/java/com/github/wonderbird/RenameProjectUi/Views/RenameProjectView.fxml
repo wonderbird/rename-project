@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.wonderbird.RenameProject.Views.RenameProjectView">
+<GridPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.wonderbird.RenameProjectUi.Views.RenameProjectView">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
         <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
