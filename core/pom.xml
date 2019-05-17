@@ -6,8 +6,6 @@
     <parent>
         <groupId>com.github.wonderbird</groupId>
         <artifactId>rename-project</artifactId>
-        <!--suppress MavenPropertyInParent -->
-        <version>${revision}</version>
     </parent>
 
     <artifactId>core</artifactId>

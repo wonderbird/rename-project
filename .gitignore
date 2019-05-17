@@ -29,6 +29,8 @@ Temporary Items
 
 # Maven Release Plugin
 release.properties
+pom.xml.releaseBackup
+pom.xml.tag
 
 # JetBrains IntelliJ IDEA plugins
 .idea/markdown-exported-files.xml
