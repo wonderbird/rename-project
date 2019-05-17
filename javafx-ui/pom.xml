@@ -6,10 +6,11 @@
     <parent>
         <groupId>com.github.wonderbird</groupId>
         <artifactId>rename-project</artifactId>
-        <version>1.24-SNAPSHOT</version>
+        <version>local</version>
     </parent>
 
     <artifactId>javafx-ui</artifactId>
+    <version>${revision}</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +22,7 @@
         <dependency>
             <groupId>com.github.wonderbird</groupId>
             <artifactId>core</artifactId>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>de.saxsys</groupId>

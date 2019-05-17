@@ -6,10 +6,12 @@
     <parent>
         <groupId>com.github.wonderbird</groupId>
         <artifactId>rename-project</artifactId>
-        <version>1.24-SNAPSHOT</version>
+        <!--suppress MavenPropertyInParent -->
+        <version>local</version>
     </parent>
 
     <artifactId>core</artifactId>
+    <version>${revision}</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

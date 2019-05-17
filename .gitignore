@@ -27,10 +27,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Maven Release Plugin
+# Maven Release and Flatten Plugin
 release.properties
 pom.xml.releaseBackup
 pom.xml.tag
+.flattened-pom.xml
 
 # JetBrains IntelliJ IDEA plugins
 .idea/markdown-exported-files.xml
