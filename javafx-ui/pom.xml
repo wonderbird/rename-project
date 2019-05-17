@@ -6,6 +6,7 @@
     <parent>
         <groupId>com.github.wonderbird</groupId>
         <artifactId>rename-project</artifactId>
+        <version>1.24-SNAPSHOT</version>
     </parent>
 
     <artifactId>javafx-ui</artifactId>
