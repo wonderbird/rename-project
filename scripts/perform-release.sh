@@ -11,10 +11,10 @@ echo =====
 
 # Transform the current version to the release tag name by truncating the
 # "-SNAPSHOT" suffix and prepending the artifact id
-CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
+CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -pl core -Dexpression=project.version -Drevision=${TRAVIS_BUILD_NUMBER} | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
 RELEASE_VERSION=$(echo $CURRENT_VERSION | sed s/-SNAPSHOT//)
 
-ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.artifactId | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
+ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -pl javafx-ui -Dexpression=project.artifactId -Drevision=${TRAVIS_BUILD_NUMBER} | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
 RELEASE_TAG=$ARTIFACT_ID-$RELEASE_VERSION
 
 echo Release Tag in GitHub: $RELEASE_TAG
@@ -24,36 +24,8 @@ echo =====
 echo Preparing Release
 echo =====
 
-# Use the Maven Release Plugin to create a release non-interactively
-# See also: http://maven.apache.org/maven-release/maven-release-plugin/usage.html
-mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " -Dpassword=$GITHUB_ACCESS_TOKEN --batch-mode release:prepare -Dresume=false -DskipTests
-RELEASE_PREPARE_SUCCESS=$?
-if [ $RELEASE_PREPARE_SUCCESS -ne 0 ]; then
-    mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:clean
-
-    echo
-    echo "ERROR: Failed to prepare the release '$RELEASE_TAG.'"
-    echo "       The release has been cleaned, please fix the error(s) and try again."
-
-    exit 1
-fi
-
-echo
-echo =====
-echo Performing Release
-echo =====
-
-mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:perform -DskipTests
-RELEASE_SUCCESS=$?
-if [ $RELEASE_SUCCESS -ne 0 ]; then
-    mvn -DdryRun=$DRY_RUN -DscmCommentPrefix="[skip ci] " release:clean
-
-    echo
-    echo "ERROR: Failed to prepare the release '$RELEASE_TAG.'"
-    echo "       The release has been cleaned, please fix the error(s) and try again."
-
-    exit 1
-fi
+# https://axelfontaine.com/blog/dead-burried.html
+mvn deploy scm:tag -Drevision=${TRAVIS_BUILD_NUMBER}
 
 echo
 echo =====
@@ -61,7 +33,7 @@ echo Building Release Disk Image
 echo =====
 
 git checkout tags/$RELEASE_TAG
-mvn package appbundle:bundle -DskipTests
+mvn package appbundle:bundle -DskipTests -Drevision=${TRAVIS_BUILD_NUMBER}
 
 echo
 echo =====

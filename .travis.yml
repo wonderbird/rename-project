@@ -10,6 +10,6 @@ env:
 jobs:
   include:
   - stage: test
-    script: mvn clean verify
+    script: mvn clean verify -Drevision=${TRAVIS_BUILD_NUMBER}
   - stage: deploy
     script: ./scripts/perform-release.sh

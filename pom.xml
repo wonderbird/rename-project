@@ -14,6 +14,9 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <!-- Version number of local builds -->
+        <!-- https://axelfontaine.com/blog/dead-burried.html -->
+        <revision>0-SNAPSHOT</revision>
     </properties>
 
     <modules>
@@ -110,10 +113,10 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.11.2</version>
                 <configuration>
-                    <scmCommentPrefix>[skip ci]</scmCommentPrefix>
+                    <tag>${project.artifactId}-${project.version}</tag>
                 </configuration>
             </plugin>
             <plugin>
