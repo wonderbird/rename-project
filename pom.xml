@@ -6,7 +6,7 @@
     <groupId>com.github.wonderbird</groupId>
     <artifactId>rename-project</artifactId>
     <!-- https://blog.soebes.de/blog/2017/04/02/maven-pom-files-without-a-version-in-it/ -->
-    <version>local</version>
+    <version>1.24.0.${revision}</version>
     <name>RenameProject</name>
     <description>Rename a project including filenames and all occurrences of the project name</description>
 

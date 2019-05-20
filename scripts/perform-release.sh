@@ -14,7 +14,7 @@ echo =====
 CURRENT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -pl core -Dexpression=project.version -Drevision=${TRAVIS_BUILD_NUMBER} | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
 RELEASE_VERSION=$(echo $CURRENT_VERSION | sed s/-SNAPSHOT//)
 
-ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -pl javafx-ui -Dexpression=project.artifactId -Drevision=${TRAVIS_BUILD_NUMBER} | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
+ARTIFACT_ID=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.artifactId -Drevision=${TRAVIS_BUILD_NUMBER} | grep -Ev '(^\[)|(^Download)|(^Progress)|(^\s+)')
 RELEASE_TAG=$ARTIFACT_ID-$RELEASE_VERSION
 
 echo Release Tag in GitHub: $RELEASE_TAG
@@ -67,7 +67,7 @@ fi
 echo "Created release with id $RELEASE_ID"
 
 echo "Uploading release artifact to GitHub using $UPLOAD_URL ..."
-POST_UPLOAD_RESPONSE=$(curl -s --data-binary "@./core/target/core-${CURRENT_VERSION}.dmg" --header "content-type: application/octet-stream" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" $UPLOAD_URL)
+POST_UPLOAD_RESPONSE=$(curl -s --data-binary "@./javafx-ui/target/javafx-ui-${CURRENT_VERSION}.dmg" --header "content-type: application/octet-stream" --header "authorization: bearer $GITHUB_ACCESS_TOKEN" $UPLOAD_URL)
 POST_UPLOAD_STATE=$(echo $POST_UPLOAD_RESPONSE | jq '.state' | sed 's/"//g')
 POST_UPLOAD_SUCCESS=$?
 

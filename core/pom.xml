@@ -7,7 +7,7 @@
         <groupId>com.github.wonderbird</groupId>
         <artifactId>rename-project</artifactId>
         <!--suppress MavenPropertyInParent -->
-        <version>local</version>
+        <version>1.24.0.${revision}</version>
     </parent>
 
     <artifactId>core</artifactId>
