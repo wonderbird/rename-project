@@ -14,6 +14,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
         <!-- Version number of local builds -->
         <!-- https://axelfontaine.com/blog/dead-burried.html -->
         <revision>0-SNAPSHOT</revision>
@@ -25,6 +26,8 @@
     </modules>
 
     <scm>
+        <url>https://github.com/wonderbird/rename-project</url>
+        <connection>scm:git:https://github.com/wonderbird/rename-project.git</connection>
         <developerConnection>scm:git:https://github.com/wonderbird/rename-project.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
@@ -96,38 +99,42 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <!-- Build an executable JAR -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.github.wonderbird.RenameProject.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-scm-plugin</artifactId>
-                <version>1.11.2</version>
-                <configuration>
-                    <tag>${project.artifactId}-${project.version}</tag>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- adopted from https://synyx.de/blog/2018-01-24-travisci-github-releases/ -->
+                        <!-- and from https://github.com/jutzig/github-release-plugin -->
+                        <groupId>de.jutzig</groupId>
+                        <artifactId>github-release-plugin</artifactId>
+                        <version>1.3.0</version>
+                        <configuration>
+                            <description>Description of your release</description>
+                            <releaseName>Automatic Release ${project.version}</releaseName>
+                            <tag>${project.version}</tag>
+                            <serverId>github</serverId>
+
+                            <!-- If your project has additional artifacts, such as ones produced by
+                                 the maven-assembly-plugin, you can define the following
+                                 (requires version 1.1.1 of the plugin or higher): -->
+                            <fileSets>
+                                <fileSet>
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>javafx-ui/target/javafx-ui-${project.version}.dmg</include>
+                                    </includes>
+                                </fileSet>
+                            </fileSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
