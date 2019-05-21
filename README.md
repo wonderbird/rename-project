@@ -109,7 +109,14 @@ If you want to update the GitHub access token, then use this command:
 travis encrypt GITHUB_ACCESS_TOKEN=<the_token_goes_here>
 ```
 
+After a successful build Travis CI will deploy the release DMG to GitHub. For this purpose it uses the
+[github-release-plugin](https://github.com/jutzig/github-release-plugin) which is configured in the
+[root pom](https://github.com/wonderbird/rename-project/blob/master/pom.xml) and in the files inside the
+[.travis](https://github.com/wonderbird/rename-project/blob/master/.travis) directory.
+
 ### Further Reading
+- [Sandra Thieme: Using Travis CI to deploy to Maven repositories and GitHub Releases](https://synyx.de/blog/2018-01-24-travisci-github-releases/)
+- [Johannes Utzig: github-release-plugin](https://github.com/jutzig/github-release-plugin)
 - [Will Price: Pushing to github from TravisCI](https://gist.github.com/willprice/e07efd73fb7f13f917ea)
 - [AppVeyor: Pushing to remote Git repository from a build](https://www.appveyor.com/docs/how-to/git-push/)
 - [Travis CI: Encryption keys](https://docs.travis-ci.com/user/encryption-keys/)
