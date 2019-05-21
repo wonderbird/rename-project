@@ -11,4 +11,4 @@ echo =====
 echo Releasing to GitHub
 echo =====
 
-echo mvn deploy --settings .travis/settings.xml -Drevision=${TRAVIS_BUILD_NUMBER} -DskipTests=true --batch-mode --update-snapshots -Prelease
+mvn deploy --settings .travis/settings.xml -Drevision=${TRAVIS_BUILD_NUMBER} -DskipTests=true --batch-mode --update-snapshots -Prelease
