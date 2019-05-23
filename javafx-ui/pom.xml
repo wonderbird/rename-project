@@ -99,9 +99,6 @@
                             <includes>
                                 <include>target/rename-project-${project.version}.dmg</include>
                             </includes>
-                            <excludes>
-                                <exclude>target/javafx-ui-${project.version}.jar</exclude>
-                            </excludes>
                         </fileSet>
                     </fileSets>
                 </configuration>

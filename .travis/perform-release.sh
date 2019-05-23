@@ -19,7 +19,8 @@ echo =====
 
 PROJECT_VERSION=$($MVN org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -E '^[^\[]')
 PROJECT=javafx-ui
-echo mv $PROJECT/target/$PROJECT-$PROJECT_VERSION.dmg $PROJECT/target/rename-project-$PROJECT_VERSION.dmg
+mv -v $PROJECT/target/$PROJECT-$PROJECT_VERSION.dmg $PROJECT/target/rename-project-$PROJECT_VERSION.dmg
+rm -v $PROJECT/target/$PROJECT-$PROJECT_VERSION.jar
 
 echo =====
 echo Releasing to GitHub
