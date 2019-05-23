@@ -1,12 +1,21 @@
 language: java
+
 sudo: false
+
 before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y genisoimage
 - /bin/bash ./.travis/setup-git.sh
+
 env:
   global:
     secure: "KPoWJMNlmdQ0sepnMLyH+RygW/Sr61LFIl4K1V3lDYC+P4Ii0/eYdwd8kXGrMVGvuhrcnu+hxOs00dvym4u03uMVN1v1R5CzONg1WyrJDfnBq8hO1J97+KJPznifWXwP43H+MbmUTFKGaAsOxaDPTY6MSZffWC6NBnwfF3DKLNSMCzZWnv7GF2lhzJ1VoS40WIeYYVBkkPC8ezko4wjYKuUtyaFqQ81l6xShQURT9DmcHZ3VYX41sJA7HL1RN6ra7vfMiMHr6/04c8iCUJc6o0cCt27Tz6zkARstZZJkUNY6t31Z1tmHrF5EnP2j86xJ9Fu+YiATOU4kFv+T82RQCFGx7hnea/frj+oLdEMcQ82hB92pG9LH19GlwpvvLIJt2vSY/J2Ohv9Xl1VIjXR/wfmxZ1w0N2wIqt3m/xhu6jfFBsCaTHGeRWqTxdI8/bG+oDkDpmX6IHuSW6IP9sOSdj/G/e3bhr2/7v4+jwwsdTVnrJc9p84ai2BehEQ3k0Z5qln2iSCva/wLZ0++5uImO9QX1AV+mGqjPbtdo4HFrLkmsTBQhzHcuSjaFIJ5sE2xV1BLrIPwd+VAROQkpY9BhBqrrla0TGFiD1iGTldtwaILoPGbprDe8QAXxgHr+7+nsI8/JiuGSZcK3Dpwnnhc9aZcn8FU37ouhntYa2riEMg="
+
+stages:
+  - test
+  - name: deploy
+    if: branch = master
+
 jobs:
   include:
   - stage: test

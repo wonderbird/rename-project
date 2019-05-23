@@ -97,8 +97,11 @@
                         <fileSet>
                             <directory>${project.basedir}</directory>
                             <includes>
-                                <include>target/javafx-ui-${project.version}.dmg</include>
+                                <include>target/rename-project-${project.version}.dmg</include>
                             </includes>
+                            <excludes>
+                                <exclude>target/javafx-ui-${project.version}.jar</exclude>
+                            </excludes>
                         </fileSet>
                     </fileSets>
                 </configuration>
