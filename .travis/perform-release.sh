@@ -4,11 +4,16 @@
 # adopted from https://synyx.de/blog/2018-01-24-travisci-github-releases/
 # and from https://github.com/jutzig/github-release-plugin
 
-DRY_RUN=false
-SCRIPTNAME=$(basename "$0")
+SETTINGS=.travis/settings.xml
+
+echo =====
+echo Creating the release artifact
+echo =====
+
+mvn package --settings "$SETTINGS" -Drevision=${TRAVIS_BUILD_NUMBER} -DskipTests=true --batch-mode
 
 echo =====
 echo Releasing to GitHub
 echo =====
 
-mvn -X github-release:release --projects javafx-ui --settings .travis/settings.xml -Drevision=${TRAVIS_BUILD_NUMBER} -DskipTests=true --batch-mode --update-snapshots
+mvn github-release:release -Dgithub.draft=true --projects javafx-ui --settings "$SETTINGS" -Drevision=${TRAVIS_BUILD_NUMBER} -DskipTests=true --batch-mode
