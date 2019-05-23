@@ -88,6 +88,7 @@
                     <releaseName>Automatic Release ${project.version}</releaseName>
                     <tag>${project.version}</tag>
                     <serverId>github</serverId>
+                    <repositoryId>wonderbird/rename-project</repositoryId>
 
                     <!-- If your project has additional artifacts, such as ones produced by
                          the maven-assembly-plugin, you can define the following
