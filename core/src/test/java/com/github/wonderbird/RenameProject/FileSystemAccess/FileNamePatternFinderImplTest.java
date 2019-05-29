@@ -135,4 +135,19 @@ public class FileNamePatternFinderImplTest {
         Path unwantedPath = Paths.get("src").toAbsolutePath();
         assertFalse("Start directory should be removed from find results", paths.contains(unwantedPath));
     }
+
+    /**
+     * Feature: Ignore ".git" folder recursively.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
+    @Test
+    public void find_PatternExcludesDotGitDirectory_DoNotIncludeFilesFromDotGitInResults() throws IOException {
+        FilePathFinder finder = new FileNamePatternFinderImpl();
+
+        List<Path> paths = finder.find("..", "^((?!\\.git).)*HEA.*");
+
+        Path unwantedPath = Paths.get("../.git/HEAD").toAbsolutePath();
+        assertFalse(".git directory should not be included in find results", paths.contains(unwantedPath));
+    }
 }
