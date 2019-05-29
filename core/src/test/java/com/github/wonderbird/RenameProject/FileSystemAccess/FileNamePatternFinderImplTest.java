@@ -145,9 +145,10 @@ public class FileNamePatternFinderImplTest {
     public void find_PatternExcludesDotGitDirectory_DoNotIncludeFilesFromDotGitInResults() throws IOException {
         FilePathFinder finder = new FileNamePatternFinderImpl();
 
-        List<Path> paths = finder.find("..", "^((?!\\.git).)*HEA.*");
+        List<Path> paths = finder.find("..", "^((?!core).)*pom\\.xml.*");
 
-        Path unwantedPath = Paths.get("../.git/HEAD").toAbsolutePath();
+        Path unwantedPath = Paths.get("../core/pom.xml").toAbsolutePath();
         assertFalse(".git directory should not be included in find results", paths.contains(unwantedPath));
+        assertEquals("wrong number of entries returned", 2, paths.size());
     }
 }
