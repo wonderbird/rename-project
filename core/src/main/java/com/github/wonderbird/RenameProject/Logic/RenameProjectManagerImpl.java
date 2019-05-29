@@ -38,7 +38,8 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
 
     private List<Path> findPathsToRename(RenameFromToPair aFromToPair) throws IOException {
         String from = aFromToPair.getFrom();
-        String filePattern = "*" + from + "*";
+        String excludePattern = "\\.git";
+        String filePattern = "^((?!.*" + excludePattern + ").)*" + from + ".*";
         return fileNamePatternFinder.find(config.getStartDir(), filePattern);
     }
 

@@ -13,7 +13,7 @@ class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements Fil
     private List<Path> result= new ArrayList<>();
 
     FileNameMatchingVisitorImpl(final String aPattern) {
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + aPattern);
+        matcher = FileSystems.getDefault().getPathMatcher("regex:" + aPattern);
     }
 
     @Override
