@@ -38,15 +38,20 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
     public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException {
         Path normalizedPath = aFile.toAbsolutePath().normalize();
 
-        // TODO: The following code is ugly. Refactor. We should not use a return inside the method. Introduce a layer of abstraction.
-        if (exclusionPatterns.isExcluded(normalizedPath)) {
-            return FileVisitResult.CONTINUE;
+        if (!exclusionPatterns.isExcluded(normalizedPath)) {
+            if (isSearchStringContainedInFile(normalizedPath)) {
+                result.add(normalizedPath);
+            }
         }
 
+        return FileVisitResult.CONTINUE;
+    }
+
+    private boolean isSearchStringContainedInFile(Path aNormalizedPath) throws IOException {
         final String searchRegex = ".*" + searchString + ".*";
         Pattern pattern = Pattern.compile(searchRegex, Pattern.DOTALL);
 
-        InputStream inputStream = Files.newInputStream(aFile);
+        InputStream inputStream = Files.newInputStream(aNormalizedPath);
         try (InputStreamReader reader = new InputStreamReader(inputStream)) {
             char[] buffer = new char[BUFFER_SIZE];
             String endOfPreviousBuffer = "";
@@ -56,8 +61,7 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
 
                 Matcher matcher = pattern.matcher(bufferAsText);
                 if (matcher.matches()) {
-                    result.add(normalizedPath);
-                    break;
+                    return true;
                 }
 
                 int endOfBufferStartIndex = Math.max(0, bufferAsText.length() - searchString.length());
@@ -65,6 +69,6 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
             }
         }
 
-        return FileVisitResult.CONTINUE;
+        return false;
     }
 }
