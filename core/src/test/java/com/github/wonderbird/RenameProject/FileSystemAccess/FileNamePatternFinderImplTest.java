@@ -140,17 +140,17 @@ public class FileNamePatternFinderImplTest {
     /**
      * Feature: Ignore ".git" folder recursively.
      *
+     * For test purposes we make sure that skipping the 'core' folder is working. This allows to check that some
+     * files survived the filtering process. If we'd use a filter addressing the '.git' folder, then we wouldn't
+     * be able to check for surviving files.
+     *
      * @throws IOException is thrown by renameProject but not expected in this test.
      */
     @Test
-    public void find_PatternExcludesDotGitDirectory_DoNotIncludeFilesFromDotGitInResults() throws IOException {
+    public void find_PatternExcludesCoreDirectory_DoNotIncludeFilesFromCoreInResults() throws IOException {
         FilePathFinder finder = new FileNamePatternFinderImpl();
 
         List<Path> paths = finder.find("..", "*pom*", ".*core.*");
-
-        for (Path path : paths) {
-            System.out.println(path.toString());
-        }
 
         Path unwantedPath = Paths.get("../core/pom.xml").toAbsolutePath().normalize();
         assertFalse("'core' directory should not be included in find results", paths.contains(unwantedPath));
