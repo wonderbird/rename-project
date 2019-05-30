@@ -143,14 +143,13 @@ public class FileNamePatternFinderImplTest {
      * @throws IOException is thrown by renameProject but not expected in this test.
      */
     @Test
-    @Ignore("TODO Implement the feature to fix this test")
     public void find_PatternExcludesDotGitDirectory_DoNotIncludeFilesFromDotGitInResults() throws IOException {
         FilePathFinder finder = new FileNamePatternFinderImpl();
 
-        List<Path> paths = finder.find("..", "^((?!core).)*pom\\.xml.*");
+        List<Path> paths = finder.find("..", "*pom*", "core");
 
-        Path unwantedPath = Paths.get("../core/pom.xml").toAbsolutePath();
-        assertFalse(".git directory should not be included in find results", paths.contains(unwantedPath));
+        Path unwantedPath = Paths.get("../core/pom.xml").toAbsolutePath().normalize();
+        assertFalse("'core' directory should not be included in find results", paths.contains(unwantedPath));
         assertEquals("wrong number of entries returned", 2, paths.size());
     }
 }

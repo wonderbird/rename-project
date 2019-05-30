@@ -29,11 +29,12 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
      *
      * @param aStartDirectory is the directory below which all occurrences of aPattern will be searched.
      * @param aFileNamePattern describes a part of the file name or directory name to be found.
-     * @return List of all paths beneath the current directory which match the pattern.
+     * @param aExclusions optional list of patterns listing files and directories to exclude from the result.
+     * @return List of all paths beneath the current directory which match the pattern and don't match the exclusions.
      * @see <a href="https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/essential/io/examples/Find.java">Example Code at Oracle</a>
      */
     @Override
-    public List<Path> find(String aStartDirectory, final String aFileNamePattern) throws IOException {
+    public List<Path> find(String aStartDirectory, final String aFileNamePattern, final String ...aExclusions) throws IOException {
         FilePathVisitorWithResult visitor;
         if (visitorMock == null) {
             visitor = new FileNameMatchingVisitorImpl(aFileNamePattern);
