@@ -14,8 +14,8 @@ public class FileContentFinderImpl implements FilePathFinder {
      * Find all files containing the search string.
      *
      * @param aStartDirectory is the directory below which the pattern shall be searched.
-     * @param aPattern is the word which should be searched in all files.
-     * @param aExclusions optional list of patterns listing files and directories to exclude from the result.
+     * @param aPattern        is the word which should be searched in all files.
+     * @param aExclusions     optional list of patterns listing files and directories to exclude from the result.
      * @return List of all files beneath the current directory which contain searchString.
      */
     // TODO Consider aExclusions when walking down the file tree

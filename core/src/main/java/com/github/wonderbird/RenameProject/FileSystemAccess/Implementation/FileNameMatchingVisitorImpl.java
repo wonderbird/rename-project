@@ -7,12 +7,10 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
     private final PathMatcher matcher;
-    private final List<Pattern> exclusionPatterns = new ArrayList<>();
+    private final PathExclusionPatterns exclusionPatterns;
     private List<Path> result= new ArrayList<>();
 
     /**
@@ -21,10 +19,7 @@ class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements Fil
      */
     FileNameMatchingVisitorImpl(final String aFileNamePattern, final String[] aExclusions) {
         matcher = FileSystems.getDefault().getPathMatcher("glob:" + aFileNamePattern);
-
-        for (final String exclusionPattern : aExclusions) {
-            exclusionPatterns.add(Pattern.compile(exclusionPattern));
-        }
+        exclusionPatterns = new PathExclusionPatterns(aExclusions);
     }
 
     @Override
@@ -45,20 +40,11 @@ class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements Fil
     private FileVisitResult match(Path path) {
         Path normalizedPath = path.toAbsolutePath().normalize();
 
-        boolean isExcluded = false;
-        int index = 0;
-        while (!isExcluded && index < exclusionPatterns.size()) {
-            final Pattern exclusionPattern = exclusionPatterns.get(index);
-            final Matcher matcher = exclusionPattern.matcher(normalizedPath.toString());
-            isExcluded = matcher.matches();
-            index += 1;
-        }
-
+        boolean isExcluded = exclusionPatterns.isExcluded(normalizedPath);
         if (!isExcluded && matcher.matches(path.getFileName())) {
             result.add(normalizedPath);
         }
 
         return FileVisitResult.CONTINUE;
     }
-
 }
