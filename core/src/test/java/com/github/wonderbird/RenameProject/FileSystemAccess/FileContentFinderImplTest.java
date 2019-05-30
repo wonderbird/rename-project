@@ -70,4 +70,26 @@ public class FileContentFinderImplTest {
         assertFalse("File containing the first search string should not be returned", paths.contains(unwantedPath));
         assertEquals("Applying the second search string should return 0 paths", 0, paths.size());
     }
+
+    /**
+     * Feature: Ignore ".git" folder recursively.
+     *
+     * For test purposes we make sure that skipping the 'core' folder is working. This allows to check that some
+     * files survived the filtering process. If we'd use a filter addressing the '.git' folder, then we wouldn't
+     * be able to check for surviving files.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
+    @Test
+    public void find_PatternExcludesDotGitDirectory_DoNotIncludeFilesFromDotGitInResults() throws IOException {
+        FilePathFinder finder = new FileContentFinderImpl();
+
+        String startDirectory = Paths.get("src", "test", "resources").toString();
+        String searchForFile = "file";
+        List<Path> paths = finder.find(startDirectory, searchForFile, ".*Renamed.*");
+
+        Path unwantedPath = Paths.get(startDirectory, "fileToBeRenamed.txt").toAbsolutePath();
+        assertFalse("'fileToBeRenamed.txt' should not be included in find results", paths.contains(unwantedPath));
+        assertFalse("at least one entry should be returned", paths.isEmpty());
+    }
 }

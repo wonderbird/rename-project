@@ -10,10 +10,16 @@ import java.util.List;
 
 class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
     private final PathMatcher matcher;
+    private final PathExclusionPatterns exclusionPatterns;
     private List<Path> result= new ArrayList<>();
 
-    FileNameMatchingVisitorImpl(final String aPattern) {
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + aPattern);
+    /**
+     * @param aFileNamePattern describes a part of the file name or directory name to be found.
+     * @param aExclusions optional list of patterns listing files and directories to exclude from the result.
+     */
+    FileNameMatchingVisitorImpl(final String aFileNamePattern, final String[] aExclusions) {
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + aFileNamePattern);
+        exclusionPatterns = new PathExclusionPatterns(aExclusions);
     }
 
     @Override
@@ -32,12 +38,13 @@ class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements Fil
     }
 
     private FileVisitResult match(Path path) {
-        if (matcher.matches(path.getFileName())) {
-            Path normalizedPath = path.normalize().toAbsolutePath();
+        Path normalizedPath = path.toAbsolutePath().normalize();
+
+        boolean isExcluded = exclusionPatterns.isExcluded(normalizedPath);
+        if (!isExcluded && matcher.matches(path.getFileName())) {
             result.add(normalizedPath);
         }
 
         return FileVisitResult.CONTINUE;
     }
-
 }

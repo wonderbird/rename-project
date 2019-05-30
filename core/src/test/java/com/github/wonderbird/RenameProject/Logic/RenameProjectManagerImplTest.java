@@ -4,6 +4,7 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileN
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import com.github.wonderbird.RenameProject.Models.Configuration;
+import com.github.wonderbird.RenameProject.Models.DefaultExclusionPatterns;
 import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +75,8 @@ public class RenameProjectManagerImplTest {
         renameProjectManager.renameProject();
 
         for (RenameFromToPair pair : config.getFromToPairs()) {
-            verify(fileNamePatternFinder).find(config.getStartDir(), "*" + pair.getFrom() + "*");
+            verify(fileNamePatternFinder).find(config.getStartDir(), "*" + pair.getFrom() + "*",
+                    DefaultExclusionPatterns.DOT_GIT_FOLDERS);
         }
     }
     @Test
@@ -82,7 +84,7 @@ public class RenameProjectManagerImplTest {
         renameProjectManager.renameProject();
 
         RenameFromToPair fromToPair = config.getFromToPairs().get(0);
-        verify(fileContentFinder).find(".", fromToPair.getFrom());
+        verify(fileContentFinder).find(".", fromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
     }
 
     @Test
@@ -92,13 +94,14 @@ public class RenameProjectManagerImplTest {
         renameProjectManager.renameProject();
 
         RenameFromToPair fromToPair = config.getFromToPairs().get(0);
-        verify(fileNamePatternFinder).find(config.getStartDir(), "*" + fromToPair.getFrom() + "*");
+        verify(fileNamePatternFinder).find(config.getStartDir(), "*" + fromToPair.getFrom() + "*",
+                DefaultExclusionPatterns.DOT_GIT_FOLDERS);
     }
 
     @Test(expected = IOException.class)
     public void renameProject_FileNamePatternFinderThrowsException_RaisesException() throws IOException {
         fileNamePatternFinder = mock(FilePathFinder.class);
-        when(fileNamePatternFinder.find(eq("."), any())).thenThrow(new IOException(exceptionMessage));
+        when(fileNamePatternFinder.find(eq("."), any(), any())).thenThrow(new IOException(exceptionMessage));
         renameProjectManager.setFileNamePatternFinder(fileNamePatternFinder);
 
         renameProjectManager.renameProject();
@@ -114,7 +117,7 @@ public class RenameProjectManagerImplTest {
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManager.java"),
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject")
         );
-        when(fileNamePatternFinder.find(eq("."), any())).thenReturn(fromPaths);
+        when(fileNamePatternFinder.find(eq("."), any(), any())).thenReturn(fromPaths);
         renameProjectManager.setFileNamePatternFinder(fileNamePatternFinder);
 
         renameProjectManager.renameProject();
@@ -141,7 +144,7 @@ public class RenameProjectManagerImplTest {
 
         fileNamePatternFinder = mock(FilePathFinder.class);
         Path fromPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManagerRenameProject.java");
-        when(fileNamePatternFinder.find(eq("."), any())).thenReturn(Arrays.asList(fromPath));
+        when(fileNamePatternFinder.find(eq("."), any(), any())).thenReturn(Arrays.asList(fromPath));
         renameProjectManager.setFileNamePatternFinder(fileNamePatternFinder);
 
         renameProjectManager.renameProject();
@@ -200,7 +203,7 @@ public class RenameProjectManagerImplTest {
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
                 Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java")
         );
-        when(fileContentFinder.find(eq("."), any())).thenReturn(affectedFiles);
+        when(fileContentFinder.find(eq("."), any(), any())).thenReturn(affectedFiles);
 
         renameProjectManager.setFileContentFinder(fileContentFinder);
 

@@ -6,6 +6,7 @@ import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileS
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FileSystemMethods;
 import com.github.wonderbird.RenameProject.Models.Configuration;
+import com.github.wonderbird.RenameProject.Models.DefaultExclusionPatterns;
 import com.github.wonderbird.RenameProject.Models.RenameFromToPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     private List<Path> findPathsToRename(RenameFromToPair aFromToPair) throws IOException {
         String from = aFromToPair.getFrom();
         String filePattern = "*" + from + "*";
-        return fileNamePatternFinder.find(config.getStartDir(), filePattern);
+        return fileNamePatternFinder.find(config.getStartDir(), filePattern, DefaultExclusionPatterns.DOT_GIT_FOLDERS);
     }
 
     private void renameFilesAndDirectories(List<Path> aAffectedPaths, RenameFromToPair aFromToPair) throws IOException {
@@ -63,7 +64,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     }
 
     private void replaceFileContents(RenameFromToPair aFromToPair) throws IOException {
-        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom());
+        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
 
         for (Path path : affectedPaths) {
             logger.info("Replace contents: {}", path.toString());

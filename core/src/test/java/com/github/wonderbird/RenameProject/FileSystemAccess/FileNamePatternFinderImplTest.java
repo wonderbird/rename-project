@@ -3,6 +3,7 @@ package com.github.wonderbird.RenameProject.FileSystemAccess;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Implementation.FileNamePatternFinderImpl;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathFinder;
 import com.github.wonderbird.RenameProject.FileSystemAccess.Interfaces.FilePathVisitorWithResult;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -134,5 +135,25 @@ public class FileNamePatternFinderImplTest {
 
         Path unwantedPath = Paths.get("src").toAbsolutePath();
         assertFalse("Start directory should be removed from find results", paths.contains(unwantedPath));
+    }
+
+    /**
+     * Feature: Ignore ".git" folder recursively.
+     *
+     * For test purposes we make sure that skipping the 'core' folder is working. This allows to check that some
+     * files survived the filtering process. If we'd use a filter addressing the '.git' folder, then we wouldn't
+     * be able to check for surviving files.
+     *
+     * @throws IOException is thrown by renameProject but not expected in this test.
+     */
+    @Test
+    public void find_PatternExcludesCoreDirectory_DoNotIncludeFilesFromCoreInResults() throws IOException {
+        FilePathFinder finder = new FileNamePatternFinderImpl();
+
+        List<Path> paths = finder.find("..", "*pom*", ".*core.*");
+
+        Path unwantedPath = Paths.get("../core/pom.xml").toAbsolutePath().normalize();
+        assertFalse("'core' directory should not be included in find results", paths.contains(unwantedPath));
+        assertFalse("at least one entry should be returned", paths.isEmpty());
     }
 }

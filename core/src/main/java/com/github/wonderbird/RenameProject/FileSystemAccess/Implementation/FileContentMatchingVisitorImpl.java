@@ -20,11 +20,13 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
     private static final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
 
     private final String searchString;
+    private final PathExclusionPatterns exclusionPatterns;
 
     private List<Path> result = new ArrayList<>();
 
-    FileContentMatchingVisitorImpl(String aSearchString) {
+    FileContentMatchingVisitorImpl(String aSearchString, String[] aExclusions) {
         searchString = aSearchString;
+        exclusionPatterns = new PathExclusionPatterns(aExclusions);
     }
 
     @Override
@@ -34,10 +36,22 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
 
     @Override
     public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException {
+        Path normalizedPath = aFile.toAbsolutePath().normalize();
+
+        if (!exclusionPatterns.isExcluded(normalizedPath)) {
+            if (isSearchStringContainedInFile(normalizedPath)) {
+                result.add(normalizedPath);
+            }
+        }
+
+        return FileVisitResult.CONTINUE;
+    }
+
+    private boolean isSearchStringContainedInFile(Path aNormalizedPath) throws IOException {
         final String searchRegex = ".*" + searchString + ".*";
         Pattern pattern = Pattern.compile(searchRegex, Pattern.DOTALL);
 
-        InputStream inputStream = Files.newInputStream(aFile);
+        InputStream inputStream = Files.newInputStream(aNormalizedPath);
         try (InputStreamReader reader = new InputStreamReader(inputStream)) {
             char[] buffer = new char[BUFFER_SIZE];
             String endOfPreviousBuffer = "";
@@ -47,9 +61,7 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
 
                 Matcher matcher = pattern.matcher(bufferAsText);
                 if (matcher.matches()) {
-                    Path normalizedPath = aFile.normalize().toAbsolutePath();
-                    result.add(normalizedPath);
-                    break;
+                    return true;
                 }
 
                 int endOfBufferStartIndex = Math.max(0, bufferAsText.length() - searchString.length());
@@ -57,6 +69,6 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
             }
         }
 
-        return FileVisitResult.CONTINUE;
+        return false;
     }
 }

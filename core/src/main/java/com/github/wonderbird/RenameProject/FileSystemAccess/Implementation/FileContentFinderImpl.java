@@ -14,11 +14,12 @@ public class FileContentFinderImpl implements FilePathFinder {
      * Find all files containing the search string.
      *
      * @param aStartDirectory is the directory below which the pattern shall be searched.
-     * @param aPattern is the word which should be searched in all files.
+     * @param aPattern        is the word which should be searched in all files.
+     * @param aExclusions     optional list of patterns listing files and directories to exclude from the result.
      * @return List of all files beneath the current directory which contain searchString.
      */
-    public List<Path> find(String aStartDirectory, String aPattern) throws IOException {
-        FileContentMatchingVisitorImpl visitor = new FileContentMatchingVisitorImpl(aPattern);
+    public List<Path> find(String aStartDirectory, String aPattern, final String... aExclusions) throws IOException {
+        FileContentMatchingVisitorImpl visitor = new FileContentMatchingVisitorImpl(aPattern, aExclusions);
 
         Files.walkFileTree(Paths.get(aStartDirectory), visitor);
 
