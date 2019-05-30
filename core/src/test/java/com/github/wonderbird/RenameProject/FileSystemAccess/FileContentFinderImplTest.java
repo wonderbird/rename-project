@@ -88,11 +88,6 @@ public class FileContentFinderImplTest {
         String searchForFile = "file";
         List<Path> paths = finder.find(startDirectory, searchForFile, ".*Renamed.*");
 
-        // TODO Remove logging from unit test
-        for (Path path : paths) {
-            System.out.println(path.toString());
-        }
-
         Path unwantedPath = Paths.get(startDirectory, "fileToBeRenamed.txt").toAbsolutePath();
         assertFalse("'fileToBeRenamed.txt' should not be included in find results", paths.contains(unwantedPath));
         assertFalse("at least one entry should be returned", paths.isEmpty());
