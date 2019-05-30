@@ -64,8 +64,7 @@ public class RenameProjectManagerImpl implements RenameProjectManager {
     }
 
     private void replaceFileContents(RenameFromToPair aFromToPair) throws IOException {
-        // TODO Pass list of paths excluded from the search (e.g. ".git")
-        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom());
+        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
 
         for (Path path : affectedPaths) {
             logger.info("Replace contents: {}", path.toString());

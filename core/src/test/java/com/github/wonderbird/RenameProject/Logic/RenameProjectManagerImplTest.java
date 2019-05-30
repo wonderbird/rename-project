@@ -84,7 +84,7 @@ public class RenameProjectManagerImplTest {
         renameProjectManager.renameProject();
 
         RenameFromToPair fromToPair = config.getFromToPairs().get(0);
-        verify(fileContentFinder).find(".", fromToPair.getFrom());
+        verify(fileContentFinder).find(".", fromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
     }
 
     @Test
@@ -203,7 +203,7 @@ public class RenameProjectManagerImplTest {
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
                 Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java")
         );
-        when(fileContentFinder.find(eq("."), any())).thenReturn(affectedFiles);
+        when(fileContentFinder.find(eq("."), any(), any())).thenReturn(affectedFiles);
 
         renameProjectManager.setFileContentFinder(fileContentFinder);
 
