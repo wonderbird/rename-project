@@ -7,13 +7,23 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
     private final PathMatcher matcher;
+    private final List<Pattern> exclusionPatterns = new ArrayList<>();
     private List<Path> result= new ArrayList<>();
 
-    FileNameMatchingVisitorImpl(final String aPattern) {
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + aPattern);
+    /**
+     * @param aFileNamePattern describes a part of the file name or directory name to be found.
+     * @param aExclusions optional list of patterns listing files and directories to exclude from the result.
+     */
+    FileNameMatchingVisitorImpl(final String aFileNamePattern, final String[] aExclusions) {
+        matcher = FileSystems.getDefault().getPathMatcher("glob:" + aFileNamePattern);
+
+        for (final String exclusionPattern : aExclusions) {
+            exclusionPatterns.add(Pattern.compile(exclusionPattern));
+        }
     }
 
     @Override

@@ -37,7 +37,7 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
     public List<Path> find(String aStartDirectory, final String aFileNamePattern, final String ...aExclusions) throws IOException {
         FilePathVisitorWithResult visitor;
         if (visitorMock == null) {
-            visitor = new FileNameMatchingVisitorImpl(aFileNamePattern);
+            visitor = new FileNameMatchingVisitorImpl(aFileNamePattern, aExclusions);
         } else {
             visitor = visitorMock;
         }
