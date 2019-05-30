@@ -1,14 +1,14 @@
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <!-- Configuration for use with the github-release-plugin -->
-    <!-- adopted from https://synyx.de/blog/2018-01-24-travisci-github-releases/ -->
-    <servers>
-        <server>
-            <id>github</id>
-            <privateKey>${env.GITHUB_ACCESS_TOKEN}</privateKey>
-        </server>
-    </servers>
+   <!-- Configuration for use with the github-release-plugin -->
+   <!-- adopted from https://synyx.de/blog/2018-01-24-travisci-github-releases/ -->
+   <servers>
+      <server>
+         <id>github</id>
+         <privateKey>${env.GITHUB_ACCESS_TOKEN}</privateKey>
+      </server>
+   </servers>
 
 </settings>

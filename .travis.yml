@@ -3,9 +3,9 @@ language: java
 sudo: false
 
 before_install:
-- sudo apt-get -qq update
-- sudo apt-get install -y genisoimage
-- /bin/bash ./.travis/setup-git.sh
+  - sudo apt-get -qq update
+  - sudo apt-get install -y genisoimage
+  - /bin/bash ./.travis/setup-git.sh
 
 env:
   global:
@@ -18,7 +18,7 @@ stages:
 
 jobs:
   include:
-  - stage: test
-    script: mvn clean verify -Drevision=${TRAVIS_BUILD_NUMBER}
-  - stage: deploy
-    script: ./.travis/perform-release.sh
+    - stage: test
+      script: mvn clean verify -Drevision=${TRAVIS_BUILD_NUMBER}
+    - stage: deploy
+      script: ./.travis/perform-release.sh

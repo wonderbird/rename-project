@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.nio.file.CopyOption;
 import java.nio.file.Path;
 
-public interface FileSystemMethods {
-    void move(Path source, Path target, CopyOption copyOption) throws IOException;
+public interface FileSystemMethods
+{
+   void move(Path source, Path target, CopyOption copyOption) throws IOException;
 
-    void replaceInFile(Path affectedFile, String aFrom, String aTo) throws IOException;
+   void replaceInFile(Path affectedFile, String aFrom, String aTo) throws IOException;
 }

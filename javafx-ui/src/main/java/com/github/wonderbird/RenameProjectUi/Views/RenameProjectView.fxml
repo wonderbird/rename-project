@@ -10,120 +10,150 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-
-<GridPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.wonderbird.RenameProjectUi.Views.RenameProjectView">
-    <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
-      <ColumnConstraints />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="NEVER" />
-      <RowConstraints />
-    </rowConstraints>
-    <children>
-        <TitledPane animated="false" collapsible="false" text="Project to Rename" GridPane.columnSpan="2" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
-            <content>
-                <AnchorPane>
-                    <children>
-                        <GridPane hgap="8.0" vgap="4.0">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <Label text="Directory:" />
-                                <TextField id="startDirTextField" fx:id="startDirTextField" GridPane.columnIndex="1" />
-                                <Button mnemonicParsing="false" onAction="#browseAction" text="Browse" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
-                                <Label text="From:" GridPane.rowIndex="1" />
-                                <TextField id="fromTextField" fx:id="fromTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                <TextField id="toTextField" fx:id="toTextField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                            </children>
-                            <padding>
-                                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-                            </padding>
-                        </GridPane>
-                    </children>
-                </AnchorPane>
-            </content>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9"
+          fx:controller="com.github.wonderbird.RenameProjectUi.Views.RenameProjectView">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0"/>
+      <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0"/>
+      <ColumnConstraints/>
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints vgrow="NEVER"/>
+      <RowConstraints vgrow="NEVER"/>
+      <RowConstraints vgrow="NEVER"/>
+      <RowConstraints/>
+   </rowConstraints>
+   <children>
+      <TitledPane animated="false" collapsible="false" text="Project to Rename" GridPane.columnSpan="2"
+                  GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
+         <content>
+            <AnchorPane>
+               <children>
+                  <GridPane hgap="8.0" vgap="4.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                     </rowConstraints>
+                     <children>
+                        <Label text="Directory:"/>
+                        <TextField id="startDirTextField" fx:id="startDirTextField" GridPane.columnIndex="1"/>
+                        <Button mnemonicParsing="false" onAction="#browseAction" text="Browse" GridPane.columnIndex="3"
+                                GridPane.halignment="CENTER"/>
+                        <Label text="From:" GridPane.rowIndex="1"/>
+                        <TextField id="fromTextField" fx:id="fromTextField" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="1"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <TextField id="toTextField" fx:id="toTextField" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+                     </padding>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
          <GridPane.margin>
-            <Insets bottom="4.0" />
+            <Insets bottom="4.0"/>
          </GridPane.margin>
-        </TitledPane>
-        <TitledPane animated="false" collapsible="false" text="Calculated Renaming Settings" GridPane.columnSpan="2" GridPane.rowIndex="1">
-            <content>
-                <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
-                    <children>
-                        <GridPane hgap="8.0" vgap="4.0">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                            </columnConstraints>
-                            <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <CheckBox id="enableOriginalReplacementCheckBox" fx:id="enableOriginalReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="0" />
-                                <CheckBox id="enableCamelCaseReplacementCheckBox" fx:id="enableCamelCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="1" />
-                                <CheckBox id="enableFirstLowerThenCamelCaseReplacementCheckBox" fx:id="enableFirstLowerThenCamelCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="2" />
-                                <CheckBox id="enableLowerCaseReplacementCheckBox" fx:id="enableLowerCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="3" />
-                                <CheckBox id="enableUpperCaseReplacementCheckBox" fx:id="enableUpperCaseReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="4" />
-                                <CheckBox id="enableSpaceSeparatedReplacementCheckBox" fx:id="enableSpaceSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="5" />
-                                <CheckBox id="enableDashSeparatedReplacementCheckBox" fx:id="enableDashSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:" GridPane.rowIndex="6" />
-                                <Label id="originalFromLabel" fx:id="originalFromLabel" text="Original" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <Label id="camelCaseFromLabel" fx:id="camelCaseFromLabel" text="CamelCase" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                <Label id="firstLowerThenCamelCaseFromLabel" fx:id="firstLowerThenCamelCaseFromLabel" text="firstLowerThenCamelCase" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                <Label id="lowerCaseFromLabel" fx:id="lowerCaseFromLabel" text="lowercase" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                <Label id="upperCaseFromLabel" fx:id="upperCaseFromLabel" text="UPPERCASE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                <Label id="spaceSeparatedFromLabel" fx:id="spaceSeparatedFromLabel" text="Space Separated" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                <Label id="dashSeparatedFromLabel" fx:id="dashSeparatedFromLabel" text="Dash-Separated" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-                                <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-                                <Label id="originalToLabel" fx:id="originalToLabel" text="Original" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-                                <Label id="camelCaseToLabel" fx:id="camelCaseToLabel" text="CamelCase" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                <Label id="firstLowerThenCamelCaseToLabel" fx:id="firstLowerThenCamelCaseToLabel" text="firstLowerThenCamelCase" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                <Label id="lowerCaseToLabel" fx:id="lowerCaseToLabel" text="lowercase" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                <Label id="upperCaseToLabel" fx:id="upperCaseToLabel" text="UPPERCASE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                                <Label id="spaceSeparatedToLabel" fx:id="spaceSeparatedToLabel" text="Space Separated" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                                <Label id="dashSeparatedToLabel" fx:id="dashSeparatedToLabel" text="Dash-Separated" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                            </children>
-                            <padding>
-                                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-                            </padding>
-                        </GridPane>
-                    </children>
-                </AnchorPane>
-            </content>
-            <GridPane.margin>
-                <Insets bottom="10.0" />
-            </GridPane.margin>
-        </TitledPane>
-        <Button mnemonicParsing="false" onAction="#cancelAction" text="Cancel" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <Button mnemonicParsing="false" onAction="#renameAction" text="Rename" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-    </children>
-    <padding>
-        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-    </padding>
+      </TitledPane>
+      <TitledPane animated="false" collapsible="false" text="Calculated Renaming Settings" GridPane.columnSpan="2"
+                  GridPane.rowIndex="1">
+         <content>
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
+               <children>
+                  <GridPane hgap="8.0" vgap="4.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                        <ColumnConstraints hgrow="SOMETIMES"/>
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                     </rowConstraints>
+                     <children>
+                        <CheckBox id="enableOriginalReplacementCheckBox" fx:id="enableOriginalReplacementCheckBox"
+                                  mnemonicParsing="false" text="From:" GridPane.rowIndex="0"/>
+                        <CheckBox id="enableCamelCaseReplacementCheckBox" fx:id="enableCamelCaseReplacementCheckBox"
+                                  mnemonicParsing="false" text="From:" GridPane.rowIndex="1"/>
+                        <CheckBox id="enableFirstLowerThenCamelCaseReplacementCheckBox"
+                                  fx:id="enableFirstLowerThenCamelCaseReplacementCheckBox" mnemonicParsing="false"
+                                  text="From:" GridPane.rowIndex="2"/>
+                        <CheckBox id="enableLowerCaseReplacementCheckBox" fx:id="enableLowerCaseReplacementCheckBox"
+                                  mnemonicParsing="false" text="From:" GridPane.rowIndex="3"/>
+                        <CheckBox id="enableUpperCaseReplacementCheckBox" fx:id="enableUpperCaseReplacementCheckBox"
+                                  mnemonicParsing="false" text="From:" GridPane.rowIndex="4"/>
+                        <CheckBox id="enableSpaceSeparatedReplacementCheckBox"
+                                  fx:id="enableSpaceSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:"
+                                  GridPane.rowIndex="5"/>
+                        <CheckBox id="enableDashSeparatedReplacementCheckBox"
+                                  fx:id="enableDashSeparatedReplacementCheckBox" mnemonicParsing="false" text="From:"
+                                  GridPane.rowIndex="6"/>
+                        <Label id="originalFromLabel" fx:id="originalFromLabel" text="Original" GridPane.columnIndex="1"
+                               GridPane.rowIndex="0"/>
+                        <Label id="camelCaseFromLabel" fx:id="camelCaseFromLabel" text="CamelCase"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Label id="firstLowerThenCamelCaseFromLabel" fx:id="firstLowerThenCamelCaseFromLabel"
+                               text="firstLowerThenCamelCase" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Label id="lowerCaseFromLabel" fx:id="lowerCaseFromLabel" text="lowercase"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <Label id="upperCaseFromLabel" fx:id="upperCaseFromLabel" text="UPPERCASE"
+                               GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <Label id="spaceSeparatedFromLabel" fx:id="spaceSeparatedFromLabel" text="Space Separated"
+                               GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <Label id="dashSeparatedFromLabel" fx:id="dashSeparatedFromLabel" text="Dash-Separated"
+                               GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="0"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5"/>
+                        <Label text="To:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6"/>
+                        <Label id="originalToLabel" fx:id="originalToLabel" text="Original" GridPane.columnIndex="3"
+                               GridPane.rowIndex="0"/>
+                        <Label id="camelCaseToLabel" fx:id="camelCaseToLabel" text="CamelCase" GridPane.columnIndex="3"
+                               GridPane.rowIndex="1"/>
+                        <Label id="firstLowerThenCamelCaseToLabel" fx:id="firstLowerThenCamelCaseToLabel"
+                               text="firstLowerThenCamelCase" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                        <Label id="lowerCaseToLabel" fx:id="lowerCaseToLabel" text="lowercase" GridPane.columnIndex="3"
+                               GridPane.rowIndex="3"/>
+                        <Label id="upperCaseToLabel" fx:id="upperCaseToLabel" text="UPPERCASE" GridPane.columnIndex="3"
+                               GridPane.rowIndex="4"/>
+                        <Label id="spaceSeparatedToLabel" fx:id="spaceSeparatedToLabel" text="Space Separated"
+                               GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+                        <Label id="dashSeparatedToLabel" fx:id="dashSeparatedToLabel" text="Dash-Separated"
+                               GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+                     </children>
+                     <padding>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+                     </padding>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
+         <GridPane.margin>
+            <Insets bottom="10.0"/>
+         </GridPane.margin>
+      </TitledPane>
+      <Button mnemonicParsing="false" onAction="#cancelAction" text="Cancel" GridPane.halignment="CENTER"
+              GridPane.rowIndex="3"/>
+      <Button mnemonicParsing="false" onAction="#renameAction" text="Rename" GridPane.columnIndex="1"
+              GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+   </children>
+   <padding>
+      <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+   </padding>
 </GridPane>
