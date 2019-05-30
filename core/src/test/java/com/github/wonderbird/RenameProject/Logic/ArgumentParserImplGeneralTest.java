@@ -1,7 +1,5 @@
 package com.github.wonderbird.RenameProject.Logic;
 
-import com.github.wonderbird.RenameProject.Logic.ArgumentParserImpl;
-import com.github.wonderbird.RenameProject.Logic.WrongUsageException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -18,7 +16,7 @@ public class ArgumentParserImplGeneralTest
       {
          parser.parse(args);
       }
-      catch(WrongUsageException aException)
+      catch(final WrongUsageException aException)
       {
          assertTrue("Usage information is missing", aException.getLocalizedMessage().contains("usage:"));
       }

@@ -9,7 +9,7 @@
 # See also:
 #   https://github.com/sbt/sbt-release/issues/210#issuecomment-348210828
 function fix_git_head_not_symbolic_ref {
-    echo "Fixing git setup for $TRAVIS_BRANCH"
+    echo "Fixing git setup for ${TRAVIS_BRANCH}"
     git checkout ${TRAVIS_BRANCH}
     git branch -u origin/${TRAVIS_BRANCH}
     git config branch.${TRAVIS_BRANCH}.remote origin
@@ -23,7 +23,7 @@ function fix_git_head_not_symbolic_ref {
 function setup_github_access_token {
    echo "Setting up GitHub access token ..."
    git config --global credential.helper store
-   echo "https://$GITHUB_ACCESS_TOKEN:x-oauth-basic@github.com" > $HOME/.git-credentials
+   echo "https://${GITHUB_ACCESS_TOKEN}:x-oauth-basic@github.com" > $HOME/.git-credentials
    git config --global user.email "stefan.boos@gmx.de"
    git config --global user.name "Travis CI"
 }

@@ -16,59 +16,70 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
-    private static final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
+public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult
+{
+   private static final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
 
-    private final String searchString;
-    private final PathExclusionPatterns exclusionPatterns;
+   private final String searchString;
 
-    private List<Path> result = new ArrayList<>();
+   private final PathExclusionPatterns exclusionPatterns;
 
-    FileContentMatchingVisitorImpl(String aSearchString, String[] aExclusions) {
-        searchString = aSearchString;
-        exclusionPatterns = new PathExclusionPatterns(aExclusions);
-    }
+   private final List<Path> result = new ArrayList<>();
 
-    @Override
-    public List<Path> getResult() {
-        return result;
-    }
+   FileContentMatchingVisitorImpl(final String aSearchString, final String[] aExclusions)
+   {
+      searchString = aSearchString;
+      exclusionPatterns = new PathExclusionPatterns(aExclusions);
+   }
 
-    @Override
-    public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException {
-        Path normalizedPath = aFile.toAbsolutePath().normalize();
+   @Override
+   public List<Path> getResult()
+   {
+      return result;
+   }
 
-        if (!exclusionPatterns.isExcluded(normalizedPath)) {
-            if (isSearchStringContainedInFile(normalizedPath)) {
-                result.add(normalizedPath);
+   @Override
+   public FileVisitResult visitFile(final Path aFile, final BasicFileAttributes aAttrs) throws IOException
+   {
+      final Path normalizedPath = aFile.toAbsolutePath().normalize();
+
+      if(!exclusionPatterns.isExcluded(normalizedPath))
+      {
+         if(isSearchStringContainedInFile(normalizedPath))
+         {
+            result.add(normalizedPath);
+         }
+      }
+
+      return FileVisitResult.CONTINUE;
+   }
+
+   private boolean isSearchStringContainedInFile(final Path aNormalizedPath) throws IOException
+   {
+      final String searchRegex = ".*" + searchString + ".*";
+      final Pattern pattern = Pattern.compile(searchRegex, Pattern.DOTALL);
+
+      final InputStream inputStream = Files.newInputStream(aNormalizedPath);
+      try(final InputStreamReader reader = new InputStreamReader(inputStream))
+      {
+         final char[] buffer = new char[BUFFER_SIZE];
+         String endOfPreviousBuffer = "";
+
+         while(reader.read(buffer, 0, BUFFER_SIZE) > 0)
+         {
+            final String bufferAsText = endOfPreviousBuffer + new String(buffer);
+
+            final Matcher matcher = pattern.matcher(bufferAsText);
+            if(matcher.matches())
+            {
+               return true;
             }
-        }
 
-        return FileVisitResult.CONTINUE;
-    }
+            final int endOfBufferStartIndex = Math.max(0, bufferAsText.length() - searchString.length());
+            endOfPreviousBuffer = bufferAsText.substring(endOfBufferStartIndex);
+         }
+      }
 
-    private boolean isSearchStringContainedInFile(Path aNormalizedPath) throws IOException {
-        final String searchRegex = ".*" + searchString + ".*";
-        Pattern pattern = Pattern.compile(searchRegex, Pattern.DOTALL);
-
-        InputStream inputStream = Files.newInputStream(aNormalizedPath);
-        try (InputStreamReader reader = new InputStreamReader(inputStream)) {
-            char[] buffer = new char[BUFFER_SIZE];
-            String endOfPreviousBuffer = "";
-
-            while (reader.read(buffer, 0, BUFFER_SIZE) > 0) {
-                String bufferAsText = endOfPreviousBuffer + new String(buffer);
-
-                Matcher matcher = pattern.matcher(bufferAsText);
-                if (matcher.matches()) {
-                    return true;
-                }
-
-                int endOfBufferStartIndex = Math.max(0, bufferAsText.length() - searchString.length());
-                endOfPreviousBuffer = bufferAsText.substring(endOfBufferStartIndex);
-            }
-        }
-
-        return false;
-    }
+      return false;
+   }
 }

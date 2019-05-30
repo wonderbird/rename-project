@@ -11,50 +11,57 @@ import java.io.IOException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class MainTest {
-    private String[] args;
+public class MainTest
+{
+   private final String exceptionMessage = "Exception thrown by unit test, expected to show up on console during test";
 
-    private ArgumentParser parser;
+   private String[] args;
 
-    private RenameProjectManager renameProjectManager;
+   private ArgumentParser parser;
 
-    private final String exceptionMessage = "Exception thrown by unit test, expected to show up on console during test";
+   private RenameProjectManager renameProjectManager;
 
-    @Before
-    public void before() {
-        final String fromPattern = "Main";
-        final String toArgument = "Main";
-        args = new String[]{"--from", fromPattern, "--to", toArgument};
+   @Before
+   public void before()
+   {
+      final String fromPattern = "Main";
+      final String toArgument = "Main";
+      args = new String[]{"--from", fromPattern, "--to", toArgument};
 
-        parser = mock(ArgumentParser.class);
-        Main.setArgumentParser(parser);
+      parser = mock(ArgumentParser.class);
+      Main.setArgumentParser(parser);
 
-        renameProjectManager = mock(RenameProjectManager.class);
-        Main.setRenameProjectManager(renameProjectManager);
-    }
+      renameProjectManager = mock(RenameProjectManager.class);
+      Main.setRenameProjectManager(renameProjectManager);
+   }
 
-    @Test
-    public void main_ArgumentsGiven_InvokesArgumentParserWithAllArguments() throws WrongUsageException {
-        Main.main(args);
+   @Test
+   public void main_ArgumentsGiven_InvokesArgumentParserWithAllArguments() throws WrongUsageException
+   {
+      Main.main(args);
 
-        verify(parser).parse(args);
-    }
+      verify(parser).parse(args);
+   }
 
-    @Test
-    public void main_ArgumentParserThrowsUsageException_DoesNotRethrow() throws WrongUsageException {
-        parser = mock(ArgumentParser.class);
-        doThrow(new WrongUsageException("USAGE: renameProject ... (" + exceptionMessage + ")")).when(parser).parse(any(String[].class));
-        Main.setArgumentParser(parser);
+   @Test
+   public void main_ArgumentParserThrowsUsageException_DoesNotRethrow() throws WrongUsageException
+   {
+      parser = mock(ArgumentParser.class);
+      doThrow(new WrongUsageException("USAGE: renameProject ... (" + exceptionMessage + ")")).when(parser)
+                                                                                             .parse(
+                                                                                                any(String[].class));
+      Main.setArgumentParser(parser);
 
-        Main.main(args);
-    }
+      Main.main(args);
+   }
 
-    @Test
-    public void main_RenameProjectManagerThrowsException_HandlesException() throws IOException {
-        renameProjectManager = mock(RenameProjectManager.class);
-        doThrow(new IOException(exceptionMessage)).when(renameProjectManager).renameProject();
-        Main.setRenameProjectManager(renameProjectManager);
-        
-        Main.main(args);
-    }
+   @Test
+   public void main_RenameProjectManagerThrowsException_HandlesException() throws IOException
+   {
+      renameProjectManager = mock(RenameProjectManager.class);
+      doThrow(new IOException(exceptionMessage)).when(renameProjectManager).renameProject();
+      Main.setRenameProjectManager(renameProjectManager);
+
+      Main.main(args);
+   }
 }

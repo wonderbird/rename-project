@@ -14,49 +14,55 @@ import java.io.StringWriter;
 
 /**
  * Apache Commons CLI implementation of a command line parser.
- *
- * @see <a href="https://stackoverflow.com/questions/367706/how-to-parse-command-line-arguments-in-java">Related StackOverflow article</a>
+ * @see <a href="https://stackoverflow.com/questions/367706/how-to-parse-command-line-arguments-in-java">Related
+ * StackOverflow article</a>
  */
-public class ArgumentParserImpl implements ArgumentParser {
-    @Override
-    public void parse(final String[] aArgs) throws WrongUsageException {
-        Options options = new Options();
+public class ArgumentParserImpl implements ArgumentParser
+{
+   @Override
+   public void parse(final String[] aArgs) throws WrongUsageException
+   {
+      final Options options = new Options();
 
-        Option from = new Option("f", "from", true, "project name to replace");
-        from.setRequired(true);
-        options.addOption(from);
+      final Option from = new Option("f", "from", true, "project name to replace");
+      from.setRequired(true);
+      options.addOption(from);
 
-        Option to = new Option("t", "to", true, "replacement project name");
-        to.setRequired(true);
-        options.addOption(to);
+      final Option to = new Option("t", "to", true, "replacement project name");
+      to.setRequired(true);
+      options.addOption(to);
 
-        Option dir = new Option("d", "dir", true, "directory benath which to replace the project name");
-        options.addOption(dir);
+      final Option dir = new Option("d", "dir", true, "directory benath which to replace the project name");
+      options.addOption(dir);
 
-        CommandLineParser parser = new DefaultParser();
+      final CommandLineParser parser = new DefaultParser();
 
-        try {
-            CommandLine cmd = parser.parse(options, aArgs);
+      try
+      {
+         final CommandLine cmd = parser.parse(options, aArgs);
 
-            Configuration config = Configuration.getConfiguration();
-            String fromValue = cmd.getOptionValue("from");
-            String toValue = cmd.getOptionValue("to");
-            config.addFromToPair(fromValue, toValue);
+         final Configuration config = Configuration.getConfiguration();
+         final String fromValue = cmd.getOptionValue("from");
+         final String toValue = cmd.getOptionValue("to");
+         config.addFromToPair(fromValue, toValue);
 
-            String startDir = cmd.getOptionValue("dir");
-            if (startDir == null) {
-                startDir = ".";
-            }
-            config.setStartDir(startDir);
-        } catch (ParseException aException) {
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter helpWriter = new PrintWriter(stringWriter);
-            HelpFormatter helpFormatter = new HelpFormatter();
-            helpFormatter.printHelp(helpWriter, 80, "java RenameProject", null, options, 0, 3, null, true);
+         String startDir = cmd.getOptionValue("dir");
+         if(startDir == null)
+         {
+            startDir = ".";
+         }
+         config.setStartDir(startDir);
+      }
+      catch(final ParseException aException)
+      {
+         final StringWriter stringWriter = new StringWriter();
+         final PrintWriter helpWriter = new PrintWriter(stringWriter);
+         final HelpFormatter helpFormatter = new HelpFormatter();
+         helpFormatter.printHelp(helpWriter, 80, "java RenameProject", null, options, 0, 3, null, true);
 
-            String message = String.format("%s\n\n%s", aException.getLocalizedMessage(), stringWriter.toString());
+         final String message = String.format("%s\n\n%s", aException.getLocalizedMessage(), stringWriter.toString());
 
-            throw new WrongUsageException(message);
-        }
-    }
+         throw new WrongUsageException(message);
+      }
+   }
 }

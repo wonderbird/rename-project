@@ -18,35 +18,44 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class UiManagerImpl extends Application implements UiManager {
-    private RenameProjectManager renameProjectManager = new RenameProjectManagerImpl();
+public class UiManagerImpl extends Application implements UiManager
+{
+   private final RenameProjectManager renameProjectManager = new RenameProjectManagerImpl();
 
-    private Logger logger = LoggerFactory.getLogger(UiManagerImpl.class);
+   private final Logger logger = LoggerFactory.getLogger(UiManagerImpl.class);
 
-    @Override
-    public void runUi(final String[] aArgs) {
-        launch(aArgs);
-    }
+   @Override
+   public void runUi(final String[] aArgs)
+   {
+      launch(aArgs);
+   }
 
-    @Override
-    public void start(Stage primaryStage) {
-        ViewTuple<RenameProjectView, RenameProjectViewModel> viewTuple = FluentViewLoader.fxmlView(RenameProjectView.class).load();
-        Parent root = viewTuple.getView();
-        primaryStage.setTitle("Rename Project");
-        primaryStage.setScene(new Scene(root));
+   @Override
+   public void start(final Stage primaryStage)
+   {
+      final ViewTuple<RenameProjectView, RenameProjectViewModel> viewTuple =
+         FluentViewLoader.fxmlView(RenameProjectView.class).load();
+      final Parent root = viewTuple.getView();
+      primaryStage.setTitle("Rename Project");
+      primaryStage.setScene(new Scene(root));
 
-        NotificationCenter notificationCenter = MvvmFX.getNotificationCenter();
-        notificationCenter.subscribe(Notification.QUIT.toString(), (key, payload) -> primaryStage.close());
-        notificationCenter.subscribe(Notification.RENAME.toString(), (key, payload) -> {
-            try {
-                renameProjectManager.renameProject();
-            } catch (IOException aException) {
-                logger.error("Error in I/O operation:", aException);
-            } finally {
-                primaryStage.close();
-            }
-        });
+      final NotificationCenter notificationCenter = MvvmFX.getNotificationCenter();
+      notificationCenter.subscribe(Notification.QUIT.toString(), (key, payload) -> primaryStage.close());
+      notificationCenter.subscribe(Notification.RENAME.toString(), (key, payload) -> {
+         try
+         {
+            renameProjectManager.renameProject();
+         }
+         catch(final IOException aException)
+         {
+            logger.error("Error in I/O operation:", aException);
+         }
+         finally
+         {
+            primaryStage.close();
+         }
+      });
 
-        primaryStage.show();
-    }
+      primaryStage.show();
+   }
 }

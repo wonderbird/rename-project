@@ -18,74 +18,93 @@ import java.util.List;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class RenameProjectManagerImpl implements RenameProjectManager {
-    private Configuration config = Configuration.getConfiguration();
-    private FilePathFinder fileContentFinder = new FileContentFinderImpl();
-    private FilePathFinder fileNamePatternFinder = new FileNamePatternFinderImpl();
-    private FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
-    private Logger logger = LoggerFactory.getLogger(RenameProjectManagerImpl.class);
+public class RenameProjectManagerImpl implements RenameProjectManager
+{
+   private final Configuration config = Configuration.getConfiguration();
 
-    public void renameProject() throws IOException {
-        for (RenameFromToPair fromToPair : config.getFromToPairs()) {
-            logger.info("Renaming from '{}' to '{}' ...", fromToPair.getFrom(), fromToPair.getTo());
+   private FilePathFinder fileContentFinder = new FileContentFinderImpl();
 
-            List<Path> affectedPaths = findPathsToRename(fromToPair);
+   private FilePathFinder fileNamePatternFinder = new FileNamePatternFinderImpl();
 
-            renameFilesAndDirectories(affectedPaths, fromToPair);
+   private FileSystemMethods fileSystemMethods = new FileSystemMethodsImpl();
 
-            replaceFileContents(fromToPair);
-        }
-    }
+   private Logger logger = LoggerFactory.getLogger(RenameProjectManagerImpl.class);
 
-    private List<Path> findPathsToRename(RenameFromToPair aFromToPair) throws IOException {
-        String from = aFromToPair.getFrom();
-        String filePattern = "*" + from + "*";
-        return fileNamePatternFinder.find(config.getStartDir(), filePattern, DefaultExclusionPatterns.DOT_GIT_FOLDERS);
-    }
+   public void renameProject() throws IOException
+   {
+      for(final RenameFromToPair fromToPair : config.getFromToPairs())
+      {
+         logger.info("Renaming from '{}' to '{}' ...", fromToPair.getFrom(), fromToPair.getTo());
 
-    private void renameFilesAndDirectories(List<Path> aAffectedPaths, RenameFromToPair aFromToPair) throws IOException {
+         final List<Path> affectedPaths = findPathsToRename(fromToPair);
 
-        for (Path sourcePath : aAffectedPaths) {
-            String targetPathString = replaceLastPathSibling(sourcePath, aFromToPair);
-            Path targetPath = Paths.get(targetPathString);
+         renameFilesAndDirectories(affectedPaths, fromToPair);
 
-            logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
+         replaceFileContents(fromToPair);
+      }
+   }
 
-            fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
-        }
-    }
+   private List<Path> findPathsToRename(final RenameFromToPair aFromToPair) throws IOException
+   {
+      final String from = aFromToPair.getFrom();
+      final String filePattern = "*" + from + "*";
+      return fileNamePatternFinder.find(config.getStartDir(), filePattern, DefaultExclusionPatterns.DOT_GIT_FOLDERS);
+   }
 
-    private String replaceLastPathSibling(Path aSourcePath, RenameFromToPair aFromToPair) {
-        String lastSibling = aSourcePath.getFileName().toString();
-        String lastSiblingWithReplacement = lastSibling.replaceAll(aFromToPair.getFrom(), aFromToPair.getTo());
-        Path result = aSourcePath.getParent().resolve(lastSiblingWithReplacement);
+   private void renameFilesAndDirectories(final List<Path> aAffectedPaths, final RenameFromToPair aFromToPair)
+      throws IOException
+   {
 
-        return result.toString();
-    }
+      for(final Path sourcePath : aAffectedPaths)
+      {
+         final String targetPathString = replaceLastPathSibling(sourcePath, aFromToPair);
+         final Path targetPath = Paths.get(targetPathString);
 
-    private void replaceFileContents(RenameFromToPair aFromToPair) throws IOException {
-        List<Path> affectedPaths = fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
+         logger.info("{} -> {}", sourcePath.toString(), targetPath.toString());
 
-        for (Path path : affectedPaths) {
-            logger.info("Replace contents: {}", path.toString());
+         fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
+      }
+   }
 
-            fileSystemMethods.replaceInFile(path, aFromToPair.getFrom(), aFromToPair.getTo());
-        }
-    }
+   private String replaceLastPathSibling(final Path aSourcePath, final RenameFromToPair aFromToPair)
+   {
+      final String lastSibling = aSourcePath.getFileName().toString();
+      final String lastSiblingWithReplacement = lastSibling.replaceAll(aFromToPair.getFrom(), aFromToPair.getTo());
+      final Path result = aSourcePath.getParent().resolve(lastSiblingWithReplacement);
 
-    void setFileNamePatternFinder(final FilePathFinder aFinder) {
-        fileNamePatternFinder = aFinder;
-    }
+      return result.toString();
+   }
 
-    void setFileContentFinder(FilePathFinder aFinder) {
-        fileContentFinder = aFinder;
-    }
+   private void replaceFileContents(final RenameFromToPair aFromToPair) throws IOException
+   {
+      final List<Path> affectedPaths =
+         fileContentFinder.find(config.getStartDir(), aFromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
 
-    void setFileSystemMethods(FileSystemMethods aFileSystemMethods) {
-        fileSystemMethods = aFileSystemMethods;
-    }
+      for(final Path path : affectedPaths)
+      {
+         logger.info("Replace contents: {}", path.toString());
 
-    void setLogger(Logger aLogger) {
-        logger = aLogger;
-    }
+         fileSystemMethods.replaceInFile(path, aFromToPair.getFrom(), aFromToPair.getTo());
+      }
+   }
+
+   void setFileNamePatternFinder(final FilePathFinder aFinder)
+   {
+      fileNamePatternFinder = aFinder;
+   }
+
+   void setFileContentFinder(final FilePathFinder aFinder)
+   {
+      fileContentFinder = aFinder;
+   }
+
+   void setFileSystemMethods(final FileSystemMethods aFileSystemMethods)
+   {
+      fileSystemMethods = aFileSystemMethods;
+   }
+
+   void setLogger(final Logger aLogger)
+   {
+      logger = aLogger;
+   }
 }
