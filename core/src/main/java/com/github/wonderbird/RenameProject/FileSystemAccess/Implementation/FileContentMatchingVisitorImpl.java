@@ -47,7 +47,7 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
 
                 Matcher matcher = pattern.matcher(bufferAsText);
                 if (matcher.matches()) {
-                    Path normalizedPath = aFile.normalize().toAbsolutePath();
+                    Path normalizedPath = aFile.toAbsolutePath().normalize();
                     result.add(normalizedPath);
                     break;
                 }
