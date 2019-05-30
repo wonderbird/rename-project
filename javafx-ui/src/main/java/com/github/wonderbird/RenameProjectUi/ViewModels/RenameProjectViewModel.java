@@ -24,64 +24,64 @@ import java.util.stream.Collectors;
 
 
 public class RenameProjectViewModel implements ViewModel {
-    private NotificationCenter notificationCenter = MvvmFX.getNotificationCenter();
+    private final NotificationCenter notificationCenter = MvvmFX.getNotificationCenter();
 
-    private StringProperty from = new SimpleStringProperty("OriginalName");
+    private final StringProperty from = new SimpleStringProperty("OriginalName");
 
-    private StringProperty originalFrom = new SimpleStringProperty("OriginalName");
+    private final StringProperty originalFrom = new SimpleStringProperty("OriginalName");
 
-    private StringProperty camelCaseFrom = new SimpleStringProperty("OriginalName");
+    private final StringProperty camelCaseFrom = new SimpleStringProperty("OriginalName");
 
-    private StringProperty firstLowerThenCamelCaseFrom = new SimpleStringProperty("originalName");
+    private final StringProperty firstLowerThenCamelCaseFrom = new SimpleStringProperty("originalName");
 
-    private StringProperty lowerCaseFrom = new SimpleStringProperty("originalname");
+    private final StringProperty lowerCaseFrom = new SimpleStringProperty("originalname");
 
-    private StringProperty upperCaseFrom = new SimpleStringProperty("ORIGINALNAME");
+    private final StringProperty upperCaseFrom = new SimpleStringProperty("ORIGINALNAME");
 
-    private StringProperty spaceSeparatedFrom = new SimpleStringProperty("Original Name");
+    private final StringProperty spaceSeparatedFrom = new SimpleStringProperty("Original Name");
 
-    private StringProperty dashSeparatedFrom = new SimpleStringProperty("original-name");
+    private final StringProperty dashSeparatedFrom = new SimpleStringProperty("original-name");
 
-    private StringProperty to = new SimpleStringProperty("TargetName");
+    private final StringProperty to = new SimpleStringProperty("TargetName");
 
-    private StringProperty originalTo = new SimpleStringProperty("TargetName");
+    private final StringProperty originalTo = new SimpleStringProperty("TargetName");
 
-    private StringProperty camelCaseTo = new SimpleStringProperty("TargetName");
+    private final StringProperty camelCaseTo = new SimpleStringProperty("TargetName");
 
-    private StringProperty firstLowerThenCamelCaseTo = new SimpleStringProperty("targetName");
+    private final StringProperty firstLowerThenCamelCaseTo = new SimpleStringProperty("targetName");
 
-    private StringProperty lowerCaseTo = new SimpleStringProperty("targetname");
+    private final StringProperty lowerCaseTo = new SimpleStringProperty("targetname");
 
-    private StringProperty upperCaseTo = new SimpleStringProperty("TARGETNAME");
+    private final StringProperty upperCaseTo = new SimpleStringProperty("TARGETNAME");
 
-    private StringProperty spaceSeparatedTo = new SimpleStringProperty("Target Name");
+    private final StringProperty spaceSeparatedTo = new SimpleStringProperty("Target Name");
 
-    private StringProperty dashSeparatedTo = new SimpleStringProperty("target-name");
+    private final StringProperty dashSeparatedTo = new SimpleStringProperty("target-name");
 
-    private BooleanProperty enableOriginalReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableOriginalReplacement = new SimpleBooleanProperty(true);
 
-    private BooleanProperty enableCamelCaseReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableCamelCaseReplacement = new SimpleBooleanProperty(true);
 
-    private BooleanProperty enableFirstLowerThenCamelCaseReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableFirstLowerThenCamelCaseReplacement = new SimpleBooleanProperty(true);
 
-    private BooleanProperty enableLowerCaseReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableLowerCaseReplacement = new SimpleBooleanProperty(true);
 
-    private BooleanProperty enableUpperCaseReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableUpperCaseReplacement = new SimpleBooleanProperty(true);
 
-    private BooleanProperty enableSpaceSeparatedReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableSpaceSeparatedReplacement = new SimpleBooleanProperty(true);
 
-    private BooleanProperty enableDashSeparatedReplacement = new SimpleBooleanProperty(true);
+    private final BooleanProperty enableDashSeparatedReplacement = new SimpleBooleanProperty(true);
 
-    private StringProperty startDir = new SimpleStringProperty(".");
+    private final StringProperty startDir = new SimpleStringProperty(".");
 
-    private Command browseCommand = new DelegateCommand(() -> new Action() {
+    private final Command browseCommand = new DelegateCommand(() -> new Action() {
         @Override
         protected void action() {
             emitBrowseStartDirNotification();
         }
     });
 
-    private Command cancelCommand = new DelegateCommand(() -> new Action() {
+    private final Command cancelCommand = new DelegateCommand(() -> new Action() {
         @Override
         protected void action()
         {
@@ -89,7 +89,7 @@ public class RenameProjectViewModel implements ViewModel {
         }
     });
 
-    private Command renameCommand = new DelegateCommand(() -> new Action() {
+    private final Command renameCommand = new DelegateCommand(() -> new Action() {
         @Override
         protected void action()
         {
@@ -115,65 +115,65 @@ public class RenameProjectViewModel implements ViewModel {
         to.addListener(property -> updateDashSeparatedProperty(property, this::setDashSeparatedTo));
     }
 
-    private void copyProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void copyProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
         aSetterMethod.accept(value);
     }
 
-    private void updateCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void updateCamelCaseProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
 
-        String camelCaseValue = toCamelCase(value);
+        final String camelCaseValue = toCamelCase(value);
 
         aSetterMethod.accept(camelCaseValue);
     }
 
-    private String toCamelCase(String value) {
-        List<String> words = Arrays.asList(value.split("[ -]"));
-        List<String> capitalizedWords = words.stream().filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.toList());
+    private String toCamelCase(final String value) {
+        final List<String> words = Arrays.asList(value.split("[ -]"));
+        final List<String> capitalizedWords = words.stream().filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.toList());
         return StringUtils.join(capitalizedWords, "");
     }
 
-    private void updateFirstLowerThenCamelCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void updateFirstLowerThenCamelCaseProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
 
-        String camelCaseValue = toCamelCase(value);
+        final String camelCaseValue = toCamelCase(value);
 
         if (camelCaseValue.length() > 0) {
-            String firstLowerThenCamelCaseValue = camelCaseValue.substring(0, 1).toLowerCase() + camelCaseValue.substring(1);
+            final String firstLowerThenCamelCaseValue = camelCaseValue.substring(0, 1).toLowerCase() + camelCaseValue.substring(1);
             aSetterMethod.accept(firstLowerThenCamelCaseValue);
         }
     }
 
-    private void updateSpaceSeparatedProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void updateSpaceSeparatedProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
 
-        String dashesReplacedBySpaceValue = value.replace("-", " ");
-        String multiSpaceReplacedBySingleSpaceValue = dashesReplacedBySpaceValue.replaceAll(" +", " ");
-        String spaceSeparatedValue = insertCharacterBetweenCamelCaseWords(" ", multiSpaceReplacedBySingleSpaceValue);
+        final String dashesReplacedBySpaceValue = value.replace("-", " ");
+        final String multiSpaceReplacedBySingleSpaceValue = dashesReplacedBySpaceValue.replaceAll(" +", " ");
+        final String spaceSeparatedValue = insertCharacterBetweenCamelCaseWords(" ", multiSpaceReplacedBySingleSpaceValue);
 
         aSetterMethod.accept(spaceSeparatedValue);
     }
 
-    private void updateDashSeparatedProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void updateDashSeparatedProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
 
-        String spacesReplacedByDashValue = value.replace(" ", "-");
-        String dashSeparatedValue = insertCharacterBetweenCamelCaseWords("-", spacesReplacedByDashValue);
-        String multiDashReplacedBySingleDashValue = dashSeparatedValue.replaceAll("-+", "-");
-        String lowerCaseDashSeparatedValue = multiDashReplacedBySingleDashValue.toLowerCase();
+        final String spacesReplacedByDashValue = value.replace(" ", "-");
+        final String dashSeparatedValue = insertCharacterBetweenCamelCaseWords("-", spacesReplacedByDashValue);
+        final String multiDashReplacedBySingleDashValue = dashSeparatedValue.replaceAll("-+", "-");
+        final String lowerCaseDashSeparatedValue = multiDashReplacedBySingleDashValue.toLowerCase();
 
         aSetterMethod.accept(lowerCaseDashSeparatedValue);
     }
 
     private String insertCharacterBetweenCamelCaseWords(final String aSeparator, final String aText) {
-        Pattern pattern = Pattern.compile("[a-z][A-Z]");
-        Matcher matcher = pattern.matcher(aText);
+        final Pattern pattern = Pattern.compile("[a-z][A-Z]");
+        final Matcher matcher = pattern.matcher(aText);
 
         String result = aText;
 
@@ -181,11 +181,11 @@ public class RenameProjectViewModel implements ViewModel {
         final int separatorLength = aSeparator.length();
 
         while (matcher.find()) {
-            int start = matcher.start();
-            int splitIndex = start + 1 + numberOfInsertedCharacters;
+            final int start = matcher.start();
+            final int splitIndex = start + 1 + numberOfInsertedCharacters;
 
-            String left = result.substring(0, splitIndex);
-            String right = result.substring(splitIndex);
+            final String left = result.substring(0, splitIndex);
+            final String right = result.substring(splitIndex);
 
             result = left + aSeparator + right;
 
@@ -195,20 +195,20 @@ public class RenameProjectViewModel implements ViewModel {
         return result;
     }
 
-    private void updateLowerCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void updateLowerCaseProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
 
-        String lowerCaseValue = value.toLowerCase();
+        final String lowerCaseValue = value.toLowerCase();
 
         aSetterMethod.accept(lowerCaseValue);
     }
 
-    private void updateUpperCaseProperty(Observable aObservable, Consumer<String> aSetterMethod) {
-        StringProperty property = (StringProperty) aObservable;
-        String value = property.get();
+    private void updateUpperCaseProperty(final Observable aObservable, final Consumer<String> aSetterMethod) {
+        final StringProperty property = (StringProperty) aObservable;
+        final String value = property.get();
 
-        String upperCaseValue = value.toUpperCase();
+        final String upperCaseValue = value.toUpperCase();
 
         aSetterMethod.accept(upperCaseValue);
     }
@@ -223,7 +223,7 @@ public class RenameProjectViewModel implements ViewModel {
     }
 
     private void emitConfigurationForRenamingProject() {
-        Configuration config = Configuration.getConfiguration();
+        final Configuration config = Configuration.getConfiguration();
         config.setStartDir(getStartDir());
 
         if (getEnableOriginalReplacement()) {
@@ -271,7 +271,7 @@ public class RenameProjectViewModel implements ViewModel {
         return from.get();
     }
 
-    public void setFrom(String aFrom) {
+    public void setFrom(final String aFrom) {
         from.set(aFrom);
     }
 
@@ -283,7 +283,7 @@ public class RenameProjectViewModel implements ViewModel {
         return originalFrom.get();
     }
 
-    public void setOriginalFrom(String aValue) {
+    public void setOriginalFrom(final String aValue) {
         originalFrom.set(aValue);
     }
 
@@ -295,7 +295,7 @@ public class RenameProjectViewModel implements ViewModel {
         return camelCaseFrom.get();
     }
 
-    private void setCamelCaseFrom(String aValue) {
+    private void setCamelCaseFrom(final String aValue) {
         camelCaseFrom.set(aValue);
     }
 
@@ -307,7 +307,7 @@ public class RenameProjectViewModel implements ViewModel {
         return lowerCaseFrom.get();
     }
 
-    private void setLowerCaseFrom(String aValue) {
+    private void setLowerCaseFrom(final String aValue) {
         lowerCaseFrom.set(aValue);
     }
 
@@ -319,7 +319,7 @@ public class RenameProjectViewModel implements ViewModel {
         return upperCaseFrom.get();
     }
 
-    private void setUpperCaseFrom(String aValue) {
+    private void setUpperCaseFrom(final String aValue) {
         upperCaseFrom.set(aValue);
     }
 
@@ -331,7 +331,7 @@ public class RenameProjectViewModel implements ViewModel {
         return spaceSeparatedFrom.get();
     }
 
-    private void setSpaceSeparatedFrom(String aValue) {
+    private void setSpaceSeparatedFrom(final String aValue) {
         spaceSeparatedFrom.set(aValue);
     }
 
@@ -343,7 +343,7 @@ public class RenameProjectViewModel implements ViewModel {
         return dashSeparatedFrom.get();
     }
 
-    private void setDashSeparatedFrom(String aValue) {
+    private void setDashSeparatedFrom(final String aValue) {
         dashSeparatedFrom.set(aValue);
     }
 
@@ -355,7 +355,7 @@ public class RenameProjectViewModel implements ViewModel {
         return to.get();
     }
 
-    public void setTo(String aValue) {
+    public void setTo(final String aValue) {
         to.set(aValue);
     }
 
@@ -367,7 +367,7 @@ public class RenameProjectViewModel implements ViewModel {
         return originalTo.get();
     }
 
-    public void setOriginalTo(String aValue) {
+    public void setOriginalTo(final String aValue) {
         originalTo.set(aValue);
     }
 
@@ -379,7 +379,7 @@ public class RenameProjectViewModel implements ViewModel {
         return camelCaseTo.get();
     }
 
-    private void setCamelCaseTo(String aValue) {
+    private void setCamelCaseTo(final String aValue) {
         camelCaseTo.set(aValue);
     }
 
@@ -391,7 +391,7 @@ public class RenameProjectViewModel implements ViewModel {
         return firstLowerThenCamelCaseFrom.get();
     }
 
-    public void setFirstLowerThenCamelCaseFrom(String aValue) {
+    public void setFirstLowerThenCamelCaseFrom(final String aValue) {
         firstLowerThenCamelCaseFrom.set(aValue);
     }
 
@@ -403,8 +403,8 @@ public class RenameProjectViewModel implements ViewModel {
         return firstLowerThenCamelCaseTo.get();
     }
 
-    public void setFirstLowerThenCamelCaseTo(String aValue) {
-        this.firstLowerThenCamelCaseTo.set(aValue);
+    public void setFirstLowerThenCamelCaseTo(final String aValue) {
+       firstLowerThenCamelCaseTo.set(aValue);
     }
 
     public StringProperty lowerCaseToProperty() {
@@ -415,7 +415,7 @@ public class RenameProjectViewModel implements ViewModel {
         return lowerCaseTo.get();
     }
 
-    private void setLowerCaseTo(String aValue) {
+    private void setLowerCaseTo(final String aValue) {
         lowerCaseTo.set(aValue);
     }
 
@@ -427,7 +427,7 @@ public class RenameProjectViewModel implements ViewModel {
         return upperCaseTo.get();
     }
 
-    private void setUpperCaseTo(String aValue) {
+    private void setUpperCaseTo(final String aValue) {
         upperCaseTo.set(aValue);
     }
 
@@ -439,7 +439,7 @@ public class RenameProjectViewModel implements ViewModel {
         return spaceSeparatedTo.get();
     }
 
-    private void setSpaceSeparatedTo(String aValue) {
+    private void setSpaceSeparatedTo(final String aValue) {
         spaceSeparatedTo.set(aValue);
     }
 
@@ -451,7 +451,7 @@ public class RenameProjectViewModel implements ViewModel {
         return dashSeparatedTo.get();
     }
 
-    private void setDashSeparatedTo(String aValue) {
+    private void setDashSeparatedTo(final String aValue) {
         dashSeparatedTo.set(aValue);
     }
 
@@ -463,7 +463,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableOriginalReplacement.get();
     }
 
-    void setEnableOriginalReplacement(boolean aValue) {
+    void setEnableOriginalReplacement(final boolean aValue) {
         enableOriginalReplacement.set(aValue);
     }
 
@@ -475,7 +475,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableCamelCaseReplacement.get();
     }
 
-    void setEnableCamelCaseReplacement(boolean aValue) {
+    void setEnableCamelCaseReplacement(final boolean aValue) {
         enableCamelCaseReplacement.set(aValue);
     }
 
@@ -487,7 +487,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableFirstLowerThenCamelCaseReplacement.get();
     }
 
-    void setEnableFirstLowerThenCamelCaseReplacement(boolean aValue) {
+    void setEnableFirstLowerThenCamelCaseReplacement(final boolean aValue) {
         enableFirstLowerThenCamelCaseReplacement.set(aValue);
     }
 
@@ -499,7 +499,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableLowerCaseReplacement.get();
     }
 
-    public void setEnableLowerCaseReplacement(boolean aValue) {
+    public void setEnableLowerCaseReplacement(final boolean aValue) {
         enableLowerCaseReplacement.set(aValue);
     }
 
@@ -511,7 +511,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableUpperCaseReplacement.get();
     }
 
-    void setEnableUpperCaseReplacement(boolean aValue) {
+    void setEnableUpperCaseReplacement(final boolean aValue) {
         enableUpperCaseReplacement.set(aValue);
     }
 
@@ -523,7 +523,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableSpaceSeparatedReplacement.get();
     }
 
-    public void setEnableSpaceSeparatedReplacement(boolean aValue) {
+    public void setEnableSpaceSeparatedReplacement(final boolean aValue) {
         enableSpaceSeparatedReplacement.set(aValue);
     }
 
@@ -535,7 +535,7 @@ public class RenameProjectViewModel implements ViewModel {
         return enableDashSeparatedReplacement.get();
     }
 
-    void setEnableDashSeparatedReplacement(boolean aValue) {
+    void setEnableDashSeparatedReplacement(final boolean aValue) {
         enableDashSeparatedReplacement.set(aValue);
     }
 
@@ -547,7 +547,7 @@ public class RenameProjectViewModel implements ViewModel {
         return startDir.get();
     }
 
-    public void setStartDir(String aStartDir) {
+    public void setStartDir(final String aStartDir) {
         startDir.set(aStartDir);
     }
 }

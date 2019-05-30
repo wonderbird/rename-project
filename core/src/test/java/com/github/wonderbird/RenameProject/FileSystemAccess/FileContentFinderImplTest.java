@@ -38,11 +38,11 @@ public class FileContentFinderImplTest {
     }
 
     private void searchWithGivenConfiguration() throws IOException {
-        FileContentFinderImpl finder = new FileContentFinderImpl();
-        String startDirectory = Paths.get("src", "test", "resources").toString();
-        List<Path> paths = finder.find(startDirectory, uniqueSearchString);
+        final FileContentFinderImpl finder = new FileContentFinderImpl();
+        final String startDirectory = Paths.get("src", "test", "resources").toString();
+        final List<Path> paths = finder.find(startDirectory, uniqueSearchString);
 
-        List<Path> expected = Collections.singletonList(
+        final List<Path> expected = Collections.singletonList(
                 Paths.get("src", "test", "resources", "fileWithUniqueSearchString.txt").normalize().toAbsolutePath()
         );
 
@@ -60,13 +60,13 @@ public class FileContentFinderImplTest {
     public void find_CalledTwiceWithDifferentPatterns_AppliesTheSecondPatternForTheSecondCall() throws IOException {
         final String secondSearchString = uniqueSearchString + "_WillNotBeFound";
 
-        FilePathFinder finder = new FileContentFinderImpl();
+        final FilePathFinder finder = new FileContentFinderImpl();
 
-        String startDirectory = Paths.get("src", "test", "resources").toString();
+        final String startDirectory = Paths.get("src", "test", "resources").toString();
         finder.find(startDirectory, uniqueSearchString);
-        List<Path> paths = finder.find(startDirectory, secondSearchString);
+        final List<Path> paths = finder.find(startDirectory, secondSearchString);
 
-        Path unwantedPath = Paths.get(startDirectory, "fileWithUniqueSearchString.txt").toAbsolutePath();
+        final Path unwantedPath = Paths.get(startDirectory, "fileWithUniqueSearchString.txt").toAbsolutePath();
         assertFalse("File containing the first search string should not be returned", paths.contains(unwantedPath));
         assertEquals("Applying the second search string should return 0 paths", 0, paths.size());
     }
@@ -82,13 +82,13 @@ public class FileContentFinderImplTest {
      */
     @Test
     public void find_PatternExcludesDotGitDirectory_DoNotIncludeFilesFromDotGitInResults() throws IOException {
-        FilePathFinder finder = new FileContentFinderImpl();
+        final FilePathFinder finder = new FileContentFinderImpl();
 
-        String startDirectory = Paths.get("src", "test", "resources").toString();
-        String searchForFile = "file";
-        List<Path> paths = finder.find(startDirectory, searchForFile, ".*Renamed.*");
+        final String startDirectory = Paths.get("src", "test", "resources").toString();
+        final String searchForFile = "file";
+        final List<Path> paths = finder.find(startDirectory, searchForFile, ".*Renamed.*");
 
-        Path unwantedPath = Paths.get(startDirectory, "fileToBeRenamed.txt").toAbsolutePath();
+        final Path unwantedPath = Paths.get(startDirectory, "fileToBeRenamed.txt").toAbsolutePath();
         assertFalse("'fileToBeRenamed.txt' should not be included in find results", paths.contains(unwantedPath));
         assertFalse("at least one entry should be returned", paths.isEmpty());
     }

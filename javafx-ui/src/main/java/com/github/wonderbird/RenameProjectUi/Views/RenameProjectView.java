@@ -92,7 +92,7 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
     private RenameProjectViewModel viewModel;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(final URL location, final ResourceBundle resources) {
         startDirTextField.textProperty().bindBidirectional(viewModel.startDirProperty());
 
         fromTextField.textProperty().bindBidirectional(viewModel.fromProperty());
@@ -124,10 +124,10 @@ public class RenameProjectView implements FxmlView<RenameProjectViewModel>, Init
         viewModel.subscribe(Notification.BROWSESTARTDIR.toString(), (key, payload) -> browseStartDir((String)payload[0]));
     }
 
-    private void browseStartDir(String initialDir) {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
+    private void browseStartDir(final String initialDir) {
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File(initialDir));
-        File file = directoryChooser.showDialog(fromTextField.getScene().getWindow());
+        final File file = directoryChooser.showDialog(fromTextField.getScene().getWindow());
         if (file != null) {
             viewModel.setStartDir(file.getPath());
         }

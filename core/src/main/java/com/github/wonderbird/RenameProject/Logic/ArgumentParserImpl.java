@@ -20,27 +20,27 @@ import java.io.StringWriter;
 public class ArgumentParserImpl implements ArgumentParser {
     @Override
     public void parse(final String[] aArgs) throws WrongUsageException {
-        Options options = new Options();
+        final Options options = new Options();
 
-        Option from = new Option("f", "from", true, "project name to replace");
+        final Option from = new Option("f", "from", true, "project name to replace");
         from.setRequired(true);
         options.addOption(from);
 
-        Option to = new Option("t", "to", true, "replacement project name");
+        final Option to = new Option("t", "to", true, "replacement project name");
         to.setRequired(true);
         options.addOption(to);
 
-        Option dir = new Option("d", "dir", true, "directory benath which to replace the project name");
+        final Option dir = new Option("d", "dir", true, "directory benath which to replace the project name");
         options.addOption(dir);
 
-        CommandLineParser parser = new DefaultParser();
+        final CommandLineParser parser = new DefaultParser();
 
         try {
-            CommandLine cmd = parser.parse(options, aArgs);
+            final CommandLine cmd = parser.parse(options, aArgs);
 
-            Configuration config = Configuration.getConfiguration();
-            String fromValue = cmd.getOptionValue("from");
-            String toValue = cmd.getOptionValue("to");
+            final Configuration config = Configuration.getConfiguration();
+            final String fromValue = cmd.getOptionValue("from");
+            final String toValue = cmd.getOptionValue("to");
             config.addFromToPair(fromValue, toValue);
 
             String startDir = cmd.getOptionValue("dir");
@@ -48,13 +48,13 @@ public class ArgumentParserImpl implements ArgumentParser {
                 startDir = ".";
             }
             config.setStartDir(startDir);
-        } catch (ParseException aException) {
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter helpWriter = new PrintWriter(stringWriter);
-            HelpFormatter helpFormatter = new HelpFormatter();
+        } catch (final ParseException aException) {
+            final StringWriter stringWriter = new StringWriter();
+            final PrintWriter helpWriter = new PrintWriter(stringWriter);
+            final HelpFormatter helpFormatter = new HelpFormatter();
             helpFormatter.printHelp(helpWriter, 80, "java RenameProject", null, options, 0, 3, null, true);
 
-            String message = String.format("%s\n\n%s", aException.getLocalizedMessage(), stringWriter.toString());
+            final String message = String.format("%s\n\n%s", aException.getLocalizedMessage(), stringWriter.toString());
 
             throw new WrongUsageException(message);
         }

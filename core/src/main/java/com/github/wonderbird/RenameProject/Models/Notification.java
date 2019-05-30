@@ -7,7 +7,7 @@ public enum Notification {
 
     private final String message;
 
-    Notification(String aMessageString) {
+    Notification(final String aMessageString) {
         message = aMessageString;
     }
 

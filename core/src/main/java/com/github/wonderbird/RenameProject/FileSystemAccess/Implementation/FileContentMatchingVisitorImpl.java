@@ -22,9 +22,9 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
     private final String searchString;
     private final PathExclusionPatterns exclusionPatterns;
 
-    private List<Path> result = new ArrayList<>();
+    private final List<Path> result = new ArrayList<>();
 
-    FileContentMatchingVisitorImpl(String aSearchString, String[] aExclusions) {
+    FileContentMatchingVisitorImpl(final String aSearchString, final String[] aExclusions) {
         searchString = aSearchString;
         exclusionPatterns = new PathExclusionPatterns(aExclusions);
     }
@@ -35,8 +35,8 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
     }
 
     @Override
-    public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException {
-        Path normalizedPath = aFile.toAbsolutePath().normalize();
+    public FileVisitResult visitFile(final Path aFile, final BasicFileAttributes aAttrs) throws IOException {
+        final Path normalizedPath = aFile.toAbsolutePath().normalize();
 
         if (!exclusionPatterns.isExcluded(normalizedPath)) {
             if (isSearchStringContainedInFile(normalizedPath)) {
@@ -47,24 +47,24 @@ public class FileContentMatchingVisitorImpl extends SimpleFileVisitor<Path> impl
         return FileVisitResult.CONTINUE;
     }
 
-    private boolean isSearchStringContainedInFile(Path aNormalizedPath) throws IOException {
+    private boolean isSearchStringContainedInFile(final Path aNormalizedPath) throws IOException {
         final String searchRegex = ".*" + searchString + ".*";
-        Pattern pattern = Pattern.compile(searchRegex, Pattern.DOTALL);
+        final Pattern pattern = Pattern.compile(searchRegex, Pattern.DOTALL);
 
-        InputStream inputStream = Files.newInputStream(aNormalizedPath);
-        try (InputStreamReader reader = new InputStreamReader(inputStream)) {
-            char[] buffer = new char[BUFFER_SIZE];
+        final InputStream inputStream = Files.newInputStream(aNormalizedPath);
+        try (final InputStreamReader reader = new InputStreamReader(inputStream)) {
+            final char[] buffer = new char[BUFFER_SIZE];
             String endOfPreviousBuffer = "";
 
             while (reader.read(buffer, 0, BUFFER_SIZE) > 0) {
-                String bufferAsText = endOfPreviousBuffer + new String(buffer);
+                final String bufferAsText = endOfPreviousBuffer + new String(buffer);
 
-                Matcher matcher = pattern.matcher(bufferAsText);
+                final Matcher matcher = pattern.matcher(bufferAsText);
                 if (matcher.matches()) {
                     return true;
                 }
 
-                int endOfBufferStartIndex = Math.max(0, bufferAsText.length() - searchString.length());
+                final int endOfBufferStartIndex = Math.max(0, bufferAsText.length() - searchString.length());
                 endOfPreviousBuffer = bufferAsText.substring(endOfBufferStartIndex);
             }
         }

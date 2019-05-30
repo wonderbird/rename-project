@@ -12,16 +12,16 @@ public class Main {
 
     private static ArgumentParser argumentParser = new ArgumentParserImpl();
     private static RenameProjectManager renameProjectManager = new RenameProjectManagerImpl();
-    private static Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
             argumentParser.parse(args);
 
             renameProjectManager.renameProject();
-        } catch (WrongUsageException aException) {
+        } catch (final WrongUsageException aException) {
             System.out.println(aException.getLocalizedMessage());
-        } catch (IOException aException) {
+        } catch (final IOException aException) {
             logger.error("Error in I/O operation:", aException);
         }
     }
@@ -30,7 +30,7 @@ public class Main {
         argumentParser = aArgumentParser;
     }
 
-    static void setRenameProjectManager(RenameProjectManager aRenameProjectManager) {
+    static void setRenameProjectManager(final RenameProjectManager aRenameProjectManager) {
         renameProjectManager = aRenameProjectManager;
     }
 }

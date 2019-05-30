@@ -28,8 +28,8 @@ public class Configuration {
         return instance;
     }
 
-    public void addFromToPair(String aFrom, String aTo) {
-        RenameFromToPair pair = new RenameFromToPair(aFrom, aTo);
+    public void addFromToPair(final String aFrom, final String aTo) {
+        final RenameFromToPair pair = new RenameFromToPair(aFrom, aTo);
         fromToPairs.add(pair);
     }
 
@@ -50,11 +50,11 @@ public class Configuration {
         fromToPairs = new HashSet<>();
     }
 
-    public void setReadBufferSize(int readBufferSize) {
+    public void setReadBufferSize(final int readBufferSize) {
         this.readBufferSize = readBufferSize;
     }
 
-    public void setStartDir(String aStartDir) {
+    public void setStartDir(final String aStartDir) {
         startDir = aStartDir;
     }
 

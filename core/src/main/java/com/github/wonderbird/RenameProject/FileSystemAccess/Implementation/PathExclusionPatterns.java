@@ -15,7 +15,7 @@ public class PathExclusionPatterns {
         }
     }
 
-    public boolean isExcluded(Path aNormalizedPath) {
+    public boolean isExcluded(final Path aNormalizedPath) {
         boolean isExcluded = false;
         int index = 0;
         while (!isExcluded && index < exclusionPatterns.size()) {

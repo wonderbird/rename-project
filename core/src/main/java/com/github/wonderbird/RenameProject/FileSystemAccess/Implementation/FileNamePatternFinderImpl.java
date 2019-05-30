@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileNamePatternFinderImpl implements FilePathFinder {
-    private FilePathVisitorWithResult visitorMock;
+    private final FilePathVisitorWithResult visitorMock;
 
     public FileNamePatternFinderImpl() {
         this(null);
@@ -20,7 +20,7 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
      *
      * @param aVisitorMock Mock for the FilePathVisitorWithResult used in the {@link #find(String, String)} method.
      */
-    public FileNamePatternFinderImpl(FilePathVisitorWithResult aVisitorMock) {
+    public FileNamePatternFinderImpl(final FilePathVisitorWithResult aVisitorMock) {
         visitorMock = aVisitorMock;
     }
 
@@ -34,8 +34,8 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
      * @see <a href="https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/essential/io/examples/Find.java">Example Code at Oracle</a>
      */
     @Override
-    public List<Path> find(String aStartDirectory, final String aFileNamePattern, final String ...aExclusions) throws IOException {
-        FilePathVisitorWithResult visitor;
+    public List<Path> find(final String aStartDirectory, final String aFileNamePattern, final String ...aExclusions) throws IOException {
+        final FilePathVisitorWithResult visitor;
         if (visitorMock == null) {
             visitor = new FileNameMatchingVisitorImpl(aFileNamePattern, aExclusions);
         } else {
@@ -44,7 +44,7 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
 
         Files.walkFileTree(Paths.get(aStartDirectory), visitor);
 
-        List<Path> result = visitor.getResult();
+        final List<Path> result = visitor.getResult();
 
         sortDepthFirst(result);
         removeStartDirFromPaths(result, aStartDirectory);
@@ -52,13 +52,13 @@ public class FileNamePatternFinderImpl implements FilePathFinder {
         return result;
     }
 
-    private void sortDepthFirst(List<Path> result) {
+    private void sortDepthFirst(final List<Path> result) {
         Collections.sort(result);
         Collections.reverse(result);
     }
 
-    private void removeStartDirFromPaths(List<Path> aPaths, String aStartDirectory) {
-        Path startDirPath = Paths.get(aStartDirectory).toAbsolutePath();
+    private void removeStartDirFromPaths(final List<Path> aPaths, final String aStartDirectory) {
+        final Path startDirPath = Paths.get(aStartDirectory).toAbsolutePath();
         aPaths.remove(startDirPath);
     }
 }

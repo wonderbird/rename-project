@@ -11,7 +11,7 @@ import java.util.List;
 class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
     private final PathMatcher matcher;
     private final PathExclusionPatterns exclusionPatterns;
-    private List<Path> result= new ArrayList<>();
+    private final List<Path> result= new ArrayList<>();
 
     /**
      * @param aFileNamePattern describes a part of the file name or directory name to be found.
@@ -28,19 +28,19 @@ class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements Fil
     }
 
     @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+    public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
         return match(file);
     }
 
     @Override
-    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+    public FileVisitResult preVisitDirectory(final Path dir, final BasicFileAttributes attrs) throws IOException {
         return match(dir);
     }
 
-    private FileVisitResult match(Path path) {
-        Path normalizedPath = path.toAbsolutePath().normalize();
+    private FileVisitResult match(final Path path) {
+        final Path normalizedPath = path.toAbsolutePath().normalize();
 
-        boolean isExcluded = exclusionPatterns.isExcluded(normalizedPath);
+        final boolean isExcluded = exclusionPatterns.isExcluded(normalizedPath);
         if (!isExcluded && matcher.matches(path.getFileName())) {
             result.add(normalizedPath);
         }

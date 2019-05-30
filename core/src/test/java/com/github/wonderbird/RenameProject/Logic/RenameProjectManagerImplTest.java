@@ -74,7 +74,7 @@ public class RenameProjectManagerImplTest {
 
         renameProjectManager.renameProject();
 
-        for (RenameFromToPair pair : config.getFromToPairs()) {
+        for (final RenameFromToPair pair : config.getFromToPairs()) {
             verify(fileNamePatternFinder).find(config.getStartDir(), "*" + pair.getFrom() + "*",
                     DefaultExclusionPatterns.DOT_GIT_FOLDERS);
         }
@@ -83,7 +83,7 @@ public class RenameProjectManagerImplTest {
     public void renameProject_ConfigurationGiven_SearchesForFilesContainingFrom() throws IOException {
         renameProjectManager.renameProject();
 
-        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        final RenameFromToPair fromToPair = config.getFromToPairs().get(0);
         verify(fileContentFinder).find(".", fromToPair.getFrom(), DefaultExclusionPatterns.DOT_GIT_FOLDERS);
     }
 
@@ -93,7 +93,7 @@ public class RenameProjectManagerImplTest {
 
         renameProjectManager.renameProject();
 
-        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        final RenameFromToPair fromToPair = config.getFromToPairs().get(0);
         verify(fileNamePatternFinder).find(config.getStartDir(), "*" + fromToPair.getFrom() + "*",
                 DefaultExclusionPatterns.DOT_GIT_FOLDERS);
     }
@@ -113,7 +113,7 @@ public class RenameProjectManagerImplTest {
         config.addFromToPair("RenameProject", "Renamed");
 
         fileNamePatternFinder = mock(FilePathFinder.class);
-        List<Path> fromPaths = Arrays.asList(
+        final List<Path> fromPaths = Arrays.asList(
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManager.java"),
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject")
         );
@@ -122,15 +122,15 @@ public class RenameProjectManagerImplTest {
 
         renameProjectManager.renameProject();
 
-        List<Path> toPaths = Arrays.asList(
+        final List<Path> toPaths = Arrays.asList(
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenamedManager.java"),
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "Renamed")
         );
 
 
         for (int i = 0; i < fromPaths.size(); ++i) {
-            Path fromPath = fromPaths.get(i);
-            Path toPath = toPaths.get(i);
+            final Path fromPath = fromPaths.get(i);
+            final Path toPath = toPaths.get(i);
 
             verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
         }
@@ -143,13 +143,13 @@ public class RenameProjectManagerImplTest {
         config.addFromToPair("RenameProject", "Renamed");
 
         fileNamePatternFinder = mock(FilePathFinder.class);
-        Path fromPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManagerRenameProject.java");
+        final Path fromPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenameProjectManagerRenameProject.java");
         when(fileNamePatternFinder.find(eq("."), any(), any())).thenReturn(Arrays.asList(fromPath));
         renameProjectManager.setFileNamePatternFinder(fileNamePatternFinder);
 
         renameProjectManager.renameProject();
 
-        Path toPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenamedManagerRenamed.java");
+        final Path toPath = Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Logic", "RenamedManagerRenamed.java");
         verify(fileSystemMethods).move(fromPath, toPath, REPLACE_EXISTING);
     }
 
@@ -199,7 +199,7 @@ public class RenameProjectManagerImplTest {
     @Test
     public void renameProject_FileContentFinderReturnsFiles_ReplacesFromByToInEachFile() throws IOException {
         fileContentFinder = mock(FilePathFinder.class);
-        List<Path> affectedFiles = Arrays.asList(
+        final List<Path> affectedFiles = Arrays.asList(
                 Paths.get("src", "main", "java", "com", "github", "wonderbird", "RenameProject", "Main.java"),
                 Paths.get("src", "test", "java", "com", "github", "wonderbird", "RenameProject", "MainTest.java")
         );
@@ -209,8 +209,8 @@ public class RenameProjectManagerImplTest {
 
         renameProjectManager.renameProject();
 
-        RenameFromToPair fromToPair = config.getFromToPairs().get(0);
-        for (Path affectedFile : affectedFiles) {
+        final RenameFromToPair fromToPair = config.getFromToPairs().get(0);
+        for (final Path affectedFile : affectedFiles) {
             verify(fileSystemMethods).replaceInFile(affectedFile, fromToPair.getFrom(), fromToPair.getTo());
         }
         verify(fileSystemMethods, times(2)).replaceInFile(any(), any(), any());

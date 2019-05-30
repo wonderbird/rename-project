@@ -44,10 +44,10 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void renameCommand_TwoFromToPairsAreIdentical_StripsOneOfTheIdenticalPairsFromConfiguration() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         final String expectedFrom = "CamelCaseFrom";
-        String expectedTo = "CamelCaseTo";
+        final String expectedTo = "CamelCaseTo";
 
         viewModel.setFrom(expectedFrom);
         viewModel.setTo(expectedTo);
@@ -68,14 +68,14 @@ public class RenameProjectViewModelTest {
         assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
         assertEquals("Invalid number of from/to pairs in emitted configuration", 1, Configuration.getConfiguration().getFromToPairs().size());
 
-        RenameFromToPair pair = Configuration.getConfiguration().getFromToPairs().get(0);
+        final RenameFromToPair pair = Configuration.getConfiguration().getFromToPairs().get(0);
         assertEquals("'from' value is wrong in emitted configuration", expectedFrom, pair.getFrom());
         assertEquals("'to' value is wrong in emitted configuration", expectedTo, pair.getTo());
     }
 
     @Test
     public void renameCommand_NoCheckBoxTicked_EmitsConfigurationWithOneFromToPair() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setEnableOriginalReplacement(false);
         viewModel.setEnableCamelCaseReplacement(false);
@@ -96,7 +96,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void renameCommand_AllCheckBoxesTicked_EmitsConfigurationWithCorrectFromToPairs() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("Ensure all From-Values are unique");
         viewModel.setEnableOriginalReplacement(true);
@@ -112,10 +112,10 @@ public class RenameProjectViewModelTest {
 
         viewModel.getRenameCommand().execute();
 
-        List<RenameFromToPair> fromToPairs = Configuration.getConfiguration().getFromToPairs();
+        final List<RenameFromToPair> fromToPairs = Configuration.getConfiguration().getFromToPairs();
         assertTrue("RENAME notification should be emitted", renameNotificationFired.get());
         assertEquals("Invalid number of from/to pairs in emitted configuration", 7, fromToPairs.size());
-        for (RenameFromToPair pair : fromToPairs) {
+        for (final RenameFromToPair pair : fromToPairs) {
             assertNotNull("'from' value is null in emitted configuration", pair.getFrom());
             assertFalse("'from' value is empty in emitted configuration", pair.getFrom().isEmpty());
             assertNotNull("'to' value is null in emitted configuration", pair.getTo());
@@ -125,9 +125,9 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom__UpdatesOriginalFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        String expectedValue = "OrIgInAl  --  VaLuE";
+        final String expectedValue = "OrIgInAl  --  VaLuE";
         viewModel.setFrom(expectedValue);
 
         assertEquals("originalFrom should be updated correctly", expectedValue, viewModel.getOriginalFrom());
@@ -135,9 +135,9 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo__UpdatesOriginalTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
-        String expectedValue = "OrIgInAl  --  VaLuE";
+        final String expectedValue = "OrIgInAl  --  VaLuE";
         viewModel.setTo(expectedValue);
 
         assertEquals("originalTo should be updated correctly", expectedValue, viewModel.getOriginalTo());
@@ -145,7 +145,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesLowerCaseFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("CamelCaseTestPattern");
 
@@ -154,7 +154,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo_NewToIsCamelCaseTestPattern_UpdatesLowerCaseTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setTo("CamelCaseTestPattern");
 
@@ -163,7 +163,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewFromIsCamelCaseTestPattern_UpdatesUpperCaseFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("CamelCaseTestPattern");
 
@@ -172,7 +172,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo_NewToIsCamelCaseTestPattern_UpdatesUpperCaseTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setTo("CamelCaseTestPattern");
 
@@ -181,7 +181,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewFromIsCamelCaseTestPatternWithDash_UpdatesSpaceSeparatedFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("CamelCaseTest-Pattern---ExAm");
 
@@ -190,7 +190,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo_NewToIsCamelCaseTestPatternWithDash_UpdatesSpaceSeparatedTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setTo("CamelCaseTest-Pattern---ExAm");
 
@@ -199,7 +199,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewFromIsCamelCaseTestPatternWithSpaces_UpdatesDashSeparatedFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("CamelCase   Test PatternExAm");
 
@@ -208,7 +208,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo_NewToIsCamelCaseTestPatternWithSpaces_UpdatesDashSeparatedTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setTo("CamelCase   Test PatternExAm");
 
@@ -217,7 +217,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewFromIsSpaceSeparatedTestPattern_UpdatesCamelCaseFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("Space Separated Test Pattern Ex Am");
 
@@ -226,7 +226,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesCamelCaseFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("Space Separated test-pattern Ex--Am");
 
@@ -235,7 +235,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesCamelCaseTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setTo("Space Separated test-pattern Ex--Am");
 
@@ -244,7 +244,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setFrom_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesFirstLowerThenCamelCaseFrom() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setFrom("Space Separated test-pattern Ex--Am");
 
@@ -253,7 +253,7 @@ public class RenameProjectViewModelTest {
 
     @Test
     public void setTo_NewToIsSpaceAndDashSeparatedTestPattern_UpdatesFirstLowerThenCamelCaseTo() {
-        RenameProjectViewModel viewModel = new RenameProjectViewModel();
+        final RenameProjectViewModel viewModel = new RenameProjectViewModel();
 
         viewModel.setTo("Space Separated test-pattern Ex--Am");
 

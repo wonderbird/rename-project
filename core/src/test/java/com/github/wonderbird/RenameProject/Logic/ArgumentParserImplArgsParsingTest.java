@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,7 +23,7 @@ public class ArgumentParserImplArgsParsingTest {
      * The format of the elements in this list can be derived from the sequence
      * of @Parameterized.Parameter members defined below.
      */
-    @Parameterized.Parameters(name = "{index}: parse(\"--from {0}\")")
+    @Parameters(name = "{index}: parse(\"--from {0}\")")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {"frompattern", "toargument", "./src", new String[]{"--from", "frompattern", "--to", "toargument", "--dir", "./src"}},
@@ -29,16 +31,16 @@ public class ArgumentParserImplArgsParsingTest {
         });
     }
 
-    @Parameterized.Parameter
+    @Parameter
     public String expectedFromPattern;
 
-    @Parameterized.Parameter(1)
+    @Parameter(1)
     public String expectedToArgument;
 
-    @Parameterized.Parameter(2)
+    @Parameter(2)
     public String expectedStartDir;
 
-    @Parameterized.Parameter(3)
+    @Parameter(3)
     public String[] args;
 
     @Before
@@ -48,13 +50,13 @@ public class ArgumentParserImplArgsParsingTest {
 
     @Test
     public void parse_GivenArguments_SetsExpectedConfigProperties() throws WrongUsageException {
-        ArgumentParser parser = new ArgumentParserImpl();
+        final ArgumentParser parser = new ArgumentParserImpl();
         parser.parse(args);
 
-        Configuration config = Configuration.getConfiguration();
-        List<RenameFromToPair> fromToPairs = config.getFromToPairs();
+        final Configuration config = Configuration.getConfiguration();
+        final List<RenameFromToPair> fromToPairs = config.getFromToPairs();
         assertEquals("Invalid number of from/to pairs", 1, fromToPairs.size());
-        RenameFromToPair pair = fromToPairs.get(0);
+        final RenameFromToPair pair = fromToPairs.get(0);
         assertEquals("Invalid from", expectedFromPattern, pair.getFrom());
         assertEquals("Invalid to", expectedToArgument, pair.getTo());
         assertEquals("Invalid start directory", expectedStartDir, config.getStartDir());

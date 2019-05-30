@@ -42,9 +42,9 @@ public class DefaultExclusionPatternsDotGitFoldersTest {
 
     @Test
     public void test() {
-        boolean result = Pattern.matches(DefaultExclusionPatterns.DOT_GIT_FOLDERS, input);
+        final boolean result = Pattern.matches(DefaultExclusionPatterns.DOT_GIT_FOLDERS, input);
 
-        String message = String.format("DOT_GIT_FOLDERS %s '%s'", isMatchExpected ? "must match" : "must not match", input);
+        final String message = String.format("DOT_GIT_FOLDERS %s '%s'", isMatchExpected ? "must match" : "must not match", input);
         assertEquals(message, isMatchExpected, result);
     }
 }

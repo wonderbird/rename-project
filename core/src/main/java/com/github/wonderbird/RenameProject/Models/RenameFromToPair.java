@@ -5,13 +5,13 @@ public class RenameFromToPair {
 
     private String to;
 
-    RenameFromToPair(String from, String to) {
+    RenameFromToPair(final String from, final String to) {
         this.from = from;
         this.to = to;
     }
 
     @Override
-    public boolean equals(Object aOther) {
+    public boolean equals(final Object aOther) {
         if (this == aOther) {
             return true;
         }
@@ -20,9 +20,9 @@ public class RenameFromToPair {
             return false;
         }
 
-        RenameFromToPair other = (RenameFromToPair) aOther;
-        boolean result = other.from.equals(from)
-                && other.to.equals(to);
+        final RenameFromToPair other = (RenameFromToPair) aOther;
+        final boolean result = other.from.equals(from)
+                               && other.to.equals(to);
 
         return result;
     }
@@ -39,10 +39,10 @@ public class RenameFromToPair {
 
         int hash = PrimeNumberSeed;
 
-        int hashFrom = from.hashCode();
+        final int hashFrom = from.hashCode();
         hash = PrimeNumberSeed * hash + hashFrom;
 
-        int hashTo = to.hashCode();
+        final int hashTo = to.hashCode();
         hash = PrimeNumberSeed * hash + hashTo;
 
         return hash;
@@ -52,7 +52,7 @@ public class RenameFromToPair {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(final String from) {
         this.from = from;
     }
 
@@ -60,7 +60,7 @@ public class RenameFromToPair {
         return to;
     }
 
-    public void setTo(String to) {
+    public void setTo(final String to) {
         this.to = to;
     }
 }

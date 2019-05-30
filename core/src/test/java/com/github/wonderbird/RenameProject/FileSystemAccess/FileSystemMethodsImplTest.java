@@ -23,16 +23,16 @@ public class FileSystemMethodsImplTest {
 
     @Test
     public void move_SourceArgumentIsFoundInResources_RenamesSourceToTarget() throws IOException {
-        Path sourcePath = Paths.get("target", "test-classes", "fileToBeRenamed.txt");
-        Path targetPath = sourcePath.resolveSibling("targetfile.txt");
+        final Path sourcePath = Paths.get("target", "test-classes", "fileToBeRenamed.txt");
+        final Path targetPath = sourcePath.resolveSibling("targetfile.txt");
 
-        FileSystemMethodsImpl fileSystemMethods = new FileSystemMethodsImpl();
+        final FileSystemMethodsImpl fileSystemMethods = new FileSystemMethodsImpl();
         fileSystemMethods.move(sourcePath, targetPath, REPLACE_EXISTING);
 
-        File sourceFile = new File(sourcePath.toString());
+        final File sourceFile = new File(sourcePath.toString());
         assertFalse("Source file still exists after moving", sourceFile.exists());
 
-        File targetFile = new File(targetPath.toString());
+        final File targetFile = new File(targetPath.toString());
         assertTrue("Target file does not exist after moving", targetFile.exists());
 
         fileSystemMethods.move(targetPath, sourcePath, REPLACE_EXISTING);
@@ -53,22 +53,22 @@ public class FileSystemMethodsImplTest {
     }
 
     private void executeReplaceInFileTest() throws IOException {
-        Path path = Paths.get("target", "test-classes", "fileContentToBeReplaced.txt");
+        final Path path = Paths.get("target", "test-classes", "fileContentToBeReplaced.txt");
 
-        FileSystemMethodsImpl fileSystemMethods = new FileSystemMethodsImpl();
+        final FileSystemMethodsImpl fileSystemMethods = new FileSystemMethodsImpl();
         fileSystemMethods.replaceInFile(path, "FROM", "TO");
 
-        boolean fileContentMatchesTo;
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            String line = reader.readLine();
+        final boolean fileContentMatchesTo;
+        try (final BufferedReader reader = Files.newBufferedReader(path)) {
+            final String line = reader.readLine();
             fileContentMatchesTo = line.matches(".*TO.*");
         }
 
         fileSystemMethods.replaceInFile(path, "TO", "FROM");
 
-        boolean fileContentMatchesFrom;
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            String line = reader.readLine();
+        final boolean fileContentMatchesFrom;
+        try (final BufferedReader reader = Files.newBufferedReader(path)) {
+            final String line = reader.readLine();
             fileContentMatchesFrom = line.matches(".*FROM.*");
         }
 

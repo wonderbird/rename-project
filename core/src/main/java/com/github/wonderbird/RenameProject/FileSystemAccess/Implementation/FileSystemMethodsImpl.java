@@ -15,26 +15,26 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FileSystemMethodsImpl implements FileSystemMethods {
     @Override
-    public void move(Path source, Path target, CopyOption copyOption) throws IOException {
+    public void move(final Path source, final Path target, final CopyOption copyOption) throws IOException {
         Files.move(source, target, copyOption);
     }
 
     @Override
-    public void replaceInFile(Path affectedFile, String aFrom, String aTo) throws IOException {
+    public void replaceInFile(final Path affectedFile, final String aFrom, final String aTo) throws IOException {
         replaceInFileWithOffset(affectedFile, 0, aFrom, aTo);
         replaceInFileWithOffset(affectedFile, aFrom.length(), aFrom, aTo);
     }
 
-    private void replaceInFileWithOffset(Path affectedFile, int aSkipBytes, String aFrom, String aTo) throws IOException {
+    private void replaceInFileWithOffset(final Path affectedFile, final int aSkipBytes, final String aFrom, final String aTo) throws IOException {
         final int BUFFER_SIZE = Configuration.getConfiguration().getReadBufferSize();
 
-        InputStream inputStream = Files.newInputStream(affectedFile);
-        Path tempFile = Files.createTempFile("rename-project_", ".tmp");
+        final InputStream inputStream = Files.newInputStream(affectedFile);
+        final Path tempFile = Files.createTempFile("rename-project_", ".tmp");
 
         try {
-            try (InputStreamReader reader = new InputStreamReader(inputStream);
-                 BufferedWriter writer = Files.newBufferedWriter(tempFile)) {
-                char[] buffer = new char[BUFFER_SIZE];
+            try (final InputStreamReader reader = new InputStreamReader(inputStream);
+                 final BufferedWriter writer = Files.newBufferedWriter(tempFile)) {
+                final char[] buffer = new char[BUFFER_SIZE];
                 String bufferString;
                 int readBytes;
 
@@ -48,7 +48,7 @@ public class FileSystemMethodsImpl implements FileSystemMethods {
 
                 while ((readBytes = reader.read(buffer, 0, BUFFER_SIZE)) > 0) {
                     bufferString = new String(buffer, 0, readBytes);
-                    String bufferWithReplacement = bufferString.replace(aFrom, aTo);
+                    final String bufferWithReplacement = bufferString.replace(aFrom, aTo);
                     writer.write(bufferWithReplacement);
                 }
             }
