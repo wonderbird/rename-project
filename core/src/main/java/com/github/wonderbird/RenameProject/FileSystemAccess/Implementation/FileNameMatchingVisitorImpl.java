@@ -7,6 +7,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements FilePathVisitorWithResult {
@@ -42,8 +43,18 @@ class FileNameMatchingVisitorImpl extends SimpleFileVisitor<Path> implements Fil
     }
 
     private FileVisitResult match(Path path) {
-        if (matcher.matches(path.getFileName())) {
-            Path normalizedPath = path.normalize().toAbsolutePath();
+        Path normalizedPath = path.toAbsolutePath().normalize();
+
+        boolean isExcluded = false;
+        int index = 0;
+        while (!isExcluded && index < exclusionPatterns.size()) {
+            final Pattern exclusionPattern = exclusionPatterns.get(index);
+            final Matcher matcher = exclusionPattern.matcher(normalizedPath.toString());
+            isExcluded = matcher.matches();
+            index += 1;
+        }
+
+        if (!isExcluded && matcher.matches(path.getFileName())) {
             result.add(normalizedPath);
         }
 
